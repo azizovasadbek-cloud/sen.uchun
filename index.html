@@ -131,19 +131,33 @@
 
             <!-- QR -->
 
-            <div class="qr-box">
+          <div class="qr-controls">
 
-                <h3>
-                    📱 QR kod
-                </h3>
+    <button
+        class="qr-button"
+        onclick="generateQR()">
+        📱 QR yaratish
+    </button>
 
-                <p>
-                    Telefon kamerasi bilan skanerlang.
-                </p>
+</div>
 
-                <div id="qrcode"></div>
 
-            </div>
+<div
+    id="qrBox"
+    class="qr-box"
+    style="display: none;">
+
+    <h3>
+        📱 QR kod tayyor
+    </h3>
+
+    <p>
+        Telefon kamerasi bilan skanerlang.
+    </p>
+
+    <div id="qrcode"></div>
+
+</div>
 
         </section>
 

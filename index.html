@@ -5,55 +5,113 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Faqat sen uchun ❤️</title>
+    <title>SafeStream</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="box">
-
-        <div class="heart">
-            ❤️
+    <header class="navbar">
+        <div class="logo">
+            <span class="logo-icon">▶</span>
+            SafeStream
         </div>
 
-        <h1>
-            Faqat sen uchun
-        </h1>
-
-        <p>
-            Bu kichik sahifa aynan sen uchun tayyorlandi.
-        </p>
-
-        <p>
-            Senga atalgan kichik bir video bor... 💕
-        </p>
-
-        <button onclick="showVideo()">
-            Videoni ochish ❤️
-        </button>
-
-        <div id="videoBox" style="display: none; margin-top: 25px;">
-
-            <video
-                controls
-                playsinline
-                style="width: 100%; max-width: 500px; border-radius: 15px;">
-                
-                <source src="video.mp4" type="video/mp4">
-
-                Brauzeringiz videoni qo‘llab-quvvatlamaydi.
-            </video>
-
+        <div class="status">
+            <span class="status-dot"></span>
+            Secure
         </div>
+    </header>
 
-    </div>
+
+    <main class="container">
+
+        <section class="hero">
+
+            <div class="hero-badge">
+                🔒 Private video
+            </div>
+
+            <h1>
+                Faqat sen uchun
+            </h1>
+
+            <p class="description">
+                Bu kichik sahifa aynan sen uchun tayyorlandi.
+                Senga atalgan maxsus video shu yerda.
+            </p>
+
+            <button class="open-button" onclick="showVideo()">
+                <span>▶</span>
+                Videoni ochish
+            </button>
+
+        </section>
+
+
+        <section id="videoBox" class="video-section">
+
+            <div class="video-header">
+                <div>
+                    <span class="video-label">PRIVATE VIDEO</span>
+                    <h2>Senga atalgan video</h2>
+                </div>
+
+                <span class="secure-label">
+                    🔐 Secure
+                </span>
+            </div>
+
+            <div class="video-wrapper">
+
+                <video
+                    id="mainVideo"
+                    controls
+                    playsinline
+                    preload="metadata">
+
+                    <source src="video.mp4" type="video/mp4">
+
+                    Brauzeringiz videoni qo‘llab-quvvatlamaydi.
+                </video>
+
+            </div>
+
+            <p class="video-note">
+                Ushbu video faqat siz uchun tayyorlangan.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <span>SafeStream</span>
+        <span>•</span>
+        <span>Private & Secure</span>
+    </footer>
+
 
     <script>
+
         function showVideo() {
-            document.getElementById("videoBox").style.display = "block";
+
+            const videoBox = document.getElementById("videoBox");
+            const video = document.getElementById("mainVideo");
+
+            videoBox.classList.add("visible");
+
+            setTimeout(() => {
+                videoBox.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+            }, 100);
+
         }
+
     </script>
 
 </body>

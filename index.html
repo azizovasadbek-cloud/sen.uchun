@@ -259,7 +259,57 @@
         */
 
         function generateLink() {
+function generateQR() {
 
+    const link =
+        document.getElementById("videoLink").value;
+
+    const qrBox =
+        document.getElementById("qrBox");
+
+    const qr =
+        document.getElementById("qrcode");
+
+
+    if (!link) {
+        generateLink();
+    }
+
+
+    qr.innerHTML = "";
+
+
+    new QRCode(qr, {
+
+        text: document.getElementById("videoLink").value,
+
+        width: 180,
+
+        height: 180,
+
+        colorDark: "#000000",
+
+        colorLight: "#ffffff",
+
+        correctLevel:
+            QRCode.CorrectLevel.H
+
+    });
+
+
+    qrBox.style.display = "block";
+
+
+    setTimeout(() => {
+
+        qrBox.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }, 100);
+
+}
             const link =
                 window.location.origin +
                 window.location.pathname +

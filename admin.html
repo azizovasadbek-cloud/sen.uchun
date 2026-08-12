@@ -15,9 +15,11 @@
         rel="stylesheet"
         href="style.css">
 
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
-    </script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- QR Code -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
 
@@ -31,14 +33,10 @@
             border: 1px solid rgba(255,255,255,0.08);
 
             border-radius: 20px;
-
-            box-shadow:
-                0 25px 80px rgba(0,0,0,0.35);
         }
 
         .admin-card h1 {
             margin-bottom: 10px;
-            font-size: 30px;
         }
 
         .admin-description {
@@ -56,55 +54,64 @@
             margin-bottom: 8px;
 
             color: #aeb7c7;
-
             font-size: 13px;
         }
 
         .field input {
             width: 100%;
+            box-sizing: border-box;
 
             padding: 13px 14px;
 
             border: 1px solid rgba(255,255,255,0.09);
-
             border-radius: 10px;
 
             background: #080b12;
-
             color: white;
 
             outline: none;
         }
 
-        .field input:focus {
-            border-color: #2563eb;
+        .field input[type="file"] {
+            padding: 10px;
         }
 
-        .generate-button {
+        .upload-button {
             width: 100%;
 
             padding: 14px;
 
             border: none;
-
             border-radius: 11px;
 
             background: #2563eb;
-
             color: white;
 
             font-size: 15px;
-
             font-weight: 600;
 
             cursor: pointer;
-
-            transition: 0.2s;
         }
 
-        .generate-button:hover {
-            background: #1d4ed8;
-            transform: translateY(-1px);
+        .upload-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .progress {
+            display: none;
+
+            margin-top: 18px;
+
+            padding: 14px;
+
+            border-radius: 10px;
+
+            background: rgba(37,99,235,0.10);
+
+            color: #8eb3ff;
+
+            text-align: center;
         }
 
         .result {
@@ -126,428 +133,16 @@
         }
 
         .result-title {
-            margin-bottom: 15px;
-
-            font-size: 14px;
-
+            font-size: 16px;
             font-weight: 600;
+
+            margin-bottom: 15px;
         }
 
         .generated-link {
             width: 100%;
+            box-sizing: border-box;
 
             padding: 11px;
 
-            margin-bottom: 12px;
-
-            border: 1px solid rgba(255,255,255,0.08);
-
-            border-radius: 9px;
-
-            background: #080b12;
-
-            color: #9ca5b5;
-
-            font-size: 12px;
-        }
-
-        .copy-button {
-            width: 100%;
-
-            padding: 11px;
-
-            border: none;
-
-            border-radius: 9px;
-
-            background: rgba(37,99,235,0.15);
-
-            color: #7da7ff;
-
-            cursor: pointer;
-
-            font-weight: 600;
-        }
-
-        .qr-container {
-            margin-top: 20px;
-
-            display: flex;
-
-            justify-content: center;
-        }
-
-        #qrcode {
-            padding: 12px;
-
-            background: white;
-
-            border-radius: 12px;
-        }
-
-        .generated-id {
-            margin-top: 15px;
-
-            text-align: center;
-
-            color: #737d8e;
-
-            font-size: 12px;
-        }
-
-    </style>
-
-</head>
-
-
-<body>
-
-
-    <header class="navbar">
-
-        <div class="logo">
-
-            <span class="logo-icon">
-                ▶
-            </span>
-
-            SafeStream Admin
-
-        </div>
-
-
-        <div class="status">
-
-            <span class="status-dot"></span>
-
-            Admin
-
-        </div>
-
-    </header>
-
-
-
-    <main class="container">
-
-
-        <div class="admin-card">
-
-
-            <h1>
-                Video yaratish
-            </h1>
-
-
-            <p class="admin-description">
-
-                Video uchun unikal ID va QR kod
-                yaratish.
-
-            </p>
-
-
-
-            <div class="field">
-
-                <label for="videoName">
-                    Video nomi
-                </label>
-
-                <input
-                    id="videoName"
-                    type="text"
-                    placeholder="Masalan: Faqat sen uchun">
-
-            </div>
-
-
-
-            <div class="field">
-
-                <label for="videoFile">
-                    Video fayli
-                </label>
-
-                <input
-                    id="videoFile"
-                    type="text"
-                    value="video.mp4">
-
-            </div>
-
-
-
-            <button
-                class="generate-button"
-                onclick="createVideoLink()">
-
-                🔗 Unikal link + QR yaratish
-
-            </button>
-
-
-
-            <div
-                id="result"
-                class="result">
-
-
-                <div class="result-title">
-
-                    Tayyor link
-
-                </div>
-
-
-                <input
-                    id="generatedLink"
-                    class="generated-link"
-                    readonly>
-
-
-                <button
-                    class="copy-button"
-                    onclick="copyGeneratedLink()">
-
-                    Linkni nusxalash
-
-                </button>
-
-
-
-                <div class="qr-container">
-
-                    <div id="qrcode"></div>
-
-                </div>
-
-
-                <div
-                    id="generatedId"
-                    class="generated-id">
-
-                </div>
-
-
-            </div>
-
-
-        </div>
-
-
-    </main>
-
-
-
-    <footer>
-
-        <span>
-            SafeStream
-        </span>
-
-        <span>
-            •
-        </span>
-
-        <span>
-            Admin Panel
-        </span>
-
-    </footer>
-
-
-
-    <script>
-
-
-        function generateId() {
-
-            const chars =
-                "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
-
-            let id = "";
-
-            for (
-                let i = 0;
-                i < 8;
-                i++
-            ) {
-
-                id += chars.charAt(
-                    Math.floor(
-                        Math.random() * chars.length
-                    )
-                );
-
-            }
-
-            return id;
-
-        }
-
-
-
-        function createVideoLink() {
-
-
-            const videoName =
-                document
-                    .getElementById("videoName")
-                    .value
-                    .trim();
-
-
-            const videoFile =
-                document
-                    .getElementById("videoFile")
-                    .value
-                    .trim();
-
-
-            if (!videoName) {
-
-                alert(
-                    "Avval video nomini kiriting."
-                );
-
-                return;
-
-            }
-
-
-            if (!videoFile) {
-
-                alert(
-                    "Video fayl nomini kiriting."
-                );
-
-                return;
-
-            }
-
-
-            const id =
-                generateId();
-
-
-            const link =
-                window.location.origin +
-                window.location.pathname
-                    .replace("admin.html", "index.html") +
-                "?video=" +
-                id;
-
-
-            document
-                .getElementById("generatedLink")
-                .value = link;
-
-
-            document
-                .getElementById("generatedId")
-                .textContent =
-                    "Video ID: " + id;
-
-
-
-            const qr =
-                document
-                    .getElementById("qrcode");
-
-
-            qr.innerHTML = "";
-
-
-            new QRCode(qr, {
-
-                text: link,
-
-                width: 180,
-
-                height: 180,
-
-                colorDark: "#000000",
-
-                colorLight: "#ffffff",
-
-                correctLevel:
-                    QRCode.CorrectLevel.H
-
-            });
-
-
-            document
-                .getElementById("result")
-                .classList.add("visible");
-
-
-            /*
-            ==================================
-            IMPORTANT
-            ==================================
-
-            Hozircha bu ma'lumot faqat
-            brauzerda yaratiladi.
-
-            Keyingi bosqichda ID va video
-            ma'lumotlarini haqiqiy database
-            bilan bog'laymiz.
-            */
-
-            console.log({
-
-                name: videoName,
-
-                file: videoFile,
-
-                id: id,
-
-                link: link
-
-            });
-
-        }
-
-
-
-        async function copyGeneratedLink() {
-
-
-            const input =
-                document
-                    .getElementById("generatedLink");
-
-
-            try {
-
-                await navigator.clipboard
-                    .writeText(input.value);
-
-                alert(
-                    "Link nusxalandi!"
-                );
-
-            } catch (error) {
-
-                input.select();
-
-                document.execCommand(
-                    "copy"
-                );
-
-                alert(
-                    "Link nusxalandi!"
-                );
-
-            }
-
-        }
-
-
-    </script>
-
-
-</body>
-
-</html>
+            margin-bottom: 

@@ -8,11 +8,15 @@
     <title>SafeStream</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- QR generator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
 
     <header class="navbar">
+
         <div class="logo">
             <span class="logo-icon">▶</span>
             SafeStream
@@ -22,6 +26,7 @@
             <span class="status-dot"></span>
             Secure
         </div>
+
     </header>
 
 
@@ -53,15 +58,23 @@
         <section id="videoBox" class="video-section">
 
             <div class="video-header">
+
                 <div>
-                    <span class="video-label">PRIVATE VIDEO</span>
-                    <h2>Senga atalgan video</h2>
+                    <span class="video-label">
+                        PRIVATE VIDEO
+                    </span>
+
+                    <h2>
+                        Senga atalgan video
+                    </h2>
                 </div>
 
                 <span class="secure-label">
                     🔐 Secure
                 </span>
+
             </div>
+
 
             <div class="video-wrapper">
 
@@ -71,16 +84,66 @@
                     playsinline
                     preload="metadata">
 
-                    <source src="video.mp4" type="video/mp4">
+                    <source
+                        id="videoSource"
+                        src="video.mp4"
+                        type="video/mp4">
 
                     Brauzeringiz videoni qo‘llab-quvvatlamaydi.
+
                 </video>
 
             </div>
 
+
             <p class="video-note">
                 Ushbu video faqat siz uchun tayyorlangan.
             </p>
+
+
+            <!-- UNIQUE LINK -->
+
+            <div class="share-box">
+
+                <h3>
+                    🔗 Video havolasi
+                </h3>
+
+                <div class="link-row">
+
+                    <input
+                        id="videoLink"
+                        type="text"
+                        readonly>
+
+                    <button
+                        onclick="copyLink()"
+                        class="copy-button">
+
+                        Nusxalash
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- QR -->
+
+            <div class="qr-box">
+
+                <h3>
+                    📱 QR kod
+                </h3>
+
+                <p>
+                    Telefon kamerasi bilan skanerlang.
+                </p>
+
+                <div id="qrcode"></div>
+
+            </div>
 
         </section>
 
@@ -88,27 +151,170 @@
 
 
     <footer>
+
         <span>SafeStream</span>
+
         <span>•</span>
+
         <span>Private & Secure</span>
+
     </footer>
 
 
     <script>
 
+        /*
+        ==========================================
+        VIDEO ID
+        ==========================================
+        */
+
+        const params = new URLSearchParams(window.location.search);
+
+        const videoId = params.get("video") || "abc123";
+
+
+        /*
+        ==========================================
+        VIDEO DATABASE
+        ==========================================
+        */
+
+        const videos = {
+
+            "abc123": "video.mp4"
+
+        };
+
+
+        /*
+        ==========================================
+        SELECT VIDEO
+        ==========================================
+        */
+
+        const videoFile = videos[videoId];
+
+        const videoSource =
+            document.getElementById("videoSource");
+
+        if (videoFile) {
+
+            videoSource.src = videoFile;
+
+            document
+                .getElementById("mainVideo")
+                .load();
+
+        }
+
+
+        /*
+        ==========================================
+        SHOW VIDEO
+        ==========================================
+        */
+
         function showVideo() {
 
-            const videoBox = document.getElementById("videoBox");
-            const video = document.getElementById("mainVideo");
+            const videoBox =
+                document.getElementById("videoBox");
 
             videoBox.classList.add("visible");
 
+
             setTimeout(() => {
+
                 videoBox.scrollIntoView({
                     behavior: "smooth",
                     block: "center"
                 });
+
             }, 100);
+
+
+            generateLink();
+
+        }
+
+
+        /*
+        ==========================================
+        GENERATE UNIQUE LINK
+        ==========================================
+        */
+
+        function generateLink() {
+
+            const link =
+                window.location.origin +
+                window.location.pathname +
+                "?video=" +
+                videoId;
+
+            document
+                .getElementById("videoLink")
+                .value = link;
+
+
+            /*
+            QR CODE
+            */
+
+            const qr =
+                document.getElementById("qrcode");
+
+            qr.innerHTML = "";
+
+
+            new QRCode(qr, {
+
+                text: link,
+
+                width: 180,
+
+                height: 180,
+
+                colorDark: "#000000",
+
+                colorLight: "#ffffff",
+
+                correctLevel:
+                    QRCode.CorrectLevel.H
+
+            });
+
+        }
+
+
+        /*
+        ==========================================
+        COPY LINK
+        ==========================================
+        */
+
+        async function copyLink() {
+
+            const input =
+                document.getElementById("videoLink");
+
+            try {
+
+                await navigator.clipboard.writeText(
+                    input.value
+                );
+
+                alert("Havola nusxalandi!");
+
+            } catch (error) {
+
+                input.select();
+
+                document.execCommand("copy");
+
+                alert("Havola nusxalandi!");
+
+            }
 
         }
 

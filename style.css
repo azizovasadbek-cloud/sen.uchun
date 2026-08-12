@@ -1,35 +1,109 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #ffe0e9, #fff5f7);
-    color: #333;
+    font-family: Georgia, "Times New Roman", serif;
+    background: linear-gradient(135deg, #ffd6e7, #fff0f5, #f8c8dc);
+    overflow-x: hidden;
 }
 
 .box {
-    width: 80%;
-    max-width: 500px;
-    background: white;
-    padding: 40px 25px;
-    border-radius: 25px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    width: 90%;
+    max-width: 520px;
+    padding: 45px 30px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 30px;
+    box-shadow: 0 15px 45px rgba(120, 50, 80, 0.18);
+    backdrop-filter: blur(10px);
+    animation: appear 1.2s ease;
 }
 
 .heart {
     font-size: 65px;
+    animation: heartbeat 1.5s infinite;
 }
 
 h1 {
-    color: #ff4f78;
-    font-size: 35px;
+    margin: 20px 0 15px;
+    color: #8b3157;
+    font-size: 36px;
 }
 
 p {
-    color: #777;
+    color: #633c4d;
     font-size: 18px;
-    line-height: 1.6;
+    line-height: 1.7;
+}
+
+button {
+    margin-top: 20px;
+    padding: 15px 28px;
+    border: none;
+    border-radius: 50px;
+    background: #c94f7c;
+    color: white;
+    font-size: 17px;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(201, 79, 124, 0.3);
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+#videoBox {
+    animation: videoAppear 0.8s ease;
+}
+
+video {
+    display: block;
+    margin: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes videoAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }

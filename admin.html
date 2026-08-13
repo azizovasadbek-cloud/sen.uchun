@@ -2,36 +2,27 @@
 <html lang="uz">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>SafeStream Admin</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css">
+    <link rel="stylesheet" href="style.css">
 
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- QR Code -->
+    <!-- QR -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
-
         .admin-card {
             max-width: 600px;
-            margin: 0 auto;
+            margin: 40px auto;
             padding: 28px;
 
             background: #10151f;
-
-            border: 1px solid rgba(255,255,255,0.08);
-
+            border: 1px solid rgba(255,255,255,.08);
             border-radius: 20px;
         }
 
@@ -39,8 +30,8 @@
             margin-bottom: 10px;
         }
 
-        .admin-description {
-            color: #8f99aa;
+        .description {
+            color: #929aaa;
             line-height: 1.6;
             margin-bottom: 25px;
         }
@@ -52,36 +43,24 @@
         .field label {
             display: block;
             margin-bottom: 8px;
-
             color: #aeb7c7;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .field input {
             width: 100%;
             box-sizing: border-box;
-
-            padding: 13px 14px;
-
-            border: 1px solid rgba(255,255,255,0.09);
+            padding: 13px;
             border-radius: 10px;
-
+            border: 1px solid rgba(255,255,255,.1);
             background: #080b12;
             color: white;
-
-            outline: none;
-        }
-
-        .field input[type="file"] {
-            padding: 10px;
         }
 
         .upload-button {
             width: 100%;
-
             padding: 14px;
-
-            border: none;
+            border: 0;
             border-radius: 11px;
 
             background: #2563eb;
@@ -94,55 +73,508 @@
         }
 
         .upload-button:disabled {
-            opacity: 0.6;
+            opacity: .6;
             cursor: not-allowed;
         }
 
-        .progress {
+        #statusMessage {
             display: none;
-
             margin-top: 18px;
-
-            padding: 14px;
-
+            padding: 13px;
             border-radius: 10px;
-
-            background: rgba(37,99,235,0.10);
-
-            color: #8eb3ff;
-
+            background: rgba(37,99,235,.12);
+            color: #9bbcff;
             text-align: center;
         }
 
-        .result {
+        #result {
             display: none;
-
             margin-top: 25px;
-
             padding: 20px;
-
-            border-radius: 14px;
-
-            background: rgba(255,255,255,0.03);
-
-            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 15px;
+            background: rgba(255,255,255,.03);
         }
 
-        .result.visible {
+        #result.show {
             display: block;
         }
 
-        .result-title {
-            font-size: 16px;
-            font-weight: 600;
-
-            margin-bottom: 15px;
-        }
-
-        .generated-link {
+        #generatedLink {
             width: 100%;
             box-sizing: border-box;
+            padding: 11px;
+            margin: 12px 0;
 
+            border-radius: 9px;
+            border: 1px solid rgba(255,255,255,.1);
+
+            background: #080b12;
+            color: #9ca5b5;
+        }
+
+        .copy-button {
+            width: 100%;
             padding: 11px;
 
-            margin-bottom: 
+            border: 0;
+            border-radius: 9px;
+
+            background: rgba(37,99,235,.15);
+            color: #8bb1ff;
+
+            cursor: pointer;
+        }
+
+        #qrcode {
+            width: max-content;
+            margin: 20px auto 0;
+            padding: 12px;
+            background: white;
+            border-radius: 12px;
+        }
+
+        .video-info {
+            margin-top: 15px;
+            text-align: center;
+            color: #7e8797;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        <span class="logo-icon">▶</span>
+        SafeStream Admin
+    </div>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        Admin
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <div class="admin-card">
+
+        <h1>🎬 Video yuklash</h1>
+
+        <p class="description">
+            Video tanlang. SafeStream uni Supabase'ga yuklaydi
+            va avtomatik ravishda unikal link hamda QR kod yaratadi.
+        </p>
+
+
+        <div class="field">
+
+            <label for="videoName">
+                Video nomi
+            </label>
+
+            <input
+                id="videoName"
+                type="text"
+                placeholder="Masalan: Faqat sen uchun ❤️">
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="videoFile">
+                Video fayli
+            </label>
+
+            <input
+                id="videoFile"
+                type="file"
+                accept="video/*">
+
+        </div>
+
+
+        <button
+            id="uploadButton"
+            class="upload-button"
+            onclick="uploadVideo()">
+
+            ⬆️ Videoni yuklash
+
+        </button>
+
+
+        <div id="statusMessage"></div>
+
+
+        <div id="result">
+
+            <strong>✅ Video tayyor!</strong>
+
+            <input
+                id="generatedLink"
+                readonly>
+
+            <button
+                class="copy-button"
+                onclick="copyLink()">
+
+                🔗 Linkni nusxalash
+
+            </button>
+
+            <div id="qrcode"></div>
+
+            <div
+                id="videoInfo"
+                class="video-info">
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <span>SafeStream</span>
+    <span>•</span>
+    <span>Private & Secure</span>
+
+</footer>
+
+
+
+<script>
+
+/* ==========================================
+   SUPABASE SOZLAMALARI
+   ========================================== */
+
+const SUPABASE_URL =
+    "https://kvwcvlwpdsixpbftoalh.supabase.co";
+
+
+/*
+   ⚠️ FAQAT SHU JOYGA
+   O'ZINGIZNING PUBLISHABLE KEYINGIZNI QO'YING
+*/
+
+const SUPABASE_KEY =
+    "BU YERGA sb_publishable_... KEYINGIZNI QO'YING";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+/* ==========================================
+   UNIKAL ID
+   ========================================== */
+
+function generateId() {
+
+    const chars =
+        "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+
+    let id = "";
+
+    for (let i = 0; i < 10; i++) {
+
+        id += chars.charAt(
+            Math.floor(Math.random() * chars.length)
+        );
+
+    }
+
+    return id;
+}
+
+
+
+/* ==========================================
+   VIDEO YUKLASH
+   ========================================== */
+
+async function uploadVideo() {
+
+    const name =
+        document.getElementById("videoName")
+            .value
+            .trim();
+
+    const file =
+        document.getElementById("videoFile")
+            .files[0];
+
+    const button =
+        document.getElementById("uploadButton");
+
+    const status =
+        document.getElementById("statusMessage");
+
+
+    if (!name) {
+
+        alert("Video nomini kiriting.");
+
+        return;
+    }
+
+
+    if (!file) {
+
+        alert("Video faylini tanlang.");
+
+        return;
+    }
+
+
+    if (!file.type.startsWith("video/")) {
+
+        alert("Faqat video fayl tanlang.");
+
+        return;
+    }
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "⏳ Yuklanmoqda...";
+
+    status.style.display =
+        "block";
+
+    status.textContent =
+        "Video Supabase'ga yuklanmoqda...";
+
+
+    try {
+
+        /* Unikal ID */
+
+        const videoId =
+            generateId();
+
+
+        /* Fayl kengaytmasi */
+
+        let extension = "mp4";
+
+        if (file.name.includes(".")) {
+
+            extension =
+                file.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
+        }
+
+
+        /* Storage fayl nomi */
+
+        const filePath =
+            videoId + "." + extension;
+
+
+        /* ==================================
+           STORAGE
+           ================================== */
+
+        const upload =
+            await supabaseClient
+                .storage
+                .from("videos")
+                .upload(
+                    filePath,
+                    file,
+                    {
+                        cacheControl: "3600",
+                        upsert: false,
+                        contentType: file.type
+                    }
+                );
+
+
+        if (upload.error) {
+
+            throw upload.error;
+        }
+
+
+        status.textContent =
+            "Video saqlandi. Ma'lumotlar yozilmoqda...";
+
+
+        /* ==================================
+           DATABASE
+           ================================== */
+
+        const database =
+            await supabaseClient
+                .from("videos")
+                .insert({
+                    title: name,
+                    file_path: filePath
+                });
+
+
+        if (database.error) {
+
+            throw database.error;
+        }
+
+
+        /* ==================================
+           LINK
+           ================================== */
+
+        const baseUrl =
+            window.location.origin +
+            window.location.pathname
+                .replace(
+                    "admin.html",
+                    "index.html"
+                );
+
+
+        const uniqueLink =
+            baseUrl +
+            "?video=" +
+            videoId;
+
+
+        document
+            .getElementById("generatedLink")
+            .value =
+                uniqueLink;
+
+
+        /* ==================================
+           QR
+           ================================== */
+
+        const qr =
+            document.getElementById("qrcode");
+
+
+        qr.innerHTML = "";
+
+
+        new QRCode(qr, {
+
+            text: uniqueLink,
+
+            width: 180,
+
+            height: 180,
+
+            colorDark: "#000000",
+
+            colorLight: "#ffffff",
+
+            correctLevel:
+                QRCode.CorrectLevel.H
+
+        });
+
+
+        document
+            .getElementById("videoInfo")
+            .textContent =
+                name +
+                " • ID: " +
+                videoId;
+
+
+        document
+            .getElementById("result")
+            .classList.add("show");
+
+
+        status.textContent =
+            "✅ Hammasi tayyor!";
+
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        status.textContent =
+            "❌ Xatolik yuz berdi.";
+
+        alert(
+            "Xatolik:\n\n" +
+            error.message
+        );
+
+    }
+
+    finally {
+
+        button.disabled = false;
+
+        button.textContent =
+            "⬆️ Videoni yuklash";
+
+    }
+
+}
+
+
+
+/* ==========================================
+   LINKNI NUSXALASH
+   ========================================== */
+
+async function copyLink() {
+
+    const input =
+        document.getElementById(
+            "generatedLink"
+        );
+
+
+    try {
+
+        await navigator
+            .clipboard
+            .writeText(input.value);
+
+        alert("Link nusxalandi!");
+
+    }
+
+    catch (error) {
+
+        input.select();
+
+        document.execCommand("copy");
+
+        alert("Link nusxalandi!");
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
+ 

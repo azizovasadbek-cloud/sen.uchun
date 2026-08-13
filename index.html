@@ -9,6 +9,10 @@
         name="viewport"
         content="width=device-width, initial-scale=1.0">
 
+    <meta
+        name="description"
+        content="SafeStream — private video platform">
+
     <title>SafeStream</title>
 
     <link
@@ -21,9 +25,9 @@
 <body>
 
 
-    <!-- ==============================
+    <!-- =========================================
          NAVBAR
-    =============================== -->
+    ========================================== -->
 
     <header class="navbar">
 
@@ -33,7 +37,9 @@
                 ▶
             </span>
 
-            SafeStream
+            <span>
+                SafeStream
+            </span>
 
         </div>
 
@@ -42,7 +48,9 @@
 
             <span class="status-dot"></span>
 
-            Secure
+            <span>
+                Secure
+            </span>
 
         </div>
 
@@ -50,14 +58,16 @@
 
 
 
-    <!-- ==============================
+    <!-- =========================================
          MAIN
-    =============================== -->
+    ========================================== -->
 
     <main class="container">
 
 
-        <!-- HERO -->
+        <!-- =====================================
+             HERO
+        ====================================== -->
 
         <section class="hero">
 
@@ -70,21 +80,21 @@
 
 
             <h1>
-
                 Faqat sen uchun
-
             </h1>
 
 
             <p class="description">
 
-                Bu kichik sahifa aynan sen uchun tayyorlandi.
-                Senga atalgan maxsus video shu yerda.
+                Bu kichik sahifa aynan sen uchun
+                tayyorlandi. Senga atalgan maxsus
+                video shu yerda.
 
             </p>
 
 
             <button
+                type="button"
                 class="open-button"
                 onclick="showVideo()">
 
@@ -97,13 +107,30 @@
             </button>
 
 
+            <div class="hero-security">
+
+                <span>
+                    🔐
+                </span>
+
+                Private access
+
+                <span class="separator">
+                    •
+                </span>
+
+                SafeStream
+
+            </div>
+
+
         </section>
 
 
 
-        <!-- ==============================
-             VIDEO
-        =============================== -->
+        <!-- =====================================
+             VIDEO SECTION
+        ====================================== -->
 
         <section
             id="videoBox"
@@ -116,25 +143,19 @@
                 <div>
 
                     <span class="video-label">
-
                         PRIVATE VIDEO
-
                     </span>
 
 
                     <h2>
-
                         Senga atalgan video
-
                     </h2>
 
                 </div>
 
 
                 <span class="secure-label">
-
                     🔐 Secure
-
                 </span>
 
 
@@ -142,7 +163,7 @@
 
 
 
-            <!-- VIDEO PLAYER -->
+            <!-- VIDEO -->
 
             <div class="video-wrapper">
 
@@ -163,7 +184,6 @@
                     Brauzeringiz videoni
                     qo‘llab-quvvatlamaydi.
 
-
                 </video>
 
 
@@ -171,12 +191,63 @@
 
 
 
-            <p class="video-note">
+            <div class="video-info">
 
-                Ushbu video faqat siz uchun
-                tayyorlangan.
 
-            </p>
+                <div class="video-info-icon">
+                    🔒
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Private content
+                    </strong>
+
+
+                    <p>
+                        Ushbu video faqat siz uchun
+                        tayyorlangan.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             ERROR MESSAGE
+        ====================================== -->
+
+        <section
+            id="errorBox"
+            class="error-box">
+
+
+            <div class="error-icon">
+                ⚠️
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Video topilmadi
+                </strong>
+
+
+                <p>
+                    Ushbu video havolasi mavjud emas
+                    yoki noto‘g‘ri.
+                </p>
+
+            </div>
 
 
         </section>
@@ -186,38 +257,55 @@
 
 
 
-    <!-- ==============================
+    <!-- =========================================
          FOOTER
-    =============================== -->
+    ========================================== -->
 
     <footer>
 
-        <span>
-            SafeStream
-        </span>
 
-        <span>
-            •
-        </span>
+        <div class="footer-content">
 
-        <span>
-            Private & Secure
-        </span>
+
+            <span>
+                SafeStream
+            </span>
+
+
+            <span>
+                •
+            </span>
+
+
+            <span>
+                Private & Secure
+            </span>
+
+
+        </div>
+
+
+        <div class="footer-small">
+
+            Secure private video platform
+
+        </div>
+
 
     </footer>
 
 
 
-    <!-- ==============================
+    <!-- =========================================
          JAVASCRIPT
-    =============================== -->
+    ========================================== -->
 
     <script>
 
 
         /*
         ==========================================
-        VIDEO ID
+        GET URL PARAMETERS
         ==========================================
         */
 
@@ -227,9 +315,10 @@
             );
 
 
+
         /*
         ==========================================
-        UNIQUE VIDEO ID
+        VIDEO ID
         ==========================================
         */
 
@@ -246,9 +335,40 @@
 
         const videos = {
 
-            "abc123": "video.mp4"
+            abc123: "video.mp4"
 
         };
+
+
+
+        /*
+        ==========================================
+        ELEMENTS
+        ==========================================
+        */
+
+        const videoBox =
+            document.getElementById(
+                "videoBox"
+            );
+
+
+        const errorBox =
+            document.getElementById(
+                "errorBox"
+            );
+
+
+        const mainVideo =
+            document.getElementById(
+                "mainVideo"
+            );
+
+
+        const videoSource =
+            document.getElementById(
+                "videoSource"
+            );
 
 
 
@@ -260,12 +380,6 @@
 
         const videoFile =
             videos[videoId];
-
-
-        const videoSource =
-            document.getElementById(
-                "videoSource"
-            );
 
 
 
@@ -280,10 +394,13 @@
             videoSource.src =
                 videoFile;
 
+            mainVideo.load();
 
-            document
-                .getElementById("mainVideo")
-                .load();
+        } else {
+
+            errorBox.classList.add(
+                "visible"
+            );
 
         }
 
@@ -297,21 +414,25 @@
 
         function showVideo() {
 
+            if (!videoFile) {
 
-            const videoBox =
-                document.getElementById(
-                    "videoBox"
-                );
+                errorBox.scrollIntoView({
+
+                    behavior: "smooth",
+
+                    block: "center"
+
+                });
+
+                return;
+
+            }
 
 
             videoBox.classList.add(
                 "visible"
             );
 
-
-            /*
-            Scroll to video
-            */
 
             setTimeout(() => {
 
@@ -325,8 +446,26 @@
 
             }, 100);
 
-
         }
+
+
+
+        /*
+        ==========================================
+        VIDEO ERROR HANDLING
+        ==========================================
+        */
+
+        mainVideo.addEventListener(
+            "error",
+            () => {
+
+                errorBox.classList.add(
+                    "visible"
+                );
+
+            }
+        );
 
 
     </script>

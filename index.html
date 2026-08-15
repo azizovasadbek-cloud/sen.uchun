@@ -11,7 +11,6 @@
 
 <title>SafeStream</title>
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
@@ -95,26 +94,10 @@ label{
 input[type="email"],
 input[type="password"],
 input[type="text"],
-input[type="file"]{
-
-    width:100%;
-    padding:14px;
-
-    border-radius:12px;
-
-    border:1px solid #30394d;
-
-    background:#080c14;
-
-    color:white;
-
-    font-size:15px;
-}
-
+input[type="file"],
 select{
 
     width:100%;
-
     padding:14px;
 
     border-radius:12px;
@@ -191,6 +174,8 @@ button:disabled{
     background:#172033;
 
     color:#9eb2d7;
+
+    line-height:1.5;
 }
 
 .success{
@@ -330,9 +315,28 @@ video{
 
     max-height:600px;
 
+    min-height:250px;
+
     border-radius:16px;
 
     background:black;
+
+    display:block;
+}
+
+.video-status{
+
+    margin-top:12px;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    background:#172033;
+
+    color:#9eb2d7;
+
+    font-size:14px;
 }
 
 footer{
@@ -362,6 +366,8 @@ footer{
     gap:12px;
 
     flex-wrap:wrap;
+
+    margin-top:12px;
 }
 
 .row button{
@@ -404,6 +410,11 @@ footer{
         font-size:27px;
 
         letter-spacing:5px;
+    }
+
+    .row button{
+
+        min-width:100%;
     }
 
 }
@@ -465,7 +476,6 @@ footer{
     </p>
 
 
-
     <!-- ACCESS CODE -->
 
     <div
@@ -479,8 +489,10 @@ footer{
 
 
         <p class="description">
+
             Videoni ko‘rish uchun sizga berilgan
             8 xonali kodni kiriting.
+
         </p>
 
 
@@ -499,7 +511,9 @@ footer{
             id="verifyCodeButton"
             class="primary"
         >
+
             🔓 Videoni ochish
+
         </button>
 
 
@@ -523,8 +537,15 @@ footer{
             id="mainVideo"
             controls
             playsinline
+            webkit-playsinline
             preload="metadata"
         ></video>
+
+
+        <div
+            id="videoStatus"
+            class="video-status hidden"
+        ></div>
 
     </div>
 
@@ -553,8 +574,10 @@ footer{
 
 
     <p class="description">
+
         SafeStream boshqaruv paneliga kirish uchun
         email va parolingizni kiriting.
+
     </p>
 
 
@@ -586,7 +609,9 @@ footer{
         id="loginButton"
         class="primary"
     >
+
         🔐 Kirish
+
     </button>
 
 
@@ -600,7 +625,7 @@ footer{
 
 
 <!-- ======================================
-     ADMIN PANEL
+     ADMIN
 ====================================== -->
 
 <section
@@ -629,7 +654,9 @@ footer{
             id="logoutButton"
             class="danger"
         >
+
             🚪 Chiqish
+
         </button>
 
     </div>
@@ -644,9 +671,11 @@ footer{
     >
 
 
+
     <h3>
         Yangi video yuklash
     </h3>
+
 
 
     <label>
@@ -661,6 +690,7 @@ footer{
     >
 
 
+
     <label>
         Video fayli
     </label>
@@ -669,13 +699,16 @@ footer{
     <input
         id="videoFile"
         type="file"
-        accept="video/*"
+        accept="video/mp4,.mp4"
     >
 
 
     <div class="small">
+
         Maksimal hajm: <b>50 MB</b>
+
     </div>
+
 
 
     <label>
@@ -697,7 +730,10 @@ footer{
             15 daqiqa
         </option>
 
-        <option value="30" selected>
+        <option
+            value="30"
+            selected
+        >
             30 daqiqa
         </option>
 
@@ -716,12 +752,16 @@ footer{
     </select>
 
 
+
     <button
         id="uploadButton"
         class="primary"
     >
+
         ⬆️ Videoni yuklash
+
     </button>
+
 
 
     <div
@@ -735,6 +775,7 @@ footer{
         ></div>
 
     </div>
+
 
 
     <div
@@ -764,6 +805,7 @@ footer{
         </h3>
 
 
+
         <div class="code-box">
 
             <div>
@@ -785,10 +827,12 @@ footer{
         </div>
 
 
+
         <div
             id="generatedLink"
             class="link-box"
         ></div>
+
 
 
         <div class="row">
@@ -819,11 +863,13 @@ footer{
         </div>
 
 
+
         <div class="qr-box">
 
             <p>
                 📱 QR kod
             </p>
+
 
             <div id="qrcode"></div>
 
@@ -850,8 +896,10 @@ footer{
 
 
     <p class="description">
+
         Video yuklash va bir martalik QR kod yaratish
         uchun administrator sifatida kiring.
+
     </p>
 
 
@@ -859,7 +907,9 @@ footer{
         id="adminAccessButton"
         class="secondary"
     >
+
         Admin panelni ochish
+
     </button>
 
 </section>
@@ -874,7 +924,6 @@ footer{
     <div>
         SafeStream • Private & Secure
     </div>
-
 
     <div style="margin-top:8px;">
         Secure private video platform
@@ -1026,6 +1075,9 @@ document.getElementById("videoArea");
 const mainVideo =
 document.getElementById("mainVideo");
 
+const videoStatus =
+document.getElementById("videoStatus");
+
 
 
 /* ==========================================
@@ -1067,7 +1119,30 @@ function showMessage(
 
 
 /* ==========================================
-   GENERATE 8 DIGIT CODE
+   VIDEO STATUS
+========================================== */
+
+function showVideoStatus(
+    text,
+    type=""
+){
+
+    videoStatus.textContent =
+        text;
+
+    videoStatus.className =
+        "video-status " + type;
+
+    videoStatus.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+
+/* ==========================================
+   GENERATE CODE
 ========================================== */
 
 function generateAccessCode(){
@@ -1109,16 +1184,295 @@ function formatDate(date){
 
 
 /* ==========================================
-   LOAD PUBLIC VIDEO
+   CREATE VIDEO URL
 ========================================== */
 
-async function loadPublicVideo(){
+function getVideoPublicUrl(
+    filePath
+){
 
-    if(!videoId){
+    if(!filePath){
+
+        throw new Error(
+            "Video fayl manzili topilmadi."
+        );
+
+    }
+
+
+    const result =
+        supabaseClient
+        .storage
+        .from("videos")
+        .getPublicUrl(
+            filePath
+        );
+
+
+    if(
+        !result ||
+        !result.data ||
+        !result.data.publicUrl
+    ){
+
+        throw new Error(
+            "Video URL yaratilmadi."
+        );
+
+    }
+
+
+    return result.data.publicUrl;
+
+}
+
+
+
+/* ==========================================
+   LOAD VIDEO
+========================================== */
+
+async function loadVideoIntoPlayer(
+    filePath,
+    title
+){
+
+    try{
+
+        if(!filePath){
+
+            throw new Error(
+                "file_path bo‘sh."
+            );
+
+        }
+
+
+        /*
+           Public videos bucketdan
+           to‘g‘ridan-to‘g‘ri URL olamiz.
+        */
+
+        const videoUrl =
+            getVideoPublicUrl(
+                filePath
+            );
+
+
+        console.log(
+            "VIDEO PATH:",
+            filePath
+        );
+
+        console.log(
+            "VIDEO URL:",
+            videoUrl
+        );
+
+
+        /*
+           Eski source'ni tozalash.
+        */
+
+        mainVideo.pause();
+
+        mainVideo.removeAttribute(
+            "src"
+        );
+
+        mainVideo.load();
+
+
+        /*
+           Yangi URL.
+        */
+
+        mainVideo.src =
+            videoUrl;
+
+
+        mainVideo.load();
+
+
+        /*
+           Video elementini ko‘rsatamiz.
+        */
+
+        videoArea.classList.remove(
+            "hidden"
+        );
+
+
+        publicTitle.textContent =
+            title ||
+            "Video";
+
+
+        publicDescription.textContent =
+            "✅ Kod tasdiqlandi. Video ochildi.";
+
 
         codeSection.classList.add(
             "hidden"
         );
+
+
+        publicMessage.classList.add(
+            "hidden"
+        );
+
+
+        showVideoStatus(
+            "⏳ Video yuklanmoqda..."
+        );
+
+
+        /*
+           Video metadata yuklanishini
+           kutamiz.
+        */
+
+        await new Promise(
+            (resolve,reject)=>{
+
+                let finished =
+                    false;
+
+
+                const success =
+                    ()=>{
+
+                        if(finished)
+                            return;
+
+                        finished =
+                            true;
+
+                        cleanup();
+
+                        resolve();
+
+                    };
+
+
+                const failure =
+                    ()=>{
+
+                        if(finished)
+                            return;
+
+                        finished =
+                            true;
+
+                        cleanup();
+
+                        reject(
+                            new Error(
+                                "Brauzer video faylini ocholmadi."
+                            )
+                        );
+
+                    };
+
+
+                const cleanup =
+                    ()=>{
+
+                        mainVideo.removeEventListener(
+                            "loadedmetadata",
+                            success
+                        );
+
+                        mainVideo.removeEventListener(
+                            "error",
+                            failure
+                        );
+
+                    };
+
+
+                mainVideo.addEventListener(
+                    "loadedmetadata",
+                    success,
+                    {
+                        once:true
+                    }
+                );
+
+
+                mainVideo.addEventListener(
+                    "error",
+                    failure,
+                    {
+                        once:true
+                    }
+                );
+
+
+                /*
+                   Ba'zi brauzerlarda metadata
+                   allaqachon kelgan bo‘lishi mumkin.
+                */
+
+                if(
+                    mainVideo.readyState >= 1
+                ){
+
+                    success();
+
+                }
+
+            }
+        );
+
+
+        showVideoStatus(
+            "▶️ Video tayyor. Play tugmasini bosing.",
+            "success"
+        );
+
+
+    }
+    catch(error){
+
+        console.error(
+            "VIDEO ERROR:",
+            error
+        );
+
+
+        showVideoStatus(
+            "❌ Video ochilmadi: " +
+            error.message,
+            "error"
+        );
+
+
+        /*
+           Video ochilmasa kod oynasini
+           qaytadan chiqaramiz.
+
+           Muhim:
+           Kod SQL orqali allaqachon
+           ishlatilgan bo‘lishi mumkin.
+        */
+
+        publicDescription.textContent =
+            "Video manzilini ochishda muammo yuz berdi.";
+
+    }
+
+}
+
+
+
+/* ==========================================
+   PUBLIC PAGE
+========================================== */
+
+function loadPublicVideo(){
+
+    if(!videoId){
 
         publicTitle.textContent =
             "SafeStream";
@@ -1126,7 +1480,12 @@ async function loadPublicVideo(){
         publicDescription.textContent =
             "Video havolasini oching yoki QR kod orqali shu sahifaga kiring.";
 
+        codeSection.classList.add(
+            "hidden"
+        );
+
         return;
+
     }
 
 
@@ -1152,16 +1511,12 @@ async function loadPublicVideo(){
         "hidden"
     );
 
-
-    accessCodeInput.value =
-        "";
-
 }
 
 
 
 /* ==========================================
-   VERIFY ONE-TIME CODE
+   VERIFY CODE
 ========================================== */
 
 verifyCodeButton.addEventListener(
@@ -1183,6 +1538,7 @@ async ()=>{
         );
 
         return;
+
     }
 
 
@@ -1195,11 +1551,13 @@ async ()=>{
         );
 
         return;
+
     }
 
 
     verifyCodeButton.disabled =
         true;
+
 
     verifyCodeButton.textContent =
         "⏳ Tekshirilmoqda...";
@@ -1227,12 +1585,19 @@ async ()=>{
         if(error){
 
             throw error;
+
         }
+
+
+        console.log(
+            "RPC RESULT:",
+            data
+        );
 
 
         if(
             !data ||
-            data.success !== true
+            !data.success
         ){
 
             showMessage(
@@ -1243,80 +1608,56 @@ async ()=>{
             );
 
             return;
+
         }
 
 
         /*
-           Kod to'g'ri.
-           RPC uni allaqachon USED qiladi.
+           RPC muvaffaqiyatli.
+
+           data ichidan title va
+           file_path olinadi.
         */
 
-
-        const {
-            data:publicData
-        } =
-        supabaseClient
-        .storage
-        .from("videos")
-        .getPublicUrl(
-            data.file_path
-        );
+        const filePath =
+            data.file_path;
 
 
-        if(
-            !publicData ||
-            !publicData.publicUrl
-        ){
-
-            throw new Error(
-                "Video manzili olinmadi."
-            );
-        }
-
-
-        publicTitle.textContent =
+        const title =
             data.title ||
             "Video";
 
 
-        publicDescription.textContent =
-            "✅ Kod tasdiqlandi. Video ochildi.";
+        if(!filePath){
+
+            throw new Error(
+                "RPC video file_path qaytarmadi."
+            );
+
+        }
 
 
-        mainVideo.src =
-            publicData.publicUrl;
-
-
-        mainVideo.load();
-
-
-        codeSection.classList.add(
-            "hidden"
+        showMessage(
+            codeMessage,
+            "✅ Kod to‘g‘ri. Video tayyorlanmoqda...",
+            "success"
         );
 
 
-        videoArea.classList.remove(
-            "hidden"
+        await loadVideoIntoPlayer(
+            filePath,
+            title
         );
-
-
-        publicMessage.classList.add(
-            "hidden"
-        );
-
-
-        /*
-           Kodni sahifada qoldirmaymiz.
-        */
-
-        accessCodeInput.value =
-            "";
 
 
     }
     catch(error){
 
-        console.error(error);
+        console.error(
+            "VERIFY ERROR:",
+            error
+        );
+
 
         showMessage(
             codeMessage,
@@ -1341,16 +1682,66 @@ async ()=>{
 
 
 /* ==========================================
-   ENTER KEY
+   VIDEO ERROR EVENTS
 ========================================== */
 
-accessCodeInput.addEventListener(
-"keydown",
-(event)=>{
+mainVideo.addEventListener(
+"error",
+()=>{
 
-    if(event.key === "Enter"){
+    console.error(
+        "HTML VIDEO ERROR:",
+        mainVideo.error
+    );
 
-        verifyCodeButton.click();
+
+    if(mainVideo.error){
+
+        let message =
+            "Video yuklanmadi.";
+
+
+        if(
+            mainVideo.error.code === 1
+        ){
+
+            message =
+                "Video yuklanishi bekor qilindi.";
+
+        }
+
+        else if(
+            mainVideo.error.code === 2
+        ){
+
+            message =
+                "Video tarmoqdan yuklanmadi.";
+
+        }
+
+        else if(
+            mainVideo.error.code === 3
+        ){
+
+            message =
+                "Video ma'lumotini o‘qib bo‘lmadi.";
+
+        }
+
+        else if(
+            mainVideo.error.code === 4
+        ){
+
+            message =
+                "Brauzer bu video formatini qo‘llab-quvvatlamaydi yoki video URL ishlamayapti.";
+
+        }
+
+
+        showVideoStatus(
+            "❌ " + message,
+            "error"
+        );
 
     }
 
@@ -1402,6 +1793,7 @@ async ()=>{
         );
 
         return;
+
     }
 
 
@@ -1431,6 +1823,7 @@ async ()=>{
         if(error){
 
             throw error;
+
         }
 
 
@@ -1438,10 +1831,12 @@ async ()=>{
             data.user
         );
 
+
     }
     catch(error){
 
         console.error(error);
+
 
         showMessage(
             loginMessage,
@@ -1465,7 +1860,7 @@ async ()=>{
 
 
 /* ==========================================
-   USER / ADMIN
+   ADMIN USER
 ========================================== */
 
 async function handleUser(user){
@@ -1475,6 +1870,7 @@ async function handleUser(user){
         showLogin();
 
         return;
+
     }
 
 
@@ -1498,7 +1894,9 @@ async function handleUser(user){
             "error"
         );
 
+
         return;
+
     }
 
 
@@ -1579,7 +1977,7 @@ async ()=>{
 
 
 /* ==========================================
-   UPLOAD VIDEO
+   UPLOAD
 ========================================== */
 
 uploadButton.addEventListener(
@@ -1609,6 +2007,7 @@ async ()=>{
         );
 
         return;
+
     }
 
 
@@ -1616,15 +2015,19 @@ async ()=>{
 
         showMessage(
             uploadMessage,
-            "Video faylini tanlang.",
+            "MP4 video faylini tanlang.",
             "error"
         );
 
         return;
+
     }
 
 
-    if(file.size > MAX_FILE_SIZE){
+    if(
+        file.size >
+        MAX_FILE_SIZE
+    ){
 
         showMessage(
             uploadMessage,
@@ -1633,18 +2036,33 @@ async ()=>{
         );
 
         return;
+
     }
 
 
-    if(!Number.isFinite(minutes) || minutes <= 0){
+    /*
+       Faqat MP4.
+    */
+
+    const extension =
+        file.name
+        .split(".")
+        .pop()
+        .toLowerCase();
+
+
+    if(
+        extension !== "mp4"
+    ){
 
         showMessage(
             uploadMessage,
-            "Kod amal qilish vaqtini tanlang.",
+            "Iltimos, faqat MP4 video yuklang.",
             "error"
         );
 
         return;
+
     }
 
 
@@ -1667,11 +2085,13 @@ async ()=>{
         );
 
         return;
+
     }
 
 
     uploadButton.disabled =
         true;
+
 
     uploadButton.textContent =
         "⏳ Yuklanmoqda...";
@@ -1683,12 +2103,7 @@ async ()=>{
 
 
     progressBar.style.width =
-        "15%";
-
-
-    resultBox.classList.add(
-        "hidden"
-    );
+        "10%";
 
 
     try{
@@ -1702,7 +2117,7 @@ async ()=>{
 
 
         /*
-           ONE-TIME CODE
+           BIR MARTALIK KOD
         */
 
         const accessCode =
@@ -1710,7 +2125,7 @@ async ()=>{
 
 
         /*
-           EXPIRY
+           MUDDAT
         */
 
         const expiresAt =
@@ -1721,39 +2136,23 @@ async ()=>{
 
 
         /*
-           FILE EXTENSION
-        */
-
-        const originalName =
-            file.name;
-
-
-        const extension =
-            originalName.includes(".")
-            ? originalName
-                .split(".")
-                .pop()
-                .toLowerCase()
-            : "mp4";
-
-
-        /*
-           STORAGE PATH
+           Faqat MP4.
         */
 
         const filePath =
-            id + "." + extension;
+            id + ".mp4";
 
 
         progressBar.style.width =
-            "35%";
+            "25%";
 
 
         /*
-           UPLOAD TO STORAGE
+           STORAGE UPLOAD
         */
 
         const {
+            data:storageData,
             error:storageError
         } =
         await supabaseClient
@@ -1764,26 +2163,34 @@ async ()=>{
             file,
             {
                 cacheControl:"3600",
+
                 upsert:false,
+
                 contentType:
-                    file.type ||
                     "video/mp4"
             }
+        );
+
+
+        console.log(
+            "STORAGE RESULT:",
+            storageData
         );
 
 
         if(storageError){
 
             throw storageError;
+
         }
 
 
         progressBar.style.width =
-            "70%";
+            "55%";
 
 
         /*
-           SAVE DATABASE
+           DATABASE
         */
 
         const {
@@ -1813,6 +2220,11 @@ async ()=>{
 
         if(databaseError){
 
+            /*
+               DB ishlamasa faylni
+               Storage'dan o‘chiramiz.
+            */
+
             await supabaseClient
             .storage
             .from("videos")
@@ -1820,19 +2232,41 @@ async ()=>{
                 filePath
             ]);
 
+
             throw databaseError;
+
         }
 
 
         progressBar.style.width =
-            "100%";
+            "75%";
 
 
         /*
-           VIDEO LINK
+           VIDEO URL'NI OLDINDAN TEKSHIRAMIZ
         */
 
         const videoUrl =
+            getVideoPublicUrl(
+                filePath
+            );
+
+
+        console.log(
+            "CREATED VIDEO URL:",
+            videoUrl
+        );
+
+
+        progressBar.style.width =
+            "90%";
+
+
+        /*
+           LINK
+        */
+
+        const pageUrl =
             window.location.origin +
             window.location.pathname +
             "?video=" +
@@ -1840,7 +2274,7 @@ async ()=>{
 
 
         generatedLink.textContent =
-            videoUrl;
+            pageUrl;
 
 
         /*
@@ -1857,11 +2291,13 @@ async ()=>{
 
         generatedExpiry.textContent =
             "Amal qilish muddati: " +
-            formatDate(expiresAt);
+            formatDate(
+                expiresAt
+            );
 
 
         /*
-           QR CODE
+           QR
         */
 
         qrcode.innerHTML =
@@ -1871,18 +2307,26 @@ async ()=>{
         new QRCode(
             qrcode,
             {
-                text:videoUrl,
-                width:260,
-                height:260,
+
+                text:
+                    pageUrl,
+
+                width:
+                    260,
+
+                height:
+                    260,
+
                 correctLevel:
                     QRCode.CorrectLevel.H
+
             }
         );
 
 
-        /*
-           SHOW RESULT
-        */
+        progressBar.style.width =
+            "100%";
+
 
         resultBox.classList.remove(
             "hidden"
@@ -1899,20 +2343,28 @@ async ()=>{
         videoName.value =
             "";
 
+
         videoFile.value =
             "";
 
 
         resultBox.scrollIntoView({
+
             behavior:"smooth",
+
             block:"center"
+
         });
 
 
     }
     catch(error){
 
-        console.error(error);
+        console.error(
+            "UPLOAD ERROR:",
+            error
+        );
+
 
         showMessage(
             uploadMessage,
@@ -1927,6 +2379,7 @@ async ()=>{
         uploadButton.disabled =
             false;
 
+
         uploadButton.textContent =
             "⬆️ Videoni yuklash";
 
@@ -1937,6 +2390,7 @@ async ()=>{
                 uploadProgress.classList.add(
                     "hidden"
                 );
+
 
                 progressBar.style.width =
                     "0%";
@@ -1963,11 +2417,6 @@ async ()=>{
         generatedLink.textContent;
 
 
-    if(!link){
-        return;
-    }
-
-
     try{
 
         await navigator
@@ -1988,6 +2437,7 @@ async ()=>{
             },
             2000
         );
+
 
     }
     catch(error){
@@ -2014,11 +2464,6 @@ async ()=>{
         generatedCode.textContent;
 
 
-    if(!code){
-        return;
-    }
-
-
     try{
 
         await navigator
@@ -2040,6 +2485,7 @@ async ()=>{
             2000
         );
 
+
     }
     catch(error){
 
@@ -2054,7 +2500,7 @@ async ()=>{
 
 
 /* ==========================================
-   OPEN VIDEO LINK
+   OPEN VIDEO PAGE
 ========================================== */
 
 openVideoButton.addEventListener(
@@ -2110,6 +2556,7 @@ function showLoginState(){
         "hidden"
     );
 
+
     adminAccessSection.classList.remove(
         "hidden"
     );
@@ -2124,8 +2571,16 @@ function showLoginState(){
 
 async function start(){
 
-    await loadPublicVideo();
+    /*
+       Public video sahifasi.
+    */
 
+    loadPublicVideo();
+
+
+    /*
+       Admin session.
+    */
 
     const {
         data
@@ -2135,7 +2590,10 @@ async function start(){
     .getSession();
 
 
-    if(data.session){
+    if(
+        data &&
+        data.session
+    ){
 
         await handleUser(
             data.session.user
@@ -2149,7 +2607,6 @@ async function start(){
 start();
 
 </script>
-
 
 </body>
 </html>

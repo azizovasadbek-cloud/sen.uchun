@@ -3,113 +3,280 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>SafeStream Admin</title>
 
-<link rel="stylesheet" href="style.css">
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/tus-js-client@4/dist/tus.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
 <style>
-.admin-card{
-    max-width:600px;
-    margin:40px auto;
-    padding:28px;
-    background:#10151f;
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:20px;
-}
-
-.field{
-    margin-bottom:18px;
-}
-
-.field label{
-    display:block;
-    margin-bottom:8px;
-    color:#aeb7c7;
-}
-
-.field input{
-    width:100%;
+*{
     box-sizing:border-box;
-    padding:13px;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,.1);
-    background:#080b12;
-    color:white;
 }
 
-.upload-button{
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#080b12;
+    color:#fff;
+}
+
+.navbar{
+    height:72px;
+    padding:0 25px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#0d111b;
+    border-bottom:1px solid #202636;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:bold;
+}
+
+.status{
+    color:#9aa8c0;
+    font-size:15px;
+}
+
+.dot{
+    display:inline-block;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#22c55e;
+    margin-right:7px;
+}
+
+.container{
+    width:min(850px,94%);
+    margin:35px auto;
+}
+
+.card{
+    background:#101621;
+    border:1px solid #222b3d;
+    border-radius:22px;
+    padding:28px;
+    margin-bottom:25px;
+}
+
+h1{
+    margin:0 0 8px;
+    font-size:30px;
+}
+
+h2{
+    margin-top:0;
+}
+
+.description{
+    color:#8994a8;
+    line-height:1.6;
+}
+
+label{
+    display:block;
+    color:#b9c3d6;
+    margin:18px 0 8px;
+}
+
+input,
+select{
     width:100%;
-    padding:14px;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #30394d;
+    background:#080c14;
+    color:#fff;
+    font-size:15px;
+}
+
+input[type=file]{
+    padding:12px;
+}
+
+button{
     border:0;
-    border-radius:11px;
+    border-radius:12px;
+    padding:14px 18px;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+.primary{
+    width:100%;
     background:#2563eb;
     color:white;
-    font-size:16px;
-    font-weight:600;
+    margin-top:20px;
 }
 
-.upload-button:disabled{
-    opacity:.6;
+.secondary{
+    background:#202a3c;
+    color:#fff;
 }
 
-#statusMessage{
-    display:none;
+.danger{
+    background:#7f1d1d;
+    color:#fff;
+}
+
+.hidden{
+    display:none !important;
+}
+
+.message{
+    margin-top:15px;
+    padding:14px;
+    border-radius:12px;
+    background:#172033;
+    color:#9eb2d7;
+    line-height:1.5;
+}
+
+.success{
+    background:#10281d;
+    color:#6ee7a1;
+}
+
+.error{
+    background:#32161a;
+    color:#ff8c97;
+}
+
+.progress{
+    margin-top:15px;
+    height:9px;
+    background:#20283a;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:#2563eb;
+    transition:width .2s;
+}
+
+.admin-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.admin-email{
+    color:#8da2c8;
+    font-size:13px;
+}
+
+.result{
+    margin-top:28px;
+    border-top:1px solid #20283a;
+    padding-top:28px;
+}
+
+.code-box{
+    text-align:center;
+    padding:25px;
+    background:#080c14;
+    border:1px solid #30394d;
+    border-radius:16px;
+}
+
+.code{
+    font-size:36px;
+    letter-spacing:8px;
+    font-weight:bold;
+    color:#60a5fa;
+    margin:15px 0;
+}
+
+.expiry{
+    color:#8da2c8;
+    font-size:13px;
+}
+
+.link{
     margin-top:18px;
     padding:14px;
-    border-radius:10px;
-    background:rgba(37,99,235,.12);
-    color:#9bbcff;
-    text-align:center;
+    background:#080c14;
+    border:1px solid #30394d;
+    border-radius:12px;
+    color:#9db4df;
+    word-break:break-all;
 }
 
-#result{
-    display:none;
+.buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.buttons button{
+    flex:1;
+    min-width:150px;
+}
+
+.qr{
     margin-top:25px;
-    padding:20px;
-    border-radius:15px;
-    background:rgba(255,255,255,.04);
-}
-
-#result.show{
-    display:block;
-}
-
-#generatedLink{
-    width:100%;
-    box-sizing:border-box;
-    padding:11px;
-    margin:12px 0;
-    border-radius:9px;
-    background:#080b12;
-    color:#9ca5b5;
-}
-
-.copy-button{
-    width:100%;
-    padding:11px;
-    border:0;
-    border-radius:9px;
-    background:rgba(37,99,235,.15);
-    color:#8bb1ff;
+    text-align:center;
 }
 
 #qrcode{
-    width:max-content;
-    margin:20px auto 0;
-    padding:12px;
-    background:white;
-    border-radius:12px;
+    display:inline-block;
+    background:#fff;
+    padding:15px;
+    border-radius:15px;
 }
 
-.video-info{
-    margin-top:15px;
-    text-align:center;
-    color:#7e8797;
+.small{
+    color:#77839a;
     font-size:13px;
+    margin-top:8px;
+}
+
+.file-info{
+    margin-top:10px;
+    padding:12px;
+    background:#0b1019;
+    border-radius:10px;
+    color:#8da2c8;
+    font-size:13px;
+}
+
+footer{
+    text-align:center;
+    color:#667085;
+    padding:30px;
+    font-size:13px;
+}
+
+@media(max-width:600px){
+
+    .card{
+        padding:22px;
+    }
+
+    .admin-head{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .code{
+        font-size:28px;
+        letter-spacing:5px;
+    }
 }
 </style>
 </head>
@@ -117,109 +284,260 @@
 <body>
 
 <header class="navbar">
+
     <div class="logo">
-        <span class="logo-icon">▶</span>
-        SafeStream Admin
+        ▶️ SafeStream Admin
     </div>
 
     <div class="status">
-        <span class="status-dot"></span>
+        <span class="dot"></span>
         Admin
     </div>
+
 </header>
+
 
 <main class="container">
 
-<div class="admin-card">
 
-<h1>🎬 Video yuklash</h1>
+<!-- LOGIN -->
 
-<p>
-Video tanlang. Yuklash tugagach avtomatik link va QR kod olinadi.
-</p>
+<section id="loginCard" class="card">
 
-<div class="field">
-<label for="videoName">Video nomi</label>
+    <h1>🔐 Admin kirish</h1>
 
-<input
-    id="videoName"
-    type="text"
-    placeholder="Masalan: Sen uchun ❤️">
-</div>
+    <p class="description">
+        SafeStream videolarini boshqarish uchun
+        administrator sifatida kiring.
+    </p>
 
-<div class="field">
-<label for="videoFile">Video fayli</label>
+    <label>Email</label>
 
-<input
-    id="videoFile"
-    type="file"
-    accept="video/*">
-</div>
+    <input
+        id="email"
+        type="email"
+        placeholder="admin@example.com"
+        autocomplete="username"
+    >
 
-<button
-    id="uploadButton"
-    class="upload-button"
-    onclick="uploadVideo()">
+    <label>Parol</label>
 
-⬆️ Videoni yuklash
+    <input
+        id="password"
+        type="password"
+        placeholder="Parolingiz"
+        autocomplete="current-password"
+    >
 
-</button>
+    <button id="loginButton" class="primary">
+        🔐 Admin sifatida kirish
+    </button>
 
-<div id="statusMessage"></div>
+    <div id="loginMessage" class="message hidden"></div>
 
-<div id="result">
+</section>
 
-<strong>✅ Video tayyor!</strong>
 
-<input
-    id="generatedLink"
-    readonly>
 
-<button
-    class="copy-button"
-    onclick="copyLink()">
+<!-- ADMIN -->
 
-🔗 Linkni nusxalash
+<section id="adminCard" class="card hidden">
 
-</button>
+    <div class="admin-head">
 
-<div id="qrcode"></div>
+        <div>
+            <h2>🎬 SafeStream Admin Panel</h2>
 
-<div
-    id="videoInfo"
-    class="video-info">
-</div>
+            <div id="adminEmail" class="admin-email"></div>
+        </div>
 
-</div>
+        <button id="logoutButton" class="danger">
+            🚪 Chiqish
+        </button>
 
-</div>
+    </div>
+
+
+    <hr style="border-color:#20283a;margin:25px 0;">
+
+
+    <h3>📤 Yangi video</h3>
+
+    <label>Video nomi</label>
+
+    <input
+        id="videoTitle"
+        type="text"
+        placeholder="Masalan: Tug'ilgan kun videosi"
+    >
+
+
+    <label>MP4 video</label>
+
+    <input
+        id="videoFile"
+        type="file"
+        accept="video/mp4,.mp4"
+    >
+
+    <div class="small">
+        Faqat MP4. Maksimal hajm: 50 MB.
+    </div>
+
+    <div id="fileInfo" class="file-info hidden"></div>
+
+
+    <label>Kodning amal qilish muddati</label>
+
+    <select id="expiry">
+
+        <option value="5">5 daqiqa</option>
+        <option value="10">10 daqiqa</option>
+        <option value="15">15 daqiqa</option>
+        <option value="30" selected>30 daqiqa</option>
+        <option value="60">1 soat</option>
+        <option value="120">2 soat</option>
+        <option value="1440">24 soat</option>
+
+    </select>
+
+
+    <button
+        id="uploadButton"
+        class="primary"
+    >
+        ⬆️ Video yuklash
+    </button>
+
+
+    <div
+        id="progress"
+        class="progress hidden"
+    >
+        <div
+            id="progressBar"
+            class="progress-bar"
+        ></div>
+    </div>
+
+
+    <div
+        id="uploadMessage"
+        class="message hidden"
+    ></div>
+
+
+
+    <!-- RESULT -->
+
+    <div
+        id="result"
+        class="result hidden"
+    >
+
+        <h3>✅ Video tayyor</h3>
+
+
+        <div class="code-box">
+
+            <div>🔑 Bir martalik kod</div>
+
+            <div
+                id="generatedCode"
+                class="code"
+            ></div>
+
+            <div
+                id="generatedExpiry"
+                class="expiry"
+            ></div>
+
+        </div>
+
+
+        <div
+            id="generatedLink"
+            class="link"
+        ></div>
+
+
+        <div class="buttons">
+
+            <button
+                id="copyLink"
+                class="secondary"
+            >
+                📋 Linkni nusxalash
+            </button>
+
+            <button
+                id="copyCode"
+                class="secondary"
+            >
+                🔑 Kodni nusxalash
+            </button>
+
+            <button
+                id="shareButton"
+                class="secondary"
+            >
+                📤 Ulashish
+            </button>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <button
+                id="openButton"
+                class="secondary"
+            >
+                ▶️ Video sahifasini ochish
+            </button>
+
+            <button
+                id="downloadQR"
+                class="secondary"
+            >
+                📱 QR kodni saqlash
+            </button>
+
+        </div>
+
+
+        <div class="qr">
+
+            <p>📱 QR kod</p>
+
+            <div id="qrcode"></div>
+
+        </div>
+
+    </div>
+
+</section>
 
 </main>
 
+
 <footer>
-<span>SafeStream</span>
-<span>•</span>
-<span>Private & Secure</span>
+    SafeStream Admin • Private & Secure
 </footer>
+
 
 
 <script>
 
-/* ================================
+/* ==========================================
    SUPABASE
-================================ */
+========================================== */
 
 const SUPABASE_URL =
 "https://kvwcvlwpdsixpbftoalh.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_JyI5Zj_1ScRJ2-YEwdSDGg_eaTFvZuD";
-
-const PROJECT_ID =
-"kvwcvlwpdsixpbftoalh";
-
-const BUCKET =
-"videos";
 
 const supabaseClient =
 window.supabase.createClient(
@@ -228,376 +546,952 @@ window.supabase.createClient(
 );
 
 
-/* ================================
-   ID
-================================ */
+/* ==========================================
+   SETTINGS
+========================================== */
 
-function generateId(){
+const ADMIN_EMAIL =
+"azizovasadbek@icloud.com";
 
-    const chars =
-    "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+const MAX_SIZE =
+50 * 1024 * 1024;
 
-    let id="";
+const BUCKET =
+"videos";
 
-    for(let i=0;i<10;i++){
 
-        id += chars.charAt(
-            Math.floor(
-                Math.random()*chars.length
-            )
-        );
-    }
+/* ==========================================
+   ELEMENTS
+========================================== */
 
-    return id;
+const loginCard =
+document.getElementById("loginCard");
+
+const adminCard =
+document.getElementById("adminCard");
+
+const emailInput =
+document.getElementById("email");
+
+const passwordInput =
+document.getElementById("password");
+
+const loginButton =
+document.getElementById("loginButton");
+
+const loginMessage =
+document.getElementById("loginMessage");
+
+const logoutButton =
+document.getElementById("logoutButton");
+
+const adminEmail =
+document.getElementById("adminEmail");
+
+const videoTitle =
+document.getElementById("videoTitle");
+
+const videoFile =
+document.getElementById("videoFile");
+
+const fileInfo =
+document.getElementById("fileInfo");
+
+const expiry =
+document.getElementById("expiry");
+
+const uploadButton =
+document.getElementById("uploadButton");
+
+const progress =
+document.getElementById("progress");
+
+const progressBar =
+document.getElementById("progressBar");
+
+const uploadMessage =
+document.getElementById("uploadMessage");
+
+const result =
+document.getElementById("result");
+
+const generatedCode =
+document.getElementById("generatedCode");
+
+const generatedExpiry =
+document.getElementById("generatedExpiry");
+
+const generatedLink =
+document.getElementById("generatedLink");
+
+const qrcode =
+document.getElementById("qrcode");
+
+const copyLink =
+document.getElementById("copyLink");
+
+const copyCode =
+document.getElementById("copyCode");
+
+const shareButton =
+document.getElementById("shareButton");
+
+const openButton =
+document.getElementById("openButton");
+
+const downloadQR =
+document.getElementById("downloadQR");
+
+
+/* ==========================================
+   MESSAGE
+========================================== */
+
+function message(element,text,type=""){
+
+    element.textContent = text;
+
+    element.className =
+        "message " + type;
+
+    element.classList.remove("hidden");
 }
 
 
-/* ================================
-   UPLOAD
-================================ */
+/* ==========================================
+   DATE
+========================================== */
 
-async function uploadVideo(){
+function formatDate(date){
 
-    const name =
-        document
-        .getElementById("videoName")
-        .value
-        .trim();
+    return new Intl.DateTimeFormat(
+        "uz-UZ",
+        {
+            dateStyle:"medium",
+            timeStyle:"short"
+        }
+    ).format(date);
 
-    const file =
-        document
-        .getElementById("videoFile")
-        .files[0];
-
-    const button =
-        document
-        .getElementById("uploadButton");
-
-    const status =
-        document
-        .getElementById("statusMessage");
+}
 
 
-    if(!name){
+/* ==========================================
+   CODE
+========================================== */
 
-        alert("Video nomini kiriting.");
+function generateCode(){
+
+    const arr =
+        new Uint32Array(1);
+
+    crypto.getRandomValues(arr);
+
+    return String(
+        arr[0] % 100000000
+    ).padStart(8,"0");
+
+}
+
+
+/* ==========================================
+   FILE
+========================================== */
+
+videoFile.addEventListener(
+    "change",
+    ()=>{
+
+        const file =
+            videoFile.files[0];
+
+        if(!file){
+
+            fileInfo.classList.add("hidden");
+
+            return;
+        }
+
+        const sizeMB =
+            (file.size / 1024 / 1024)
+            .toFixed(2);
+
+        fileInfo.textContent =
+            "📄 " +
+            file.name +
+            " • " +
+            sizeMB +
+            " MB";
+
+        fileInfo.classList.remove(
+            "hidden"
+        );
+
+    }
+);
+
+
+/* ==========================================
+   LOGIN
+========================================== */
+
+loginButton.addEventListener(
+    "click",
+    async ()=>{
+
+        const email =
+            emailInput.value.trim();
+
+        const password =
+            passwordInput.value;
+
+        if(!email || !password){
+
+            message(
+                loginMessage,
+                "Email va parolni kiriting.",
+                "error"
+            );
+
+            return;
+        }
+
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+            "⏳ Kirilmoqda...";
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient.auth
+                .signInWithPassword({
+                    email,
+                    password
+                });
+
+            if(error)
+                throw error;
+
+            await checkAdmin(
+                data.user
+            );
+
+        }
+        catch(error){
+
+            console.error(error);
+
+            message(
+                loginMessage,
+                "Kirishda xatolik: " +
+                error.message,
+                "error"
+            );
+
+        }
+        finally{
+
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                "🔐 Admin sifatida kirish";
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   CHECK ADMIN
+========================================== */
+
+async function checkAdmin(user){
+
+    if(!user){
+
+        showLogin();
+
         return;
     }
 
+    const userEmail =
+        user.email?.toLowerCase();
 
-    if(!file){
+    if(
+        userEmail !==
+        ADMIN_EMAIL.toLowerCase()
+    ){
 
-        alert("Video faylini tanlang.");
-        return;
-    }
+        await supabaseClient.auth.signOut();
 
-
-    if(!file.type.startsWith("video/")){
-
-        alert("Faqat video fayl tanlang.");
-        return;
-    }
-
-
-    /* Free plan limit */
-
-    const MAX_SIZE =
-        50 * 1024 * 1024;
-
-
-    if(file.size > MAX_SIZE){
-
-        alert(
-            "Bu video 50 MB dan katta.\n\n" +
-            "Supabase Free rejimida bitta fayl 50 MB gacha."
+        message(
+            loginMessage,
+            "Bu hisob administrator emas.",
+            "error"
         );
 
         return;
     }
 
+    loginCard.classList.add("hidden");
 
-    button.disabled=true;
+    adminCard.classList.remove("hidden");
 
-    button.textContent=
-        "⏳ Yuklanmoqda...";
+    adminEmail.textContent =
+        "👤 " + user.email;
 
-    status.style.display="block";
-
-    try{
-
-        const videoId =
-            generateId();
+}
 
 
-        let extension="mp4";
+/* ==========================================
+   SHOW LOGIN
+========================================== */
 
-        if(file.name.includes(".")){
+function showLogin(){
 
-            extension =
-                file.name
-                .split(".")
-                .pop()
-                .toLowerCase();
+    adminCard.classList.add("hidden");
+
+    loginCard.classList.remove("hidden");
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+logoutButton.addEventListener(
+    "click",
+    async ()=>{
+
+        await supabaseClient.auth.signOut();
+
+        showLogin();
+
+    }
+);
+
+
+/* ==========================================
+   UPLOAD
+========================================== */
+
+uploadButton.addEventListener(
+    "click",
+    async ()=>{
+
+        const title =
+            videoTitle.value.trim();
+
+        const file =
+            videoFile.files[0];
+
+        const minutes =
+            Number(expiry.value);
+
+
+        if(!title){
+
+            message(
+                uploadMessage,
+                "Video nomini kiriting.",
+                "error"
+            );
+
+            return;
         }
 
 
-        const filePath =
-            videoId + "." + extension;
+        if(!file){
+
+            message(
+                uploadMessage,
+                "MP4 video tanlang.",
+                "error"
+            );
+
+            return;
+        }
 
 
-        status.textContent =
-            "⬆️ Video yuklanmoqda... 0%";
+        if(
+            file.type !== "video/mp4" &&
+            !file.name.toLowerCase().endsWith(".mp4")
+        ){
+
+            message(
+                uploadMessage,
+                "Faqat MP4 video yuklash mumkin.",
+                "error"
+            );
+
+            return;
+        }
 
 
-        /* ============================
-           TUS
-        ============================ */
+        if(file.size > MAX_SIZE){
 
-        await new Promise(
-            (resolve,reject)=>{
+            message(
+                uploadMessage,
+                "Video 50 MB dan katta.",
+                "error"
+            );
 
-                const upload =
-                    new tus.Upload(
-                        file,
-                        {
-
-                        endpoint:
-                        `https://${PROJECT_ID}.storage.supabase.co/storage/v1/upload/resumable`,
-
-                        headers:{
-                            authorization:
-                            `Bearer ${SUPABASE_KEY}`,
-
-                            apikey:
-                            SUPABASE_KEY
-                        },
-
-                        metadata:{
-
-                            bucketName:
-                            BUCKET,
-
-                            objectName:
-                            filePath,
-
-                            contentType:
-                            file.type,
-
-                            cacheControl:
-                            "3600"
-                        },
-
-                        chunkSize:
-                        6 * 1024 * 1024,
-
-                        uploadDataDuringCreation:
-                        true,
-
-                        removeFingerprintOnSuccess:
-                        true,
-
-                        retryDelays:[
-                            0,
-                            3000,
-                            5000,
-                            10000,
-                            20000
-                        ],
-
-                        onError(error){
-
-                            console.error(error);
-
-                            reject(error);
-                        },
-
-                        onProgress(
-                            uploaded,
-                            total
-                        ){
-
-                            const percent =
-                                Math.round(
-                                    uploaded /
-                                    total *
-                                    100
-                                );
-
-                            status.textContent =
-                                `⬆️ Video yuklanmoqda... ${percent}%`;
-                        },
-
-                        onSuccess(){
-
-                            resolve();
-                        }
-
-                    });
+            return;
+        }
 
 
-                upload.start();
+        const {
+            data:userData,
+            error:userError
+        } =
+        await supabaseClient.auth.getUser();
 
+
+        if(userError || !userData.user){
+
+            message(
+                uploadMessage,
+                "Admin sessiyasi topilmadi. Qayta kiring.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        if(
+            userData.user.email?.toLowerCase()
+            !==
+            ADMIN_EMAIL.toLowerCase()
+        ){
+
+            message(
+                uploadMessage,
+                "Administrator huquqi yo‘q.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        uploadButton.disabled = true;
+
+        progress.classList.remove("hidden");
+
+        progressBar.style.width = "5%";
+
+
+        try{
+
+            /*
+              VIDEO ID
+            */
+
+            const videoId =
+                crypto.randomUUID();
+
+
+            /*
+              ACCESS CODE
+            */
+
+            const accessCode =
+                generateCode();
+
+
+            /*
+              EXPIRY
+            */
+
+            const expiresAt =
+                new Date(
+                    Date.now() +
+                    minutes * 60 * 1000
+                );
+
+
+            /*
+              FILE PATH
+
+              Faqat MP4 ishlatiladi.
+            */
+
+            const filePath =
+                videoId + ".mp4";
+
+
+            /*
+              STORAGE
+            */
+
+            progressBar.style.width = "15%";
+
+
+            const {
+                error:storageError
+            } =
+            await supabaseClient.storage
+                .from(BUCKET)
+                .upload(
+                    filePath,
+                    file,
+                    {
+                        cacheControl:"3600",
+                        upsert:false,
+                        contentType:"video/mp4"
+                    }
+                );
+
+
+            if(storageError){
+
+                throw new Error(
+                    "Storage yuklash xatosi: " +
+                    storageError.message
+                );
             }
-        );
 
 
-        /* ============================
-           DATABASE
-        ============================ */
-
-        status.textContent =
-            "✅ Video saqlandi. Ma'lumot yozilmoqda...";
+            progressBar.style.width = "65%";
 
 
-        const database =
+            /*
+              DATABASE
+            */
+
+            const {
+                error:dbError
+            } =
             await supabaseClient
-            .from("videos")
-            .insert({
+                .from("videos")
+                .insert({
 
-                title:name,
+                    id:videoId,
 
-                file_path:filePath
+                    title:title,
 
+                    file_path:filePath,
+
+                    access_code:accessCode,
+
+                    access_code_expires_at:
+                        expiresAt.toISOString(),
+
+                    access_code_used:false
+
+                });
+
+
+            if(dbError){
+
+                /*
+                  Database ishlamasa,
+                  yuklangan faylni o‘chiramiz.
+                */
+
+                await supabaseClient.storage
+                    .from(BUCKET)
+                    .remove([
+                        filePath
+                    ]);
+
+                throw new Error(
+                    "Database xatosi: " +
+                    dbError.message
+                );
+            }
+
+
+            progressBar.style.width = "100%";
+
+
+            /*
+              PUBLIC LINK
+            */
+
+            const publicLink =
+                window.location.origin +
+                window.location.pathname
+                    .replace(
+                        "admin.html",
+                        "index.html"
+                    ) +
+                "?video=" +
+                encodeURIComponent(
+                    videoId
+                );
+
+
+            /*
+              RESULT
+            */
+
+            generatedCode.textContent =
+                accessCode;
+
+            generatedExpiry.textContent =
+                "Amal qilish muddati: " +
+                formatDate(expiresAt);
+
+            generatedLink.textContent =
+                publicLink;
+
+
+            /*
+              QR
+            */
+
+            qrcode.innerHTML = "";
+
+            new QRCode(
+                qrcode,
+                {
+                    text:publicLink,
+                    width:260,
+                    height:260,
+                    correctLevel:
+                        QRCode.CorrectLevel.H
+                }
+            );
+
+
+            result.classList.remove(
+                "hidden"
+            );
+
+
+            message(
+                uploadMessage,
+                "✅ Video muvaffaqiyatli yuklandi!",
+                "success"
+            );
+
+
+            /*
+              FORM TOZALASH
+            */
+
+            videoTitle.value = "";
+
+            videoFile.value = "";
+
+            fileInfo.classList.add(
+                "hidden"
+            );
+
+
+            result.scrollIntoView({
+                behavior:"smooth",
+                block:"center"
             });
 
+        }
+        catch(error){
 
-        if(database.error){
+            console.error(error);
 
-            throw database.error;
+            message(
+                uploadMessage,
+                "❌ " + error.message,
+                "error"
+            );
+
+        }
+        finally{
+
+            uploadButton.disabled = false;
+
+            setTimeout(
+                ()=>{
+                    progress.classList.add(
+                        "hidden"
+                    );
+
+                    progressBar.style.width =
+                        "0%";
+                },
+                1000
+            );
+
         }
 
+    }
+);
 
-        /* ============================
-           LINK
-        ============================ */
 
-        const baseUrl =
-            window.location.origin +
-            window.location.pathname
-            .replace(
-                "admin.html",
-                "index.html"
+/* ==========================================
+   COPY LINK
+========================================== */
+
+copyLink.addEventListener(
+    "click",
+    async ()=>{
+
+        const link =
+            generatedLink.textContent;
+
+        try{
+
+            await navigator.clipboard
+                .writeText(link);
+
+            copyLink.textContent =
+                "✅ Nusxalandi";
+
+            setTimeout(
+                ()=>{
+                    copyLink.textContent =
+                        "📋 Linkni nusxalash";
+                },
+                2000
             );
 
+        }
+        catch{
 
-        const uniqueLink =
-            baseUrl +
-            "?video=" +
-            encodeURIComponent(
-                videoId
+            alert(link);
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   COPY CODE
+========================================== */
+
+copyCode.addEventListener(
+    "click",
+    async ()=>{
+
+        const code =
+            generatedCode.textContent;
+
+        try{
+
+            await navigator.clipboard
+                .writeText(code);
+
+            copyCode.textContent =
+                "✅ Nusxalandi";
+
+            setTimeout(
+                ()=>{
+                    copyCode.textContent =
+                        "🔑 Kodni nusxalash";
+                },
+                2000
             );
 
+        }
+        catch{
 
-        document
-        .getElementById(
-            "generatedLink"
-        )
-        .value =
-            uniqueLink;
+            alert(code);
 
+        }
 
-        /* ============================
-           QR
-        ============================ */
-
-        const qr =
-            document
-            .getElementById("qrcode");
-
-        qr.innerHTML="";
+    }
+);
 
 
-        new QRCode(
-            qr,
-            {
-                text:uniqueLink,
-                width:180,
-                height:180,
-                colorDark:"#000000",
-                colorLight:"#ffffff",
-                correctLevel:
-                    QRCode.CorrectLevel.H
+/* ==========================================
+   SHARE
+========================================== */
+
+shareButton.addEventListener(
+    "click",
+    async ()=>{
+
+        const link =
+            generatedLink.textContent;
+
+        const code =
+            generatedCode.textContent;
+
+        const shareText =
+            "🔐 SafeStream video\n\n" +
+            "🔑 Bir martalik kod: " +
+            code +
+            "\n\n" +
+            link;
+
+
+        if(
+            navigator.share
+        ){
+
+            try{
+
+                await navigator.share({
+                    title:"SafeStream video",
+                    text:shareText,
+                    url:link
+                });
+
             }
+            catch(error){
+
+                console.log(
+                    "Ulashish bekor qilindi."
+                );
+
+            }
+
+        }
+        else{
+
+            try{
+
+                await navigator.clipboard
+                    .writeText(
+                        shareText
+                    );
+
+                shareButton.textContent =
+                    "✅ Ulashish matni nusxalandi";
+
+                setTimeout(
+                    ()=>{
+                        shareButton.textContent =
+                            "📤 Ulashish";
+                    },
+                    2500
+                );
+
+            }
+            catch{
+
+                alert(shareText);
+
+            }
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   OPEN
+========================================== */
+
+openButton.addEventListener(
+    "click",
+    ()=>{
+
+        const link =
+            generatedLink.textContent;
+
+        if(link){
+
+            window.open(
+                link,
+                "_blank"
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   DOWNLOAD QR
+========================================== */
+
+downloadQR.addEventListener(
+    "click",
+    ()=>{
+
+        const canvas =
+            qrcode.querySelector("canvas");
+
+        if(!canvas){
+
+            alert(
+                "QR kod hali tayyor emas."
+            );
+
+            return;
+        }
+
+        const link =
+            document.createElement("a");
+
+        link.download =
+            "safestream-qr.png";
+
+        link.href =
+            canvas.toDataURL(
+                "image/png"
+            );
+
+        link.click();
+
+    }
+);
+
+
+/* ==========================================
+   AUTH STATE
+========================================== */
+
+supabaseClient.auth
+.onAuthStateChange(
+    async (event,session)=>{
+
+        if(session){
+
+            await checkAdmin(
+                session.user
+            );
+
+        }
+        else{
+
+            showLogin();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
+   START
+========================================== */
+
+async function start(){
+
+    const {
+        data
+    } =
+    await supabaseClient.auth
+        .getSession();
+
+    if(data.session){
+
+        await checkAdmin(
+            data.session.user
         );
 
+    }
+    else{
 
-        document
-        .getElementById(
-            "videoInfo"
-        )
-        .textContent =
-            name +
-            " • ID: " +
-            videoId;
-
-
-        document
-        .getElementById("result")
-        .classList.add("show");
-
-
-        status.textContent =
-            "✅ Hammasi tayyor!";
-
+        showLogin();
 
     }
-    catch(error){
 
-        console.error(error);
-
-        status.textContent =
-            "❌ Xatolik yuz berdi.";
-
-        alert(
-            "Xatolik:\n\n" +
-            error.message
-        );
-
-    }
-    finally{
-
-        button.disabled=false;
-
-        button.textContent =
-            "⬆️ Videoni yuklash";
-    }
 }
 
-
-/* ================================
-   COPY
-================================ */
-
-async function copyLink(){
-
-    const input =
-        document
-        .getElementById(
-            "generatedLink"
-        );
-
-    try{
-
-        await navigator
-        .clipboard
-        .writeText(
-            input.value
-        );
-
-        alert("Link nusxalandi!");
-
-    }
-    catch(error){
-
-        input.select();
-
-        document.execCommand(
-            "copy"
-        );
-
-        alert("Link nusxalandi!");
-    }
-}
+start();
 
 </script>
 

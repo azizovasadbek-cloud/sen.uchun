@@ -1,323 +1,324 @@
 <!DOCTYPE html>
 <html lang="uz">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SafeStream</title>
 
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-
 
 <style>
 
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #080b12;
-    color: white;
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#080b12;
+    color:white;
 }
 
-.navbar {
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    background: #0d111b;
-    border-bottom: 1px solid #202636;
+.navbar{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+    background:#0d111b;
+    border-bottom:1px solid #202636;
 }
 
-.logo {
-    font-size: 22px;
-    font-weight: bold;
+.logo{
+    font-size:22px;
+    font-weight:bold;
 }
 
-.status {
-    color: #8da2c8;
-    font-size: 14px;
+.status{
+    color:#8da2c8;
+    font-size:14px;
 }
 
-.status-dot {
-    display: inline-block;
-    width: 9px;
-    height: 9px;
-    background: #22c55e;
-    border-radius: 50%;
-    margin-right: 6px;
+.status-dot{
+    display:inline-block;
+    width:9px;
+    height:9px;
+    background:#22c55e;
+    border-radius:50%;
+    margin-right:6px;
 }
 
-.container {
-    width: min(900px, 94%);
-    margin: 35px auto;
+.container{
+    width:min(900px,94%);
+    margin:35px auto;
 }
 
-.card {
-    background: #101621;
-    border: 1px solid #222b3d;
-    border-radius: 22px;
-    padding: 30px;
-    margin-bottom: 25px;
+.card{
+    background:#101621;
+    border:1px solid #222b3d;
+    border-radius:22px;
+    padding:30px;
+    margin-bottom:25px;
 }
 
-h1 {
-    margin-top: 0;
-    font-size: 32px;
+h1{
+    margin-top:0;
+    font-size:32px;
 }
 
-h2 {
-    margin-top: 0;
+h2{
+    margin-top:0;
 }
 
-h3 {
-    margin-bottom: 10px;
+.description{
+    color:#8994a8;
+    line-height:1.6;
 }
 
-.description {
-    color: #8994a8;
-    line-height: 1.6;
-}
-
-label {
-    display: block;
-    margin: 16px 0 8px;
-    color: #b9c3d6;
+label{
+    display:block;
+    margin:16px 0 8px;
+    color:#b9c3d6;
 }
 
 input[type="email"],
 input[type="password"],
 input[type="text"],
 input[type="number"],
-input[type="file"],
-select {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid #30394d;
-    background: #080c14;
-    color: white;
-    font-size: 15px;
+input[type="file"]{
+
+    width:100%;
+    padding:14px;
+
+    border-radius:12px;
+    border:1px solid #30394d;
+
+    background:#080c14;
+    color:white;
+
+    font-size:15px;
 }
 
-select {
-    cursor: pointer;
+button{
+    border:0;
+    border-radius:12px;
+
+    padding:14px 20px;
+
+    font-size:15px;
+    font-weight:bold;
+
+    cursor:pointer;
 }
 
-button {
-    border: 0;
-    border-radius: 12px;
-    padding: 14px 20px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
 }
 
-button:disabled {
-    opacity: .6;
-    cursor: not-allowed;
+.primary{
+    width:100%;
+    background:#2563eb;
+    color:white;
+    margin-top:18px;
 }
 
-.primary {
-    width: 100%;
-    background: #2563eb;
-    color: white;
-    margin-top: 18px;
+.secondary{
+    background:#202a3c;
+    color:white;
 }
 
-.secondary {
-    background: #202a3c;
-    color: white;
+.danger{
+    background:#7f1d1d;
+    color:white;
 }
 
-.danger {
-    background: #7f1d1d;
-    color: white;
+.hidden{
+    display:none !important;
 }
 
-.hidden {
-    display: none !important;
+.message{
+    margin-top:15px;
+    padding:14px;
+    border-radius:12px;
+
+    background:#172033;
+    color:#9eb2d7;
 }
 
-.message {
-    margin-top: 15px;
-    padding: 14px;
-    border-radius: 12px;
-    background: #172033;
-    color: #9eb2d7;
+.success{
+    background:#10281d;
+    color:#6ee7a1;
 }
 
-.success {
-    background: #10281d;
-    color: #6ee7a1;
+.error{
+    background:#32161a;
+    color:#ff8c97;
 }
 
-.error {
-    background: #32161a;
-    color: #ff8c97;
+.admin-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
 }
 
-.warning {
-    background: #302711;
-    color: #f5d77a;
+.admin-email{
+    color:#8da2c8;
+    font-size:13px;
 }
 
-.admin-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
+.progress{
+    height:8px;
+    background:#20283a;
+    border-radius:10px;
+
+    overflow:hidden;
+    margin-top:15px;
 }
 
-.admin-email {
-    color: #8da2c8;
-    font-size: 13px;
+.progress-bar{
+    width:0%;
+    height:100%;
+    background:#2563eb;
+    transition:width .2s;
 }
 
-.progress {
-    height: 8px;
-    background: #20283a;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 15px;
+.qr-box{
+    margin-top:25px;
+    text-align:center;
 }
 
-.progress-bar {
-    width: 0%;
-    height: 100%;
-    background: #2563eb;
-    transition: width .2s;
+#qrcode{
+    display:inline-block;
+    padding:15px;
+
+    background:white;
+    border-radius:15px;
 }
 
-.qr-box {
-    margin-top: 25px;
-    text-align: center;
+.link-box{
+    margin-top:15px;
+
+    word-break:break-all;
+
+    background:#080c14;
+    border:1px solid #30394d;
+
+    padding:14px;
+    border-radius:12px;
+
+    color:#9db4df;
 }
 
-#qrcode {
-    display: inline-block;
-    padding: 15px;
-    background: white;
-    border-radius: 15px;
+.code-box{
+    margin-top:20px;
+
+    padding:25px;
+
+    text-align:center;
+
+    background:#080c14;
+
+    border:1px solid #30394d;
+
+    border-radius:16px;
 }
 
-.link-box {
-    margin-top: 15px;
-    word-break: break-all;
-    background: #080c14;
-    border: 1px solid #30394d;
-    padding: 14px;
-    border-radius: 12px;
-    color: #9db4df;
+.access-code{
+    font-size:34px;
+    letter-spacing:8px;
+    font-weight:bold;
+
+    color:#60a5fa;
+
+    margin:15px 0;
 }
 
-.code-box {
-    margin-top: 15px;
-    padding: 20px;
-    text-align: center;
-    background: #080c14;
-    border: 1px solid #30394d;
-    border-radius: 15px;
+.expiry{
+    color:#8da2c8;
+    font-size:13px;
 }
 
-.access-code {
-    font-size: 32px;
-    font-weight: bold;
-    letter-spacing: 7px;
-    color: #60a5fa;
-    margin: 10px 0;
+.video-wrapper{
+    margin-top:20px;
 }
 
-.expiry {
-    color: #8da2c8;
-    font-size: 14px;
+video{
+    width:100%;
+    max-height:600px;
+
+    border-radius:16px;
+
+    background:black;
 }
 
-.video-wrapper {
-    margin-top: 20px;
+footer{
+    text-align:center;
+
+    padding:30px;
+
+    color:#667085;
+
+    font-size:13px;
 }
 
-video {
-    width: 100%;
-    max-height: 600px;
-    border-radius: 16px;
-    background: black;
+.small{
+    font-size:13px;
+
+    color:#77839a;
+
+    margin-top:8px;
 }
 
-footer {
-    text-align: center;
-    padding: 30px;
-    color: #667085;
-    font-size: 13px;
+.row{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
 }
 
-.small {
-    font-size: 13px;
-    color: #77839a;
-    margin-top: 8px;
+.row button{
+    flex:1;
 }
 
-.row {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
+.code-input{
+    text-align:center;
+
+    font-size:25px !important;
+
+    letter-spacing:5px;
+
+    font-weight:bold;
 }
 
-.row button {
-    flex: 1;
-}
+@media(max-width:600px){
 
-.info-box {
-    margin-top: 15px;
-    padding: 15px;
-    background: #0b1220;
-    border: 1px solid #26344d;
-    border-radius: 12px;
-    color: #9eb2d7;
-    line-height: 1.6;
-}
-
-@media(max-width:600px) {
-
-    .card {
-        padding: 22px;
+    .card{
+        padding:22px;
     }
 
-    h1 {
-        font-size: 27px;
+    h1{
+        font-size:27px;
     }
 
-    .admin-header {
-        align-items: flex-start;
-        flex-direction: column;
+    .admin-header{
+        align-items:flex-start;
+        flex-direction:column;
     }
 
-    .access-code {
-        font-size: 26px;
-        letter-spacing: 5px;
+    .access-code{
+        font-size:27px;
+        letter-spacing:5px;
     }
-
 }
 
 </style>
-
 </head>
 
-
 <body>
-
 
 <header class="navbar">
 
@@ -326,146 +327,155 @@ footer {
     </div>
 
     <div class="status">
-
         <span class="status-dot"></span>
-
         Secure
-
     </div>
 
 </header>
 
 
-
 <main class="container">
 
 
-<!-- ==================================================
+<!-- =========================
      PUBLIC VIDEO
-================================================== -->
+========================= -->
 
-<section
-    id="publicSection"
-    class="card"
->
+<section id="publicSection" class="card">
 
     <div class="small">
         🔒 Private video
     </div>
 
-
     <h1 id="publicTitle">
         SafeStream
     </h1>
 
-
-    <p
-        id="publicDescription"
-        class="description"
-    >
+    <p id="publicDescription" class="description">
         Bu video bir martalik kirish kodi bilan himoyalangan.
     </p>
 
 
+    <!-- CODE LOGIN -->
+
+    <div id="codeSection">
+
+        <h3>
+            🔑 Bir martalik kod
+        </h3>
+
+        <p class="description">
+            Videoni ko‘rish uchun sizga berilgan
+            8 xonali kodni kiriting.
+        </p>
+
+        <input
+            id="accessCodeInput"
+            class="code-input"
+            type="text"
+            inputmode="numeric"
+            maxlength="8"
+            placeholder="00000000">
+
+        <button
+            id="verifyCodeButton"
+            class="primary">
+
+            🔓 Videoni ochish
+
+        </button>
+
+        <div
+            id="codeMessage"
+            class="message hidden">
+        </div>
+
+    </div>
+
+
+    <!-- VIDEO -->
+
     <div
         id="videoArea"
-        class="video-wrapper hidden"
-    >
+        class="video-wrapper hidden">
 
         <video
             id="mainVideo"
             controls
             playsinline
-            preload="metadata"
-        ></video>
+            preload="metadata">
+        </video>
 
     </div>
 
 
     <div
         id="publicMessage"
-        class="message"
-    >
-        Video mavjud emas.
+        class="message hidden">
     </div>
 
 </section>
 
 
-
-<!-- ==================================================
+<!-- =========================
      LOGIN
-================================================== -->
+========================= -->
 
 <section
     id="loginSection"
-    class="card hidden"
->
+    class="card hidden">
 
     <h2>
         🔐 Admin Login
     </h2>
-
 
     <p class="description">
         SafeStream boshqaruv paneliga kirish uchun
         email va parolingizni kiriting.
     </p>
 
-
-    <label>
-        Email
-    </label>
-
+    <label>Email</label>
 
     <input
         id="loginEmail"
         type="email"
-        placeholder="admin@example.com"
-    >
+        placeholder="admin@example.com">
 
 
-    <label>
-        Parol
-    </label>
-
+    <label>Parol</label>
 
     <input
         id="loginPassword"
         type="password"
-        placeholder="Parolingiz"
-    >
+        placeholder="Parolingiz">
 
 
     <button
         id="loginButton"
-        class="primary"
-    >
+        class="primary">
+
         🔐 Kirish
+
     </button>
 
 
     <div
         id="loginMessage"
-        class="message hidden"
-    ></div>
+        class="message hidden">
+    </div>
 
 </section>
 
 
-
-<!-- ==================================================
+<!-- =========================
      ADMIN PANEL
-================================================== -->
+========================= -->
 
 <section
     id="adminSection"
-    class="card hidden"
->
-
+    class="card hidden">
 
     <div class="admin-header">
-
 
         <div>
 
@@ -473,34 +483,26 @@ footer {
                 🎬 Admin Panel
             </h2>
 
-
             <div
                 id="adminEmail"
-                class="admin-email"
-            ></div>
+                class="admin-email">
+            </div>
 
         </div>
 
 
         <button
             id="logoutButton"
-            class="danger"
-        >
-            🚪 Chiqish
-        </button>
+            class="danger">
 
+            🚪 Chiqish
+
+        </button>
 
     </div>
 
 
-
-    <hr
-        style="
-        border-color:#20283a;
-        margin:25px 0;
-        "
-    >
-
+    <hr style="border-color:#20283a;margin:25px 0;">
 
 
     <h3>
@@ -512,25 +514,20 @@ footer {
         Video nomi
     </label>
 
-
     <input
         id="videoName"
         type="text"
-        placeholder="Masalan: Tug'ilgan kun videosi"
-    >
-
+        placeholder="Masalan: Tug‘ilgan kun videosi">
 
 
     <label>
         Video fayli
     </label>
 
-
     <input
         id="videoFile"
         type="file"
-        accept="video/*"
-    >
+        accept="video/*">
 
 
     <div class="small">
@@ -538,110 +535,91 @@ footer {
     </div>
 
 
-
-    <!-- ==================================================
-         CODE EXPIRATION
-    ================================================== -->
-
     <label>
-        🔐 Kod amal qilish muddati
+        Kodning amal qilish vaqti
     </label>
 
+    <select
+        id="expiryMinutes"
+        style="
+        width:100%;
+        padding:14px;
+        border-radius:12px;
+        border:1px solid #30394d;
+        background:#080c14;
+        color:white;
+        font-size:15px;
+        ">
 
-    <select id="codeExpiry">
+        <option value="5">
+            5 daqiqa
+        </option>
 
         <option value="10">
             10 daqiqa
         </option>
 
-        <option value="30">
+        <option value="15">
+            15 daqiqa
+        </option>
+
+        <option value="30" selected>
             30 daqiqa
         </option>
 
-        <option value="60" selected>
+        <option value="60">
             1 soat
         </option>
 
-        <option value="180">
-            3 soat
-        </option>
-
-        <option value="360">
-            6 soat
-        </option>
-
-        <option value="720">
-            12 soat
+        <option value="120">
+            2 soat
         </option>
 
         <option value="1440">
-            1 kun
-        </option>
-
-        <option value="4320">
-            3 kun
-        </option>
-
-        <option value="10080">
-            7 kun
+            24 soat
         </option>
 
     </select>
 
 
-    <div class="small">
-        Kod video yuklangandan keyin darhol yaratiladi
-        va tanlangan muddatgacha amal qiladi.
-    </div>
-
-
-
     <button
         id="uploadButton"
-        class="primary"
-    >
-        ⬆️ Videoni yuklash
-    </button>
+        class="primary">
 
+        ⬆️ Videoni yuklash
+
+    </button>
 
 
     <div
         id="uploadProgress"
-        class="progress hidden"
-    >
+        class="progress hidden">
 
         <div
             id="progressBar"
-            class="progress-bar"
-        ></div>
+            class="progress-bar">
+        </div>
 
     </div>
 
 
-
     <div
         id="uploadMessage"
-        class="message hidden"
-    ></div>
+        class="message hidden">
+    </div>
 
 
-
-    <!-- ==================================================
-         GENERATED RESULT
-    ================================================== -->
+    <!-- RESULT -->
 
     <div
         id="resultBox"
-        class="hidden"
-    >
-
+        class="hidden">
 
         <hr
             style="
             border-color:#20283a;
             margin:30px 0;
-            "
-        >
+            ">
 
 
         <h3>
@@ -649,84 +627,61 @@ footer {
         </h3>
 
 
-        <div class="info-box">
-
-            Video uchun **bir martalik kirish kodi**
-            yaratildi.
-
-            QR kodni foydalanuvchiga yuborishingiz mumkin.
-
-        </div>
-
-
-
-        <!-- CODE -->
-
         <div class="code-box">
 
-            <div class="small">
+            <div>
                 🔑 Bir martalik kod
             </div>
 
-
             <div
                 id="generatedCode"
-                class="access-code"
-            >
-                --------
+                class="access-code">
             </div>
-
 
             <div
                 id="generatedExpiry"
-                class="expiry"
-            ></div>
+                class="expiry">
+            </div>
 
         </div>
 
 
-
-        <!-- LINK -->
-
         <div
             id="generatedLink"
-            class="link-box"
-        ></div>
-
+            class="link-box">
+        </div>
 
 
         <div class="row">
 
-
             <button
                 id="copyButton"
-                class="secondary"
-            >
+                class="secondary">
+
                 📋 Linkni nusxalash
+
             </button>
 
 
             <button
                 id="copyCodeButton"
-                class="secondary"
-            >
+                class="secondary">
+
                 🔑 Kodni nusxalash
+
             </button>
 
 
             <button
                 id="openVideoButton"
-                class="secondary"
-            >
-                ▶️ Ochish
-            </button>
+                class="secondary">
 
+                ▶️ Ochish
+
+            </button>
 
         </div>
 
-
-
-        <!-- QR -->
 
         <div class="qr-box">
 
@@ -734,55 +689,43 @@ footer {
                 📱 QR kod
             </p>
 
-
             <div id="qrcode"></div>
 
         </div>
 
-
     </div>
-
 
 </section>
 
 
-
-<!-- ==================================================
+<!-- =========================
      ADMIN ACCESS
-================================================== -->
+========================= -->
 
 <section
     id="adminAccessSection"
-    class="card"
->
-
+    class="card">
 
     <h3>
         🔐 Boshqaruv
     </h3>
 
-
     <p class="description">
-
         Video yuklash va bir martalik QR kod yaratish
         uchun administrator sifatida kiring.
-
     </p>
-
 
     <button
         id="adminAccessButton"
-        class="secondary"
-    >
-        Admin panelni ochish
-    </button>
+        class="secondary">
 
+        Admin panelni ochish
+
+    </button>
 
 </section>
 
-
 </main>
-
 
 
 <footer>
@@ -791,7 +734,6 @@ footer {
         SafeStream • Private & Secure
     </div>
 
-
     <div style="margin-top:8px;">
         Secure private video platform
     </div>
@@ -799,21 +741,17 @@ footer {
 </footer>
 
 
-
 <script>
 
-
-/* ==================================================
+/* ==========================================
    SUPABASE
-================================================== */
+========================================== */
 
 const SUPABASE_URL =
 "https://kvwcvlwpdsixpbftoalh.supabase.co";
 
-
 const SUPABASE_KEY =
 "sb_publishable_JyI5Zj_1ScRJ2-YEwdSDGg_eaTFvZuD";
-
 
 const supabaseClient =
 window.supabase.createClient(
@@ -822,300 +760,313 @@ window.supabase.createClient(
 );
 
 
-
-/* ==================================================
+/* ==========================================
    SETTINGS
-================================================== */
+========================================== */
 
 const MAX_FILE_SIZE =
 50 * 1024 * 1024;
-
 
 const ADMIN_EMAIL =
 "azizovasadbek@icloud.com";
 
 
-
-/* ==================================================
+/* ==========================================
    ELEMENTS
-================================================== */
-
-const publicSection =
-document.getElementById(
-    "publicSection"
-);
-
+========================================== */
 
 const loginSection =
-document.getElementById(
-    "loginSection"
-);
-
+document.getElementById("loginSection");
 
 const adminSection =
-document.getElementById(
-    "adminSection"
-);
-
+document.getElementById("adminSection");
 
 const adminAccessSection =
-document.getElementById(
-    "adminAccessSection"
-);
-
+document.getElementById("adminAccessSection");
 
 const loginEmail =
-document.getElementById(
-    "loginEmail"
-);
-
+document.getElementById("loginEmail");
 
 const loginPassword =
-document.getElementById(
-    "loginPassword"
-);
-
+document.getElementById("loginPassword");
 
 const loginButton =
-document.getElementById(
-    "loginButton"
-);
-
+document.getElementById("loginButton");
 
 const loginMessage =
-document.getElementById(
-    "loginMessage"
-);
-
+document.getElementById("loginMessage");
 
 const adminAccessButton =
-document.getElementById(
-    "adminAccessButton"
-);
-
+document.getElementById("adminAccessButton");
 
 const logoutButton =
-document.getElementById(
-    "logoutButton"
-);
-
+document.getElementById("logoutButton");
 
 const adminEmail =
-document.getElementById(
-    "adminEmail"
-);
-
+document.getElementById("adminEmail");
 
 const videoName =
-document.getElementById(
-    "videoName"
-);
-
+document.getElementById("videoName");
 
 const videoFile =
-document.getElementById(
-    "videoFile"
-);
+document.getElementById("videoFile");
 
-
-const codeExpiry =
-document.getElementById(
-    "codeExpiry"
-);
-
+const expiryMinutes =
+document.getElementById("expiryMinutes");
 
 const uploadButton =
-document.getElementById(
-    "uploadButton"
-);
-
+document.getElementById("uploadButton");
 
 const uploadMessage =
-document.getElementById(
-    "uploadMessage"
-);
-
+document.getElementById("uploadMessage");
 
 const uploadProgress =
-document.getElementById(
-    "uploadProgress"
-);
-
+document.getElementById("uploadProgress");
 
 const progressBar =
-document.getElementById(
-    "progressBar"
-);
-
+document.getElementById("progressBar");
 
 const resultBox =
-document.getElementById(
-    "resultBox"
-);
-
-
-const generatedLink =
-document.getElementById(
-    "generatedLink"
-);
-
+document.getElementById("resultBox");
 
 const generatedCode =
-document.getElementById(
-    "generatedCode"
-);
-
+document.getElementById("generatedCode");
 
 const generatedExpiry =
-document.getElementById(
-    "generatedExpiry"
-);
+document.getElementById("generatedExpiry");
 
+const generatedLink =
+document.getElementById("generatedLink");
 
-const qrcode =
-document.getElementById(
-    "qrcode"
-);
-
+const generatedQRCode =
+document.getElementById("qrcode");
 
 const copyButton =
-document.getElementById(
-    "copyButton"
-);
-
+document.getElementById("copyButton");
 
 const copyCodeButton =
-document.getElementById(
-    "copyCodeButton"
-);
-
+document.getElementById("copyCodeButton");
 
 const openVideoButton =
-document.getElementById(
-    "openVideoButton"
-);
-
-
-const mainVideo =
-document.getElementById(
-    "mainVideo"
-);
-
+document.getElementById("openVideoButton");
 
 const publicTitle =
-document.getElementById(
-    "publicTitle"
-);
-
+document.getElementById("publicTitle");
 
 const publicMessage =
-document.getElementById(
-    "publicMessage"
-);
+document.getElementById("publicMessage");
+
+const codeSection =
+document.getElementById("codeSection");
+
+const accessCodeInput =
+document.getElementById("accessCodeInput");
+
+const verifyCodeButton =
+document.getElementById("verifyCodeButton");
+
+const codeMessage =
+document.getElementById("codeMessage");
+
+const videoArea =
+document.getElementById("videoArea");
+
+const mainVideo =
+document.getElementById("mainVideo");
 
 
-
-/* ==================================================
-   URL PARAMS
-================================================== */
+/* ==========================================
+   VIDEO ID
+========================================== */
 
 const params =
 new URLSearchParams(
     window.location.search
 );
 
-
 const videoId =
 params.get("video");
 
 
-const accessCode =
-params.get("code");
-
-
-
-/* ==================================================
+/* ==========================================
    MESSAGE
-================================================== */
+========================================== */
 
 function showMessage(
     element,
     text,
-    type = ""
+    type=""
 ){
 
     element.textContent =
         text;
 
-
     element.className =
         "message " + type;
-
 
     element.classList.remove(
         "hidden"
     );
+}
+
+
+/* ==========================================
+   RANDOM 8 DIGIT CODE
+========================================== */
+
+function generateAccessCode(){
+
+    const array =
+        new Uint32Array(1);
+
+    crypto.getRandomValues(array);
+
+    return String(
+        array[0] % 100000000
+    ).padStart(8,"0");
+}
+
+
+/* ==========================================
+   FORMAT DATE
+========================================== */
+
+function formatDate(date){
+
+    return new Intl.DateTimeFormat(
+        "uz-UZ",
+        {
+            dateStyle:"medium",
+            timeStyle:"short"
+        }
+    ).format(date);
 
 }
 
 
-
-/* ==================================================
-   LOAD PUBLIC VIDEO
-================================================== */
+/* ==========================================
+   LOAD VIDEO INFO
+========================================== */
 
 async function loadPublicVideo(){
 
-    /*
-       Oddiy sayt ochilsa
-       video ko'rsatilmaydi.
-    */
-
     if(!videoId){
 
-        publicMessage.textContent =
-            "Video mavjud emas.";
-
-        return;
-
-    }
-
-
-
-    /*
-       Kod bo'lmasa
-       video ochilmaydi.
-    */
-
-    if(!accessCode){
-
-        showMessage(
-            publicMessage,
-            "🔐 Bu video uchun bir martalik kirish kodi kerak.",
-            "warning"
+        codeSection.classList.add(
+            "hidden"
         );
 
         return;
-
     }
-
 
 
     try{
 
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+        .from("videos")
+        .select(
+            "id,title"
+        )
+        .eq(
+            "id",
+            videoId
+        )
+        .maybeSingle();
 
-        /*
-           MUHIM:
 
-           RPC kodni tekshiradi.
+        if(error){
 
-           Agar kod:
-           - noto'g'ri bo'lsa
-           - muddati o'tgan bo'lsa
-           - oldin ishlatilgan bo'lsa
+            throw error;
 
-           hech qanday video qaytmaydi.
-        */
+        }
+
+
+        if(!data){
+
+            showMessage(
+                publicMessage,
+                "Bu video mavjud emas.",
+                "error"
+            );
+
+            codeSection.classList.add(
+                "hidden"
+            );
+
+            return;
+        }
+
+
+        publicTitle.textContent =
+            data.title || "Video";
+
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        showMessage(
+            publicMessage,
+            "Video ma'lumotlari yuklanmadi.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   VERIFY CODE
+========================================== */
+
+verifyCodeButton.addEventListener(
+"click",
+async ()=>{
+
+    const code =
+        accessCodeInput
+        .value
+        .trim();
+
+
+    if(!videoId){
+
+        showMessage(
+            codeMessage,
+            "Video ID topilmadi.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    if(!/^\d{8}$/.test(code)){
+
+        showMessage(
+            codeMessage,
+            "8 xonali kodni kiriting.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    verifyCodeButton.disabled =
+        true;
+
+    verifyCodeButton.textContent =
+        "⏳ Tekshirilmoqda...";
+
+
+    try{
 
         const {
             data,
@@ -1123,13 +1074,10 @@ async function loadPublicVideo(){
         } =
         await supabaseClient
         .rpc(
-            "consume_video_access_code",
+            "verify_video_access_code",
             {
-                p_video_id:
-                    videoId,
-
-                p_access_code:
-                    accessCode
+                p_video_id:videoId,
+                p_code:code
             }
         );
 
@@ -1141,36 +1089,24 @@ async function loadPublicVideo(){
         }
 
 
-
-        /*
-           Kod yaroqsiz.
-        */
-
-        if(
-            !data ||
-            data.length === 0
-        ){
+        if(!data || !data.success){
 
             showMessage(
-                publicMessage,
-                "❌ Kod noto'g'ri, muddati tugagan yoki allaqachon ishlatilgan.",
+                codeMessage,
+                data?.message ||
+                "Kod qabul qilinmadi.",
                 "error"
             );
 
             return;
-
         }
 
 
-
-        const video =
-            data[0];
-
-
-
         /*
-           Storage public URL.
+           KOD MUVAFFAQIYATLI.
+           U bazada allaqachon USED bo'ldi.
         */
+
 
         const {
             data: publicData
@@ -1179,9 +1115,8 @@ async function loadPublicVideo(){
         .storage
         .from("videos")
         .getPublicUrl(
-            video.file_path
+            data.file_path
         );
-
 
 
         if(
@@ -1190,17 +1125,10 @@ async function loadPublicVideo(){
         ){
 
             throw new Error(
-                "Video URL olinmadi."
+                "Video manzili olinmadi."
             );
 
         }
-
-
-
-        publicTitle.textContent =
-            video.title ||
-            "Video";
-
 
 
         mainVideo.src =
@@ -1210,14 +1138,14 @@ async function loadPublicVideo(){
         mainVideo.load();
 
 
+        codeSection.classList.add(
+            "hidden"
+        );
 
-        document
-        .getElementById(
-            "videoArea"
-        )
-        .classList
-        .remove("hidden");
 
+        videoArea.classList.remove(
+            "hidden"
+        );
 
 
         publicMessage.classList.add(
@@ -1225,27 +1153,8 @@ async function loadPublicVideo(){
         );
 
 
-
-        /*
-           URL'dagi kodni tarixdan yashiramiz.
-
-           Lekin video ID ham qoladi.
-        */
-
-        try{
-
-            window.history.replaceState(
-                {},
-                document.title,
-                window.location.pathname
-            );
-
-        }
-        catch(e){
-
-            console.log(e);
-
-        }
+        publicDescription.textContent =
+            "Video ochildi.";
 
 
     }
@@ -1253,32 +1162,38 @@ async function loadPublicVideo(){
 
         console.error(error);
 
-
         showMessage(
-            publicMessage,
-            "Video ochilmadi: " +
+            codeMessage,
+            "Xatolik: " +
             error.message,
             "error"
         );
 
     }
+    finally{
 
-}
+        verifyCodeButton.disabled =
+            false;
+
+        verifyCodeButton.textContent =
+            "🔓 Videoni ochish";
+
+    }
+
+});
 
 
-
-/* ==================================================
+/* ==========================================
    ADMIN ACCESS
-================================================== */
+========================================== */
 
 adminAccessButton.addEventListener(
 "click",
 ()=>{
 
-    loginSection
-        .classList
-        .remove("hidden");
-
+    loginSection.classList.remove(
+        "hidden"
+    );
 
     loginSection.scrollIntoView({
         behavior:"smooth"
@@ -1287,10 +1202,9 @@ adminAccessButton.addEventListener(
 });
 
 
-
-/* ==================================================
+/* ==========================================
    LOGIN
-================================================== */
+========================================== */
 
 loginButton.addEventListener(
 "click",
@@ -1299,16 +1213,11 @@ async ()=>{
     const email =
         loginEmail.value.trim();
 
-
     const password =
         loginPassword.value;
 
 
-
-    if(
-        !email ||
-        !password
-    ){
+    if(!email || !password){
 
         showMessage(
             loginMessage,
@@ -1317,22 +1226,17 @@ async ()=>{
         );
 
         return;
-
     }
-
 
 
     loginButton.disabled =
         true;
 
-
     loginButton.textContent =
         "⏳ Kirilmoqda...";
 
 
-
     try{
-
 
         const {
             data,
@@ -1341,15 +1245,9 @@ async ()=>{
         await supabaseClient
         .auth
         .signInWithPassword({
-
-            email:
-                email,
-
-            password:
-                password
-
+            email,
+            password
         });
-
 
 
         if(error){
@@ -1357,7 +1255,6 @@ async ()=>{
             throw error;
 
         }
-
 
 
         await handleUser(
@@ -1369,7 +1266,6 @@ async ()=>{
     catch(error){
 
         console.error(error);
-
 
         showMessage(
             loginMessage,
@@ -1383,7 +1279,6 @@ async ()=>{
         loginButton.disabled =
             false;
 
-
         loginButton.textContent =
             "🔐 Kirish";
 
@@ -1392,14 +1287,11 @@ async ()=>{
 });
 
 
+/* ==========================================
+   USER
+========================================== */
 
-/* ==================================================
-   HANDLE USER
-================================================== */
-
-async function handleUser(
-    user
-){
+async function handleUser(user){
 
     if(!user){
 
@@ -1410,15 +1302,9 @@ async function handleUser(
     }
 
 
-
     const email =
         user.email?.toLowerCase();
 
-
-
-    /*
-       Faqat admin.
-    */
 
     if(
         email !==
@@ -1429,34 +1315,28 @@ async function handleUser(
             .auth
             .signOut();
 
-
         showMessage(
             loginMessage,
             "Bu hisob administrator emas.",
             "error"
         );
 
-
         return;
 
     }
 
 
+    loginSection.classList.add(
+        "hidden"
+    );
 
-    loginSection
-        .classList
-        .add("hidden");
+    adminAccessSection.classList.add(
+        "hidden"
+    );
 
-
-    adminAccessSection
-        .classList
-        .add("hidden");
-
-
-    adminSection
-        .classList
-        .remove("hidden");
-
+    adminSection.classList.remove(
+        "hidden"
+    );
 
     adminEmail.textContent =
         "👤 " + user.email;
@@ -1469,29 +1349,26 @@ async function handleUser(
 }
 
 
-
-/* ==================================================
+/* ==========================================
    SHOW LOGIN
-================================================== */
+========================================== */
 
 function showLogin(){
 
-    adminSection
-        .classList
-        .add("hidden");
+    adminSection.classList.add(
+        "hidden"
+    );
 
-
-    adminAccessSection
-        .classList
-        .remove("hidden");
+    adminAccessSection.classList.remove(
+        "hidden"
+    );
 
 }
 
 
-
-/* ==================================================
+/* ==========================================
    LOGOUT
-================================================== */
+========================================== */
 
 logoutButton.addEventListener(
 "click",
@@ -1501,76 +1378,39 @@ async ()=>{
         .auth
         .signOut();
 
+    adminSection.classList.add(
+        "hidden"
+    );
 
-    adminSection
-        .classList
-        .add("hidden");
+    adminAccessSection.classList.remove(
+        "hidden"
+    );
 
-
-    adminAccessSection
-        .classList
-        .remove("hidden");
-
-
-    loginSection
-        .classList
-        .add("hidden");
+    loginSection.classList.add(
+        "hidden"
+    );
 
 });
 
 
-
-/* ==================================================
-   FORMAT EXPIRY
-================================================== */
-
-function formatExpiry(
-    expiresAt
-){
-
-    const date =
-        new Date(
-            expiresAt
-        );
-
-
-    return date.toLocaleString(
-        "uz-UZ",
-        {
-            year:"numeric",
-            month:"2-digit",
-            day:"2-digit",
-            hour:"2-digit",
-            minute:"2-digit"
-        }
-    );
-
-}
-
-
-
-/* ==================================================
+/* ==========================================
    UPLOAD
-================================================== */
+========================================== */
 
 uploadButton.addEventListener(
 "click",
 async ()=>{
 
-
     const title =
         videoName.value.trim();
-
 
     const file =
         videoFile.files[0];
 
-
-    const expiryMinutes =
+    const minutes =
         Number(
-            codeExpiry.value
+            expiryMinutes.value
         );
-
 
 
     if(!title){
@@ -1586,7 +1426,6 @@ async ()=>{
     }
 
 
-
     if(!file){
 
         showMessage(
@@ -1600,15 +1439,11 @@ async ()=>{
     }
 
 
-
-    if(
-        file.size >
-        MAX_FILE_SIZE
-    ){
+    if(file.size > MAX_FILE_SIZE){
 
         showMessage(
             uploadMessage,
-            "Video 50 MB dan katta. Kichikroq video tanlang.",
+            "Video 50 MB dan katta.",
             "error"
         );
 
@@ -1616,39 +1451,15 @@ async ()=>{
 
     }
 
-
-
-    if(
-        !expiryMinutes ||
-        expiryMinutes < 1 ||
-        expiryMinutes > 10080
-    ){
-
-        showMessage(
-            uploadMessage,
-            "Kod amal qilish muddatini tanlang.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-
-    /*
-       LOGIN TEKSHIRISH
-    */
 
     const {
-        data: {
+        data:{
             user
         }
     } =
     await supabaseClient
     .auth
     .getUser();
-
 
 
     if(!user){
@@ -1664,118 +1475,80 @@ async ()=>{
     }
 
 
-
-    if(
-        user.email?.toLowerCase()
-        !==
-        ADMIN_EMAIL.toLowerCase()
-    ){
-
-        showMessage(
-            uploadMessage,
-            "Siz administrator emassiz.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-
     uploadButton.disabled =
         true;
-
 
     uploadButton.textContent =
         "⏳ Yuklanmoqda...";
 
 
-    uploadProgress
-        .classList
-        .remove("hidden");
-
+    uploadProgress.classList.remove(
+        "hidden"
+    );
 
     progressBar.style.width =
-        "10%";
-
-
-
-    /*
-       Eski natijani tozalash
-    */
-
-    resultBox
-        .classList
-        .add("hidden");
-
-
-    generatedCode.textContent =
-        "--------";
-
-
-    qrcode.innerHTML =
-        "";
-
+        "15%";
 
 
     try{
 
-
-        /* ==========================================
-           1. UUID
-        ========================================== */
+        /*
+           VIDEO ID
+        */
 
         const id =
             crypto.randomUUID();
 
 
+        /*
+           BIR MARTALIK KOD
+        */
 
-        /* ==========================================
-           2. EXTENSION
-        ========================================== */
+        const accessCode =
+            generateAccessCode();
+
+
+        /*
+           KODNING MUDDATI
+        */
+
+        const expiresAt =
+            new Date(
+                Date.now() +
+                minutes * 60 * 1000
+            );
+
+
+        /*
+           EXTENSION
+        */
 
         const originalName =
             file.name;
 
-
         const extension =
             originalName.includes(".")
-            ?
-            originalName
+            ? originalName
                 .split(".")
                 .pop()
                 .toLowerCase()
-            :
-            "mp4";
+            : "mp4";
 
-
-
-        /*
-           UUID + extension
-
-           Masalan:
-           2d8...-123.mp4
-        */
 
         const filePath =
-            id +
-            "." +
-            extension;
-
+            id + "." + extension;
 
 
         progressBar.style.width =
-            "30%";
+            "35%";
 
 
-
-        /* ==========================================
-           3. STORAGE UPLOAD
-        ========================================== */
+        /*
+           STORAGE
+        */
 
         const {
-            error: storageError
+            error:storageError
         } =
         await supabaseClient
         .storage
@@ -1793,7 +1566,6 @@ async ()=>{
         );
 
 
-
         if(storageError){
 
             throw storageError;
@@ -1801,42 +1573,38 @@ async ()=>{
         }
 
 
-
         progressBar.style.width =
-            "60%";
+            "70%";
 
 
-
-        /* ==========================================
-           4. DATABASE
-        ========================================== */
+        /*
+           DATABASE
+        */
 
         const {
-            error: databaseError
+            error:databaseError
         } =
         await supabaseClient
         .from("videos")
         .insert({
 
-            id:
-                id,
+            id:id,
 
-            title:
-                title,
+            title:title,
 
-            file_path:
-                filePath
+            file_path:filePath,
+
+            access_code:accessCode,
+
+            access_code_expires_at:
+                expiresAt.toISOString(),
+
+            access_code_used:false
 
         });
 
 
-
         if(databaseError){
-
-            /*
-               Database xato bo'lsa
-               storage faylini o'chirish.
-            */
 
             await supabaseClient
                 .storage
@@ -1844,188 +1612,75 @@ async ()=>{
                 .remove([
                     filePath
                 ]);
-
 
             throw databaseError;
 
         }
 
 
-
         progressBar.style.width =
-            "75%";
+            "100%";
 
 
-
-        /* ==========================================
-           5. ONE-TIME CODE YARATISH
-        ========================================== */
-
-        const {
-            data: codeData,
-            error: codeError
-        } =
-        await supabaseClient
-        .rpc(
-            "create_video_access_code",
-            {
-
-                p_video_id:
-                    id,
-
-                p_expires_in_minutes:
-                    expiryMinutes
-
-            }
-        );
-
-
-
-        if(codeError){
-
-            /*
-               Kod yaratishda xato bo'lsa
-               video va database yozuvini
-               o'chiramiz.
-            */
-
-            await supabaseClient
-                .from("videos")
-                .delete()
-                .eq(
-                    "id",
-                    id
-                );
-
-
-            await supabaseClient
-                .storage
-                .from("videos")
-                .remove([
-                    filePath
-                ]);
-
-
-            throw codeError;
-
-        }
-
-
-
-        if(
-            !codeData ||
-            !codeData.code
-        ){
-
-            throw new Error(
-                "Kirish kodi yaratilmadi."
-            );
-
-        }
-
-
-
-        const oneTimeCode =
-            codeData.code;
-
-
-        const expiresAt =
-            codeData.expires_at;
-
-
-
-        progressBar.style.width =
-            "90%";
-
-
-
-        /* ==========================================
-           6. VIDEO LINK
-        ========================================== */
+        /*
+           LINK
+        */
 
         const videoUrl =
             window.location.origin +
             window.location.pathname +
             "?video=" +
-            encodeURIComponent(id) +
-            "&code=" +
-            encodeURIComponent(
-                oneTimeCode
-            );
-
-
-
-        /* ==========================================
-           7. NATIJA
-        ========================================== */
-
-        generatedCode.textContent =
-            oneTimeCode;
-
-
-        generatedExpiry.textContent =
-            "Amal qilish muddati: " +
-            formatExpiry(
-                expiresAt
-            );
+            encodeURIComponent(id);
 
 
         generatedLink.textContent =
             videoUrl;
 
 
+        /*
+           CODE
+        */
 
-        /* ==========================================
-           8. QR CODE
-        ========================================== */
+        generatedCode.textContent =
+            accessCode;
 
-        qrcode.innerHTML =
+
+        generatedExpiry.textContent =
+            "Amal qilish muddati: " +
+            formatDate(expiresAt);
+
+
+        /*
+           QR
+        */
+
+        generatedQRCode.innerHTML =
             "";
 
 
         new QRCode(
-            qrcode,
+            generatedQRCode,
             {
-
-                text:
-                    videoUrl,
-
-                width:
-                    260,
-
-                height:
-                    260,
-
+                text:videoUrl,
+                width:260,
+                height:260,
                 correctLevel:
                     QRCode.CorrectLevel.H
-
             }
         );
 
 
-
-        progressBar.style.width =
-            "100%";
-
-
-
-        resultBox
-            .classList
-            .remove("hidden");
-
+        resultBox.classList.remove(
+            "hidden"
+        );
 
 
         showMessage(
             uploadMessage,
-            "✅ Video yuklandi va bir martalik kod yaratildi!",
+            "Video muvaffaqiyatli yuklandi. Bir martalik kod yaratildi!",
             "success"
         );
 
-
-
-        /*
-           Formani tozalash.
-        */
 
         videoName.value =
             "";
@@ -2034,19 +1689,16 @@ async ()=>{
             "";
 
 
-
         resultBox.scrollIntoView({
             behavior:"smooth",
             block:"center"
         });
 
 
-
     }
     catch(error){
 
         console.error(error);
-
 
         showMessage(
             uploadMessage,
@@ -2061,7 +1713,6 @@ async ()=>{
         uploadButton.disabled =
             false;
 
-
         uploadButton.textContent =
             "⬆️ Videoni yuklash";
 
@@ -2069,10 +1720,9 @@ async ()=>{
         setTimeout(
             ()=>{
 
-                uploadProgress
-                    .classList
-                    .add("hidden");
-
+                uploadProgress.classList.add(
+                    "hidden"
+                );
 
                 progressBar.style.width =
                     "0%";
@@ -2086,35 +1736,23 @@ async ()=>{
 });
 
 
-
-/* ==================================================
+/* ==========================================
    COPY LINK
-================================================== */
+========================================== */
 
 copyButton.addEventListener(
 "click",
 async ()=>{
 
-
     const link =
         generatedLink.textContent;
-
-
-    if(!link){
-
-        return;
-
-    }
-
 
 
     try{
 
         await navigator
             .clipboard
-            .writeText(
-                link
-            );
+            .writeText(link);
 
 
         copyButton.textContent =
@@ -2136,7 +1774,7 @@ async ()=>{
     catch(error){
 
         alert(
-            "Linkni qo'lda nusxalang."
+            "Linkni qo‘lda nusxalang."
         );
 
     }
@@ -2144,38 +1782,23 @@ async ()=>{
 });
 
 
-
-/* ==================================================
+/* ==========================================
    COPY CODE
-================================================== */
+========================================== */
 
 copyCodeButton.addEventListener(
 "click",
 async ()=>{
 
-
     const code =
         generatedCode.textContent;
-
-
-    if(
-        !code ||
-        code === "--------"
-    ){
-
-        return;
-
-    }
-
 
 
     try{
 
         await navigator
             .clipboard
-            .writeText(
-                code
-            );
+            .writeText(code);
 
 
         copyCodeButton.textContent =
@@ -2192,12 +1815,11 @@ async ()=>{
             2000
         );
 
-
     }
     catch(error){
 
         alert(
-            "Kodni qo'lda nusxalang."
+            "Kodni qo‘lda nusxalang."
         );
 
     }
@@ -2205,15 +1827,13 @@ async ()=>{
 });
 
 
-
-/* ==================================================
+/* ==========================================
    OPEN VIDEO
-================================================== */
+========================================== */
 
 openVideoButton.addEventListener(
 "click",
 ()=>{
-
 
     const link =
         generatedLink.textContent;
@@ -2231,16 +1851,14 @@ openVideoButton.addEventListener(
 });
 
 
-
-/* ==================================================
-   AUTH STATE
-================================================== */
+/* ==========================================
+   AUTH
+========================================== */
 
 supabaseClient
 .auth
 .onAuthStateChange(
-(event, session)=>{
-
+(event,session)=>{
 
     if(session){
 
@@ -2258,40 +1876,27 @@ supabaseClient
 });
 
 
-
 function showLoginState(){
 
-    adminSection
-        .classList
-        .add("hidden");
+    adminSection.classList.add(
+        "hidden"
+    );
 
-
-    adminAccessSection
-        .classList
-        .remove("hidden");
+    adminAccessSection.classList.remove(
+        "hidden"
+    );
 
 }
 
 
-
-/* ==================================================
+/* ==========================================
    START
-================================================== */
+========================================== */
 
 async function start(){
 
-    /*
-       Public video bo'lsa
-       kodni tekshirish.
-    */
-
     await loadPublicVideo();
 
-
-
-    /*
-       Admin session.
-    */
 
     const {
         data
@@ -2301,11 +1906,7 @@ async function start(){
     .getSession();
 
 
-
-    if(
-        data &&
-        data.session
-    ){
+    if(data.session){
 
         await handleUser(
             data.session.user
@@ -2321,5 +1922,4 @@ start();
 </script>
 
 </body>
-
 </html>

@@ -419,11 +419,8 @@ footer{
 <header class="navbar">
 
     <div class="logo">
-
         🎬 SafeStream
-
     </div>
-
 
     <div class="status">
 
@@ -450,16 +447,12 @@ footer{
 >
 
     <div class="small">
-
         🔒 Private video
-
     </div>
 
 
     <h1 id="publicTitle">
-
         SafeStream
-
     </h1>
 
 
@@ -467,30 +460,27 @@ footer{
         id="publicDescription"
         class="description"
     >
-
-        Bu video bir martalik kirish kodi bilan
-        himoyalangan.
-
+        Video havolasini oching yoki QR kod orqali
+        shu sahifaga kiring.
     </p>
 
 
 
-    <!-- CODE -->
+    <!-- ACCESS CODE -->
 
-    <div id="codeSection">
+    <div
+        id="codeSection"
+        class="hidden"
+    >
 
         <h3>
-
             🔑 Bir martalik kod
-
         </h3>
 
 
         <p class="description">
-
             Videoni ko‘rish uchun sizga berilgan
             8 xonali kodni kiriting.
-
         </p>
 
 
@@ -500,6 +490,7 @@ footer{
             type="text"
             inputmode="numeric"
             maxlength="8"
+            autocomplete="one-time-code"
             placeholder="00000000"
         >
 
@@ -508,9 +499,7 @@ footer{
             id="verifyCodeButton"
             class="primary"
         >
-
             🔓 Videoni ochish
-
         </button>
 
 
@@ -559,24 +548,18 @@ footer{
 >
 
     <h2>
-
         🔐 Admin Login
-
     </h2>
 
 
     <p class="description">
-
         SafeStream boshqaruv paneliga kirish uchun
         email va parolingizni kiriting.
-
     </p>
 
 
     <label>
-
         Email
-
     </label>
 
 
@@ -588,9 +571,7 @@ footer{
 
 
     <label>
-
         Parol
-
     </label>
 
 
@@ -605,9 +586,7 @@ footer{
         id="loginButton"
         class="primary"
     >
-
         🔐 Kirish
-
     </button>
 
 
@@ -621,7 +600,7 @@ footer{
 
 
 <!-- ======================================
-     ADMIN
+     ADMIN PANEL
 ====================================== -->
 
 <section
@@ -632,15 +611,11 @@ footer{
 
     <div class="admin-header">
 
-
         <div>
 
             <h2>
-
                 🎬 Admin Panel
-
             </h2>
-
 
             <div
                 id="adminEmail"
@@ -654,11 +629,8 @@ footer{
             id="logoutButton"
             class="danger"
         >
-
             🚪 Chiqish
-
         </button>
-
 
     </div>
 
@@ -672,19 +644,13 @@ footer{
     >
 
 
-
     <h3>
-
         Yangi video yuklash
-
     </h3>
 
 
-
     <label>
-
         Video nomi
-
     </label>
 
 
@@ -695,11 +661,8 @@ footer{
     >
 
 
-
     <label>
-
         Video fayli
-
     </label>
 
 
@@ -711,86 +674,54 @@ footer{
 
 
     <div class="small">
-
         Maksimal hajm: <b>50 MB</b>
-
     </div>
 
 
-
     <label>
-
         Kodning amal qilish vaqti
-
     </label>
 
 
     <select id="expiryMinutes">
 
         <option value="5">
-
             5 daqiqa
-
         </option>
-
 
         <option value="10">
-
             10 daqiqa
-
         </option>
-
 
         <option value="15">
-
             15 daqiqa
-
         </option>
 
-
-        <option
-            value="30"
-            selected
-        >
-
+        <option value="30" selected>
             30 daqiqa
-
         </option>
-
 
         <option value="60">
-
             1 soat
-
         </option>
-
 
         <option value="120">
-
             2 soat
-
         </option>
 
-
         <option value="1440">
-
             24 soat
-
         </option>
 
     </select>
-
 
 
     <button
         id="uploadButton"
         class="primary"
     >
-
         ⬆️ Videoni yuklash
-
     </button>
-
 
 
     <div
@@ -804,7 +735,6 @@ footer{
         ></div>
 
     </div>
-
 
 
     <div
@@ -821,7 +751,6 @@ footer{
         class="hidden"
     >
 
-
         <hr
             style="
             border-color:#20283a;
@@ -831,19 +760,14 @@ footer{
 
 
         <h3>
-
             ✅ Video tayyor!
-
         </h3>
-
 
 
         <div class="code-box">
 
             <div>
-
                 🔑 Bir martalik kod
-
             </div>
 
 
@@ -861,24 +785,19 @@ footer{
         </div>
 
 
-
         <div
             id="generatedLink"
             class="link-box"
         ></div>
 
 
-
         <div class="row">
-
 
             <button
                 id="copyButton"
                 class="secondary"
             >
-
                 📋 Linkni nusxalash
-
             </button>
 
 
@@ -886,9 +805,7 @@ footer{
                 id="copyCodeButton"
                 class="secondary"
             >
-
                 🔑 Kodni nusxalash
-
             </button>
 
 
@@ -896,32 +813,23 @@ footer{
                 id="openVideoButton"
                 class="secondary"
             >
-
                 ▶️ Ochish
-
             </button>
 
-
         </div>
-
 
 
         <div class="qr-box">
 
             <p>
-
                 📱 QR kod
-
             </p>
-
 
             <div id="qrcode"></div>
 
         </div>
 
-
     </div>
-
 
 </section>
 
@@ -937,17 +845,13 @@ footer{
 >
 
     <h3>
-
         🔐 Boshqaruv
-
     </h3>
 
 
     <p class="description">
-
         Video yuklash va bir martalik QR kod yaratish
         uchun administrator sifatida kiring.
-
     </p>
 
 
@@ -955,9 +859,7 @@ footer{
         id="adminAccessButton"
         class="secondary"
     >
-
         Admin panelni ochish
-
     </button>
 
 </section>
@@ -970,16 +872,12 @@ footer{
 <footer>
 
     <div>
-
         SafeStream • Private & Secure
-
     </div>
 
 
     <div style="margin-top:8px;">
-
         Secure private video platform
-
     </div>
 
 </footer>
@@ -1027,207 +925,106 @@ const ADMIN_EMAIL =
 ========================================== */
 
 const loginSection =
-document.getElementById(
-    "loginSection"
-);
-
+document.getElementById("loginSection");
 
 const adminSection =
-document.getElementById(
-    "adminSection"
-);
-
+document.getElementById("adminSection");
 
 const adminAccessSection =
-document.getElementById(
-    "adminAccessSection"
-);
-
+document.getElementById("adminAccessSection");
 
 const loginEmail =
-document.getElementById(
-    "loginEmail"
-);
-
+document.getElementById("loginEmail");
 
 const loginPassword =
-document.getElementById(
-    "loginPassword"
-);
-
+document.getElementById("loginPassword");
 
 const loginButton =
-document.getElementById(
-    "loginButton"
-);
-
+document.getElementById("loginButton");
 
 const loginMessage =
-document.getElementById(
-    "loginMessage"
-);
-
+document.getElementById("loginMessage");
 
 const adminAccessButton =
-document.getElementById(
-    "adminAccessButton"
-);
-
+document.getElementById("adminAccessButton");
 
 const logoutButton =
-document.getElementById(
-    "logoutButton"
-);
-
+document.getElementById("logoutButton");
 
 const adminEmail =
-document.getElementById(
-    "adminEmail"
-);
-
+document.getElementById("adminEmail");
 
 const videoName =
-document.getElementById(
-    "videoName"
-);
-
+document.getElementById("videoName");
 
 const videoFile =
-document.getElementById(
-    "videoFile"
-);
-
+document.getElementById("videoFile");
 
 const expiryMinutes =
-document.getElementById(
-    "expiryMinutes"
-);
-
+document.getElementById("expiryMinutes");
 
 const uploadButton =
-document.getElementById(
-    "uploadButton"
-);
-
+document.getElementById("uploadButton");
 
 const uploadMessage =
-document.getElementById(
-    "uploadMessage"
-);
-
+document.getElementById("uploadMessage");
 
 const uploadProgress =
-document.getElementById(
-    "uploadProgress"
-);
-
+document.getElementById("uploadProgress");
 
 const progressBar =
-document.getElementById(
-    "progressBar"
-);
-
+document.getElementById("progressBar");
 
 const resultBox =
-document.getElementById(
-    "resultBox"
-);
-
+document.getElementById("resultBox");
 
 const generatedCode =
-document.getElementById(
-    "generatedCode"
-);
-
+document.getElementById("generatedCode");
 
 const generatedExpiry =
-document.getElementById(
-    "generatedExpiry"
-);
-
+document.getElementById("generatedExpiry");
 
 const generatedLink =
-document.getElementById(
-    "generatedLink"
-);
-
+document.getElementById("generatedLink");
 
 const qrcode =
-document.getElementById(
-    "qrcode"
-);
-
+document.getElementById("qrcode");
 
 const copyButton =
-document.getElementById(
-    "copyButton"
-);
-
+document.getElementById("copyButton");
 
 const copyCodeButton =
-document.getElementById(
-    "copyCodeButton"
-);
-
+document.getElementById("copyCodeButton");
 
 const openVideoButton =
-document.getElementById(
-    "openVideoButton"
-);
-
+document.getElementById("openVideoButton");
 
 const publicTitle =
-document.getElementById(
-    "publicTitle"
-);
-
+document.getElementById("publicTitle");
 
 const publicDescription =
-document.getElementById(
-    "publicDescription"
-);
-
+document.getElementById("publicDescription");
 
 const publicMessage =
-document.getElementById(
-    "publicMessage"
-);
-
+document.getElementById("publicMessage");
 
 const codeSection =
-document.getElementById(
-    "codeSection"
-);
-
+document.getElementById("codeSection");
 
 const accessCodeInput =
-document.getElementById(
-    "accessCodeInput"
-);
-
+document.getElementById("accessCodeInput");
 
 const verifyCodeButton =
-document.getElementById(
-    "verifyCodeButton"
-);
-
+document.getElementById("verifyCodeButton");
 
 const codeMessage =
-document.getElementById(
-    "codeMessage"
-);
-
+document.getElementById("codeMessage");
 
 const videoArea =
-document.getElementById(
-    "videoArea"
-);
-
+document.getElementById("videoArea");
 
 const mainVideo =
-document.getElementById(
-    "mainVideo"
-);
+document.getElementById("mainVideo");
 
 
 
@@ -1239,7 +1036,6 @@ const params =
 new URLSearchParams(
     window.location.search
 );
-
 
 const videoId =
 params.get("video");
@@ -1259,10 +1055,8 @@ function showMessage(
     element.textContent =
         text;
 
-
     element.className =
         "message " + type;
-
 
     element.classList.remove(
         "hidden"
@@ -1273,7 +1067,7 @@ function showMessage(
 
 
 /* ==========================================
-   GENERATE CODE
+   GENERATE 8 DIGIT CODE
 ========================================== */
 
 function generateAccessCode(){
@@ -1281,11 +1075,9 @@ function generateAccessCode(){
     const array =
         new Uint32Array(1);
 
-
     crypto.getRandomValues(
         array
     );
-
 
     return String(
         array[0] % 100000000
@@ -1322,37 +1114,20 @@ function formatDate(date){
 
 async function loadPublicVideo(){
 
-    /*
-       MUHIM:
-       Endi videos jadvalidan oddiy SELECT
-       qilib video mavjudligini tekshirmaymiz.
-
-       Chunki RLS sababli oddiy foydalanuvchi
-       video ma'lumotini ko'ra olmasligi mumkin.
-
-       Avval kod oynasi chiqadi.
-    */
-
-
     if(!videoId){
 
         codeSection.classList.add(
             "hidden"
         );
 
-
         publicTitle.textContent =
             "SafeStream";
-
 
         publicDescription.textContent =
             "Video havolasini oching yoki QR kod orqali shu sahifaga kiring.";
 
-
         return;
-
     }
-
 
 
     publicTitle.textContent =
@@ -1377,24 +1152,26 @@ async function loadPublicVideo(){
         "hidden"
     );
 
+
+    accessCodeInput.value =
+        "";
+
 }
 
 
 
 /* ==========================================
-   VERIFY CODE
+   VERIFY ONE-TIME CODE
 ========================================== */
 
 verifyCodeButton.addEventListener(
 "click",
 async ()=>{
 
-
     const code =
         accessCodeInput
         .value
         .trim();
-
 
 
     if(!videoId){
@@ -1406,9 +1183,7 @@ async ()=>{
         );
 
         return;
-
     }
-
 
 
     if(!/^\d{8}$/.test(code)){
@@ -1420,34 +1195,17 @@ async ()=>{
         );
 
         return;
-
     }
-
 
 
     verifyCodeButton.disabled =
         true;
 
-
     verifyCodeButton.textContent =
         "⏳ Tekshirilmoqda...";
 
 
-
     try{
-
-
-        /*
-           SUPABASE RPC
-
-           Bu funksiya:
-           - video borligini tekshiradi
-           - kodni tekshiradi
-           - muddatni tekshiradi
-           - kod ishlatilganligini tekshiradi
-           - to'g'ri bo'lsa kodni USED qiladi
-        */
-
 
         const {
             data,
@@ -1466,16 +1224,16 @@ async ()=>{
         );
 
 
-
         if(error){
 
             throw error;
-
         }
 
 
-
-        if(!data || !data.success){
+        if(
+            !data ||
+            data.success !== true
+        ){
 
             showMessage(
                 codeMessage,
@@ -1485,16 +1243,12 @@ async ()=>{
             );
 
             return;
-
         }
 
 
-
         /*
-           KOD TO'G'RI.
-
-           RPC uni allaqachon bir marta
-           ishlatilgan deb belgiladi.
+           Kod to'g'ri.
+           RPC uni allaqachon USED qiladi.
         */
 
 
@@ -1509,7 +1263,6 @@ async ()=>{
         );
 
 
-
         if(
             !publicData ||
             !publicData.publicUrl
@@ -1518,9 +1271,7 @@ async ()=>{
             throw new Error(
                 "Video manzili olinmadi."
             );
-
         }
-
 
 
         publicTitle.textContent =
@@ -1539,7 +1290,6 @@ async ()=>{
         mainVideo.load();
 
 
-
         codeSection.classList.add(
             "hidden"
         );
@@ -1555,11 +1305,18 @@ async ()=>{
         );
 
 
+        /*
+           Kodni sahifada qoldirmaymiz.
+        */
+
+        accessCodeInput.value =
+            "";
+
+
     }
     catch(error){
 
         console.error(error);
-
 
         showMessage(
             codeMessage,
@@ -1574,9 +1331,26 @@ async ()=>{
         verifyCodeButton.disabled =
             false;
 
-
         verifyCodeButton.textContent =
             "🔓 Videoni ochish";
+
+    }
+
+});
+
+
+
+/* ==========================================
+   ENTER KEY
+========================================== */
+
+accessCodeInput.addEventListener(
+"keydown",
+(event)=>{
+
+    if(event.key === "Enter"){
+
+        verifyCodeButton.click();
 
     }
 
@@ -1592,11 +1366,9 @@ adminAccessButton.addEventListener(
 "click",
 ()=>{
 
-
     loginSection.classList.remove(
         "hidden"
     );
-
 
     loginSection.scrollIntoView({
         behavior:"smooth"
@@ -1614,14 +1386,11 @@ loginButton.addEventListener(
 "click",
 async ()=>{
 
-
     const email =
         loginEmail.value.trim();
 
-
     const password =
         loginPassword.value;
-
 
 
     if(!email || !password){
@@ -1633,22 +1402,17 @@ async ()=>{
         );
 
         return;
-
     }
-
 
 
     loginButton.disabled =
         true;
 
-
     loginButton.textContent =
         "⏳ Kirilmoqda...";
 
 
-
     try{
-
 
         const {
             data,
@@ -1659,31 +1423,25 @@ async ()=>{
         .signInWithPassword({
 
             email,
-
             password
 
         });
 
 
-
         if(error){
 
             throw error;
-
         }
-
 
 
         await handleUser(
             data.user
         );
 
-
     }
     catch(error){
 
         console.error(error);
-
 
         showMessage(
             loginMessage,
@@ -1696,7 +1454,6 @@ async ()=>{
 
         loginButton.disabled =
             false;
-
 
         loginButton.textContent =
             "🔐 Kirish";
@@ -1713,20 +1470,16 @@ async ()=>{
 
 async function handleUser(user){
 
-
     if(!user){
 
         showLogin();
 
         return;
-
     }
-
 
 
     const email =
         user.email?.toLowerCase();
-
 
 
     if(
@@ -1745,11 +1498,8 @@ async function handleUser(user){
             "error"
         );
 
-
         return;
-
     }
-
 
 
     loginSection.classList.add(
@@ -1771,7 +1521,6 @@ async function handleUser(user){
         "👤 " + user.email;
 
 
-
     adminSection.scrollIntoView({
         behavior:"smooth"
     });
@@ -1786,11 +1535,9 @@ async function handleUser(user){
 
 function showLogin(){
 
-
     adminSection.classList.add(
         "hidden"
     );
-
 
     adminAccessSection.classList.remove(
         "hidden"
@@ -1807,7 +1554,6 @@ function showLogin(){
 logoutButton.addEventListener(
 "click",
 async ()=>{
-
 
     await supabaseClient
         .auth
@@ -1833,13 +1579,12 @@ async ()=>{
 
 
 /* ==========================================
-   UPLOAD
+   UPLOAD VIDEO
 ========================================== */
 
 uploadButton.addEventListener(
 "click",
 async ()=>{
-
 
     const title =
         videoName.value.trim();
@@ -1855,7 +1600,6 @@ async ()=>{
         );
 
 
-
     if(!title){
 
         showMessage(
@@ -1865,9 +1609,7 @@ async ()=>{
         );
 
         return;
-
     }
-
 
 
     if(!file){
@@ -1879,9 +1621,7 @@ async ()=>{
         );
 
         return;
-
     }
-
 
 
     if(file.size > MAX_FILE_SIZE){
@@ -1893,9 +1633,19 @@ async ()=>{
         );
 
         return;
-
     }
 
+
+    if(!Number.isFinite(minutes) || minutes <= 0){
+
+        showMessage(
+            uploadMessage,
+            "Kod amal qilish vaqtini tanlang.",
+            "error"
+        );
+
+        return;
+    }
 
 
     const {
@@ -1908,7 +1658,6 @@ async ()=>{
     .getUser();
 
 
-
     if(!user){
 
         showMessage(
@@ -1918,14 +1667,11 @@ async ()=>{
         );
 
         return;
-
     }
-
 
 
     uploadButton.disabled =
         true;
-
 
     uploadButton.textContent =
         "⏳ Yuklanmoqda...";
@@ -1940,9 +1686,12 @@ async ()=>{
         "15%";
 
 
+    resultBox.classList.add(
+        "hidden"
+    );
+
 
     try{
-
 
         /*
            VIDEO ID
@@ -1952,18 +1701,16 @@ async ()=>{
             crypto.randomUUID();
 
 
-
         /*
-           BIR MARTALIK KOD
+           ONE-TIME CODE
         */
 
         const accessCode =
             generateAccessCode();
 
 
-
         /*
-           KOD MUDDATI
+           EXPIRY
         */
 
         const expiresAt =
@@ -1971,7 +1718,6 @@ async ()=>{
                 Date.now() +
                 minutes * 60 * 1000
             );
-
 
 
         /*
@@ -1991,7 +1737,6 @@ async ()=>{
             : "mp4";
 
 
-
         /*
            STORAGE PATH
         */
@@ -2000,14 +1745,12 @@ async ()=>{
             id + "." + extension;
 
 
-
         progressBar.style.width =
             "35%";
 
 
-
         /*
-           STORAGE UPLOAD
+           UPLOAD TO STORAGE
         */
 
         const {
@@ -2021,9 +1764,7 @@ async ()=>{
             file,
             {
                 cacheControl:"3600",
-
                 upsert:false,
-
                 contentType:
                     file.type ||
                     "video/mp4"
@@ -2031,22 +1772,18 @@ async ()=>{
         );
 
 
-
         if(storageError){
 
             throw storageError;
-
         }
-
 
 
         progressBar.style.width =
             "70%";
 
 
-
         /*
-           DATABASE
+           SAVE DATABASE
         */
 
         const {
@@ -2074,9 +1811,7 @@ async ()=>{
         });
 
 
-
         if(databaseError){
-
 
             await supabaseClient
             .storage
@@ -2085,16 +1820,12 @@ async ()=>{
                 filePath
             ]);
 
-
             throw databaseError;
-
         }
-
 
 
         progressBar.style.width =
             "100%";
-
 
 
         /*
@@ -2108,19 +1839,16 @@ async ()=>{
             encodeURIComponent(id);
 
 
-
         generatedLink.textContent =
             videoUrl;
 
 
-
         /*
-           GENERATED CODE
+           CODE
         */
 
         generatedCode.textContent =
             accessCode;
-
 
 
         /*
@@ -2132,9 +1860,8 @@ async ()=>{
             formatDate(expiresAt);
 
 
-
         /*
-           QR
+           QR CODE
         */
 
         qrcode.innerHTML =
@@ -2144,28 +1871,22 @@ async ()=>{
         new QRCode(
             qrcode,
             {
-
-                text:
-                    videoUrl,
-
-                width:
-                    260,
-
-                height:
-                    260,
-
+                text:videoUrl,
+                width:260,
+                height:260,
                 correctLevel:
                     QRCode.CorrectLevel.H
-
             }
         );
 
 
+        /*
+           SHOW RESULT
+        */
 
         resultBox.classList.remove(
             "hidden"
         );
-
 
 
         showMessage(
@@ -2175,22 +1896,16 @@ async ()=>{
         );
 
 
-
         videoName.value =
             "";
-
 
         videoFile.value =
             "";
 
 
-
         resultBox.scrollIntoView({
-
             behavior:"smooth",
-
             block:"center"
-
         });
 
 
@@ -2198,7 +1913,6 @@ async ()=>{
     catch(error){
 
         console.error(error);
-
 
         showMessage(
             uploadMessage,
@@ -2210,10 +1924,8 @@ async ()=>{
     }
     finally{
 
-
         uploadButton.disabled =
             false;
-
 
         uploadButton.textContent =
             "⬆️ Videoni yuklash";
@@ -2225,7 +1937,6 @@ async ()=>{
                 uploadProgress.classList.add(
                     "hidden"
                 );
-
 
                 progressBar.style.width =
                     "0%";
@@ -2248,14 +1959,16 @@ copyButton.addEventListener(
 "click",
 async ()=>{
 
-
     const link =
         generatedLink.textContent;
 
 
+    if(!link){
+        return;
+    }
+
 
     try{
-
 
         await navigator
             .clipboard
@@ -2275,7 +1988,6 @@ async ()=>{
             },
             2000
         );
-
 
     }
     catch(error){
@@ -2298,14 +2010,16 @@ copyCodeButton.addEventListener(
 "click",
 async ()=>{
 
-
     const code =
         generatedCode.textContent;
 
 
+    if(!code){
+        return;
+    }
+
 
     try{
-
 
         await navigator
             .clipboard
@@ -2326,7 +2040,6 @@ async ()=>{
             2000
         );
 
-
     }
     catch(error){
 
@@ -2341,13 +2054,12 @@ async ()=>{
 
 
 /* ==========================================
-   OPEN VIDEO
+   OPEN VIDEO LINK
 ========================================== */
 
 openVideoButton.addEventListener(
 "click",
 ()=>{
-
 
     const link =
         generatedLink.textContent;
@@ -2375,7 +2087,6 @@ supabaseClient
 .onAuthStateChange(
 (event,session)=>{
 
-
     if(session){
 
         handleUser(
@@ -2395,11 +2106,9 @@ supabaseClient
 
 function showLoginState(){
 
-
     adminSection.classList.add(
         "hidden"
     );
-
 
     adminAccessSection.classList.remove(
         "hidden"
@@ -2415,18 +2124,8 @@ function showLoginState(){
 
 async function start(){
 
-
-    /*
-       Public video sahifasini tayyorlash
-    */
-
     await loadPublicVideo();
 
-
-
-    /*
-       Admin session
-    */
 
     const {
         data
@@ -2434,7 +2133,6 @@ async function start(){
     await supabaseClient
     .auth
     .getSession();
-
 
 
     if(data.session){
@@ -2446,7 +2144,6 @@ async function start(){
     }
 
 }
-
 
 
 start();

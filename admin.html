@@ -12,7 +12,7 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- QR -->
+    <!-- QR Code -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
     <style>
@@ -20,7 +20,6 @@
             max-width: 600px;
             margin: 40px auto;
             padding: 28px;
-
             background: #10151f;
             border: 1px solid rgba(255,255,255,.08);
             border-radius: 20px;
@@ -62,13 +61,10 @@
             padding: 14px;
             border: 0;
             border-radius: 11px;
-
             background: #2563eb;
             color: white;
-
             font-size: 15px;
             font-weight: 600;
-
             cursor: pointer;
         }
 
@@ -104,10 +100,8 @@
             box-sizing: border-box;
             padding: 11px;
             margin: 12px 0;
-
             border-radius: 9px;
             border: 1px solid rgba(255,255,255,.1);
-
             background: #080b12;
             color: #9ca5b5;
         }
@@ -115,13 +109,10 @@
         .copy-button {
             width: 100%;
             padding: 11px;
-
             border: 0;
             border-radius: 9px;
-
             background: rgba(37,99,235,.15);
             color: #8bb1ff;
-
             cursor: pointer;
         }
 
@@ -252,24 +243,17 @@
 </footer>
 
 
-
 <script>
 
 /* ==========================================
-   SUPABASE SOZLAMALARI
-   ========================================== */
+   SUPABASE
+========================================== */
 
 const SUPABASE_URL =
     "https://kvwcvlwpdsixpbftoalh.supabase.co";
 
-
-/*
-   ⚠️ FAQAT SHU JOYGA
-   O'ZINGIZNING PUBLISHABLE KEYINGIZNI QO'YING
-*/
-
 const SUPABASE_KEY =
-    "BU YERGA sb_publishable_... KEYINGIZNI QO'YING";
+    "sb_publishable_JyI5Zj_1ScRJ2-YEwdSDGg_eaTFvZuD";
 
 
 const supabaseClient =
@@ -279,10 +263,9 @@ const supabaseClient =
     );
 
 
-
 /* ==========================================
    UNIKAL ID
-   ========================================== */
+========================================== */
 
 function generateId() {
 
@@ -303,10 +286,9 @@ function generateId() {
 }
 
 
-
 /* ==========================================
    VIDEO YUKLASH
-   ========================================== */
+========================================== */
 
 async function uploadVideo() {
 
@@ -326,6 +308,8 @@ async function uploadVideo() {
         document.getElementById("statusMessage");
 
 
+    /* Video nomi */
+
     if (!name) {
 
         alert("Video nomini kiriting.");
@@ -334,6 +318,8 @@ async function uploadVideo() {
     }
 
 
+    /* Fayl */
+
     if (!file) {
 
         alert("Video faylini tanlang.");
@@ -341,6 +327,8 @@ async function uploadVideo() {
         return;
     }
 
+
+    /* Video ekanini tekshirish */
 
     if (!file.type.startsWith("video/")) {
 
@@ -364,13 +352,17 @@ async function uploadVideo() {
 
     try {
 
-        /* Unikal ID */
+        /* ==================================
+           ID
+        ================================== */
 
         const videoId =
             generateId();
 
 
-        /* Fayl kengaytmasi */
+        /* ==================================
+           KENGAYTMA
+        ================================== */
 
         let extension = "mp4";
 
@@ -381,18 +373,21 @@ async function uploadVideo() {
                     .split(".")
                     .pop()
                     .toLowerCase();
+
         }
 
 
-        /* Storage fayl nomi */
+        /* ==================================
+           FILE PATH
+        ================================== */
 
         const filePath =
             videoId + "." + extension;
 
 
         /* ==================================
-           STORAGE
-           ================================== */
+           SUPABASE STORAGE
+        ================================== */
 
         const upload =
             await supabaseClient
@@ -411,17 +406,21 @@ async function uploadVideo() {
 
         if (upload.error) {
 
-            throw upload.error;
+            throw new Error(
+                "Storage xatosi: " +
+                upload.error.message
+            );
+
         }
 
 
         status.textContent =
-            "Video saqlandi. Ma'lumotlar yozilmoqda...";
+            "✅ Video saqlandi. Ma'lumotlar yozilmoqda...";
 
 
         /* ==================================
            DATABASE
-           ================================== */
+        ================================== */
 
         const database =
             await supabaseClient
@@ -434,13 +433,17 @@ async function uploadVideo() {
 
         if (database.error) {
 
-            throw database.error;
+            throw new Error(
+                "Database xatosi: " +
+                database.error.message
+            );
+
         }
 
 
         /* ==================================
            LINK
-           ================================== */
+        ================================== */
 
         const baseUrl =
             window.location.origin +
@@ -465,7 +468,7 @@ async function uploadVideo() {
 
         /* ==================================
            QR
-           ================================== */
+        ================================== */
 
         const qr =
             document.getElementById("qrcode");
@@ -491,6 +494,10 @@ async function uploadVideo() {
 
         });
 
+
+        /* ==================================
+           INFO
+        ================================== */
 
         document
             .getElementById("videoInfo")
@@ -537,10 +544,9 @@ async function uploadVideo() {
 }
 
 
-
 /* ==========================================
    LINKNI NUSXALASH
-   ========================================== */
+========================================== */
 
 async function copyLink() {
 
@@ -556,7 +562,9 @@ async function copyLink() {
             .clipboard
             .writeText(input.value);
 
-        alert("Link nusxalandi!");
+        alert(
+            "Link nusxalandi!"
+        );
 
     }
 
@@ -564,9 +572,13 @@ async function copyLink() {
 
         input.select();
 
-        document.execCommand("copy");
+        document.execCommand(
+            "copy"
+        );
 
-        alert("Link nusxalandi!");
+        alert(
+            "Link nusxalandi!"
+        );
 
     }
 
@@ -577,4 +589,3 @@ async function copyLink() {
 </body>
 
 </html>
- 

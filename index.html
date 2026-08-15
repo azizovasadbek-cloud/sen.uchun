@@ -1,596 +1,520 @@
 <!DOCTYPE html>
 <html lang="uz">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>SafeStream</title>
 
-<link
-    rel="stylesheet"
-    href="style.css">
+<link rel="stylesheet" href="style.css">
 
-<!-- Supabase -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- QR Code -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 
-.admin-button {
-    border: 1px solid rgba(255,255,255,.12);
-    background: rgba(255,255,255,.05);
-    color: #aeb7c7;
-    padding: 9px 14px;
-    border-radius: 9px;
-    cursor: pointer;
-    font-size: 13px;
+*{
+    box-sizing:border-box;
 }
 
-.admin-button:hover {
-    background: rgba(255,255,255,.09);
+body{
+    margin:0;
+    background:#070a10;
+    color:white;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 
-.admin-panel {
-    display: none;
-    max-width: 650px;
-    margin: 30px auto;
-    padding: 25px;
-    background: #10151f;
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 20px;
+.navbar{
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+    background:#090d15;
 }
 
-.admin-panel.visible {
-    display: block;
+.logo{
+    font-size:20px;
+    font-weight:700;
 }
 
-.admin-panel h2 {
-    margin-top: 0;
+.logo-icon{
+    color:#4f8cff;
+    margin-right:7px;
 }
 
-.admin-description {
-    color: #929aaa;
-    line-height: 1.5;
+.status{
+    color:#8f99aa;
+    font-size:14px;
 }
 
-.admin-field {
-    margin-bottom: 18px;
+.status-dot{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    background:#20c56b;
+    border-radius:50%;
+    margin-right:6px;
 }
 
-.admin-field label {
-    display: block;
-    margin-bottom: 8px;
-    color: #aeb7c7;
+.container{
+    width:min(900px,92%);
+    margin:40px auto;
 }
 
-.admin-field input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 13px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,.1);
-    background: #080b12;
-    color: white;
+.card{
+    background:#10151f;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:22px;
+    padding:30px;
+    margin-bottom:25px;
 }
 
-.admin-upload {
-    width: 100%;
-    padding: 14px;
-    border: 0;
-    border-radius: 11px;
-    background: #2563eb;
-    color: white;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
+.hidden{
+    display:none !important;
 }
 
-.admin-upload:disabled {
-    opacity: .6;
-    cursor: not-allowed;
+h1,h2{
+    margin-top:0;
 }
 
-.admin-status {
-    display: none;
-    margin-top: 15px;
-    padding: 13px;
-    border-radius: 10px;
-    background: rgba(37,99,235,.12);
-    color: #9bbcff;
-    text-align: center;
+.description{
+    color:#8993a5;
+    line-height:1.7;
 }
 
-.admin-result {
-    display: none;
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 15px;
-    background: rgba(255,255,255,.04);
+input{
+    width:100%;
+    padding:14px;
+    margin:8px 0 15px;
+    border-radius:11px;
+    border:1px solid rgba(255,255,255,.1);
+    background:#080b12;
+    color:white;
+    font-size:15px;
 }
 
-.admin-result.visible {
-    display: block;
+button{
+    border:0;
+    border-radius:11px;
+    padding:14px 18px;
+    cursor:pointer;
+    font-size:15px;
+    font-weight:600;
 }
 
-.admin-result input {
-    width: 100%;
-    box-sizing: border-box;
-    margin: 12px 0;
-    padding: 11px;
-    border-radius: 9px;
-    border: 1px solid rgba(255,255,255,.1);
-    background: #080b12;
-    color: #aeb7c7;
+.primary{
+    width:100%;
+    background:#2563eb;
+    color:white;
 }
 
-.copy-button,
-.logout-button,
-.login-button {
-    width: 100%;
-    padding: 12px;
-    border: 0;
-    border-radius: 9px;
-    cursor: pointer;
+.secondary{
+    background:rgba(37,99,235,.15);
+    color:#8db5ff;
 }
 
-.copy-button {
-    background: rgba(37,99,235,.15);
-    color: #8bb1ff;
+.logout{
+    background:#29151a;
+    color:#ff8d9b;
+    padding:9px 14px;
+    font-size:13px;
 }
 
-.logout-button {
-    margin-top: 10px;
-    background: rgba(255,70,70,.1);
-    color: #ff9b9b;
+.admin-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
 }
 
-.login-button {
-    background: #2563eb;
-    color: white;
-    font-weight: 600;
+.field{
+    margin-top:20px;
 }
 
-#qrcode {
-    width: max-content;
-    margin: 20px auto 0;
-    padding: 12px;
-    background: white;
-    border-radius: 12px;
+label{
+    display:block;
+    color:#aeb7c7;
+    font-size:14px;
+    margin-bottom:5px;
 }
 
-.login-box {
-    display: none;
-    max-width: 450px;
-    margin: 30px auto;
-    padding: 25px;
-    background: #10151f;
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 20px;
+.status-message{
+    margin-top:15px;
+    padding:14px;
+    border-radius:11px;
+    background:#101c35;
+    color:#8db5ff;
+    text-align:center;
 }
 
-.login-box.visible {
-    display: block;
+.result{
+    margin-top:25px;
+    padding:20px;
+    border-radius:16px;
+    background:rgba(255,255,255,.035);
 }
 
-.login-box h2 {
-    margin-top: 0;
+.generated-link{
+    margin-top:15px;
 }
 
-.login-field {
-    margin-bottom: 15px;
+#qrcode{
+    width:max-content;
+    margin:20px auto 0;
+    padding:12px;
+    background:white;
+    border-radius:12px;
 }
 
-.login-field label {
-    display: block;
-    margin-bottom: 7px;
-    color: #aeb7c7;
+.video-wrapper{
+    margin-top:20px;
+    background:#000;
+    border-radius:16px;
+    overflow:hidden;
 }
 
-.login-field input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 13px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,.1);
-    background: #080b12;
-    color: white;
+video{
+    display:block;
+    width:100%;
+    max-height:600px;
 }
 
-.login-error {
-    display: none;
-    margin-bottom: 15px;
-    padding: 12px;
-    border-radius: 9px;
-    background: rgba(255,70,70,.1);
-    color: #ff9b9b;
+.video-info{
+    margin-top:15px;
+    padding:15px;
+    border-radius:12px;
+    background:#111827;
+    color:#9da8ba;
 }
 
-.login-error.visible {
-    display: block;
+.error{
+    padding:18px;
+    border-radius:12px;
+    background:#29151a;
+    color:#ff9ba6;
 }
 
-.admin-user {
-    display: none;
-    margin-top: 10px;
-    color: #7e8797;
-    font-size: 13px;
+.login-box{
+    max-width:430px;
+    margin:80px auto;
+}
+
+.center{
+    text-align:center;
+}
+
+.admin-button{
+    background:rgba(37,99,235,.15);
+    color:#8db5ff;
+}
+
+footer{
+    text-align:center;
+    padding:40px 20px;
+    color:#596274;
+}
+
+.small{
+    color:#697386;
+    font-size:13px;
+    margin-top:10px;
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-
 <header class="navbar">
 
-<div class="logo">
+    <div class="logo">
+        <span class="logo-icon">▶</span>
+        SafeStream
+    </div>
 
-<span class="logo-icon">
-▶
-</span>
-
-SafeStream
-
-</div>
-
-
-<div class="status">
-
-<span class="status-dot"></span>
-
-Secure
-
-<button
-    id="adminButton"
-    class="admin-button"
-    onclick="openAdmin()">
-
-Admin
-
-</button>
-
-</div>
+    <div id="headerRight">
+        <button
+            class="admin-button"
+            onclick="showLogin()">
+            🔐 Admin
+        </button>
+    </div>
 
 </header>
-
 
 
 <main class="container">
 
 
-<!-- =========================================
-     VIDEO TOMOSHA QISMI
-========================================= -->
-
-<section class="hero">
-
-<div class="hero-badge">
-🔒 Private video
-</div>
-
-
-<h1>
-Faqat sen uchun
-</h1>
-
-
-<p class="description">
-Bu kichik sahifa aynan sen uchun
-tayyorlandi. Senga atalgan maxsus
-video shu yerda.
-</p>
-
-
-<button
-type="button"
-class="open-button"
-onclick="showVideo()">
-
-<span>▶</span>
-
-Videoni ochish
-
-</button>
-
-
-<div class="hero-security">
-
-🔐 Private access
-
-<span class="separator">
-•
-</span>
-
-SafeStream
-
-</div>
-
-</section>
-
-
-
-<section
-id="videoBox"
-class="video-section">
-
-
-<div class="video-header">
-
-<div>
-
-<span class="video-label">
-PRIVATE VIDEO
-</span>
-
-
-<h2 id="videoTitle">
-Video
-</h2>
-
-</div>
-
-
-<span class="secure-label">
-🔐 Secure
-</span>
-
-</div>
-
-
-
-<div class="video-wrapper">
-
-<video
-id="mainVideo"
-controls
-playsinline
-preload="metadata">
-
-Brauzeringiz videoni
-qo‘llab-quvvatlamaydi.
-
-</video>
-
-</div>
-
-
-<div class="video-info">
-
-<div class="video-info-icon">
-🔒
-</div>
-
-
-<div>
-
-<strong>
-Private content
-</strong>
-
-
-<p>
-Ushbu video faqat siz uchun
-tayyorlangan.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<section
-id="errorBox"
-class="error-box">
-
-<div class="error-icon">
-⚠️
-</div>
-
-
-<div>
-
-<strong>
-Video topilmadi
-</strong>
-
-
-<p id="errorText">
-Video havolasi mavjud emas
-yoki noto‘g‘ri.
-</p>
-
-</div>
-
-</section>
-
-
-
-<!-- =========================================
+<!-- =====================================================
      LOGIN
-========================================= -->
+===================================================== -->
 
 <section
-id="loginBox"
-class="login-box">
+    id="loginSection"
+    class="card login-box hidden">
 
-<h2>
-🔐 Admin kirish
-</h2>
+    <h1>🔐 Admin Login</h1>
 
-<p class="admin-description">
-Video yuklash uchun administrator
-hisobingiz bilan kiring.
-</p>
+    <p class="description">
+        SafeStream boshqaruv paneliga kirish uchun
+        email va parolingizni kiriting.
+    </p>
 
+    <div class="field">
 
-<div
-id="loginError"
-class="login-error">
-</div>
+        <label>Email</label>
 
+        <input
+            id="loginEmail"
+            type="email"
+            placeholder="admin@email.com">
 
-<div class="login-field">
+    </div>
 
-<label>
-Email
-</label>
+    <div class="field">
 
-<input
-id="loginEmail"
-type="email"
-placeholder="admin@example.com">
+        <label>Parol</label>
 
-</div>
+        <input
+            id="loginPassword"
+            type="password"
+            placeholder="••••••••">
 
+    </div>
 
-<div class="login-field">
+    <button
+        class="primary"
+        onclick="login()">
 
-<label>
-Parol
-</label>
+        🔐 Kirish
 
-<input
-id="loginPassword"
-type="password"
-placeholder="••••••••">
+    </button>
 
-</div>
-
-
-<button
-class="login-button"
-onclick="loginAdmin()">
-
-🔐 Kirish
-
-</button>
+    <div
+        id="loginStatus"
+        class="status-message hidden">
+    </div>
 
 </section>
 
 
 
-<!-- =========================================
+<!-- =====================================================
      ADMIN PANEL
-========================================= -->
+===================================================== -->
 
 <section
-id="adminPanel"
-class="admin-panel">
+    id="adminSection"
+    class="card hidden">
 
-<h2>
-🎬 Video yuklash
-</h2>
+    <div class="admin-header">
 
+        <div>
 
-<p class="admin-description">
-Video tanlang. SafeStream uni Supabase'ga
-yuklaydi va avtomatik ravishda unikal link
-hamda QR kod yaratadi.
-</p>
+            <h1>🎬 Video yuklash</h1>
 
+            <p class="description">
+                Bu yerdan video yuklang.
+                SafeStream avtomatik ravishda
+                link va QR kod yaratadi.
+            </p>
 
-<div class="admin-user" id="adminUser">
-</div>
+        </div>
 
+        <button
+            class="logout"
+            onclick="logout()">
 
-<div class="admin-field">
+            Chiqish
 
-<label>
-Video nomi
-</label>
+        </button>
 
-<input
-id="videoName"
-type="text"
-placeholder="Masalan: Faqat sen uchun ❤️">
-
-</div>
+    </div>
 
 
-<div class="admin-field">
+    <div class="field">
 
-<label>
-Video fayli
-</label>
+        <label>
+            Video nomi
+        </label>
 
-<input
-id="videoFile"
-type="file"
-accept="video/*">
+        <input
+            id="videoName"
+            type="text"
+            placeholder="Masalan: Faqat sen uchun ❤️">
 
-</div>
-
-
-<button
-id="uploadButton"
-class="admin-upload"
-onclick="uploadVideo()">
-
-⬆️ Videoni yuklash
-
-</button>
+    </div>
 
 
-<div
-id="adminStatus"
-class="admin-status">
-</div>
+    <div class="field">
+
+        <label>
+            Video fayli
+        </label>
+
+        <input
+            id="videoFile"
+            type="file"
+            accept="video/*">
+
+    </div>
 
 
-<div
-id="adminResult"
-class="admin-result">
+    <button
+        id="uploadButton"
+        class="primary"
+        onclick="uploadVideo()">
 
-<strong>
-✅ Video tayyor!
-</strong>
+        ⬆️ Videoni yuklash
 
-
-<input
-id="generatedLink"
-readonly>
+    </button>
 
 
-<button
-class="copy-button"
-onclick="copyLink()">
-
-🔗 Linkni nusxalash
-
-</button>
+    <div
+        id="uploadStatus"
+        class="status-message hidden">
+    </div>
 
 
-<div id="qrcode"></div>
+    <div
+        id="uploadResult"
+        class="result hidden">
+
+        <h2>✅ Video tayyor!</h2>
+
+        <input
+            id="generatedLink"
+            class="generated-link"
+            readonly>
+
+        <button
+            class="secondary"
+            style="width:100%"
+            onclick="copyLink()">
+
+            🔗 Linkni nusxalash
+
+        </button>
+
+        <div id="qrcode"></div>
+
+        <p
+            id="videoInfo"
+            class="small center">
+        </p>
+
+    </div>
+
+</section>
 
 
-<div
-id="videoInfo"
-class="video-info">
-</div>
 
-</div>
+<!-- =====================================================
+     PUBLIC HOME
+===================================================== -->
+
+<section
+    id="homeSection"
+    class="card">
+
+    <div class="center">
+
+        <div style="font-size:50px;">
+            🔒
+        </div>
+
+        <h1>
+            SafeStream
+        </h1>
+
+        <p class="description">
+            Private video platform.
+            Sizga yuborilgan video linkini oching
+            yoki QR kodni skaner qiling.
+        </p>
+
+        <button
+            class="admin-button"
+            onclick="showLogin()">
+
+            🔐 Admin panel
+
+        </button>
+
+    </div>
+
+</section>
 
 
-<button
-class="logout-button"
-onclick="logoutAdmin()">
 
-🚪 Admin hisobidan chiqish
+<!-- =====================================================
+     VIDEO
+===================================================== -->
 
-</button>
+<section
+    id="videoSection"
+    class="card hidden">
+
+    <div>
+
+        <span
+            style="color:#6ea1ff;font-size:12px;font-weight:700;">
+            PRIVATE VIDEO
+        </span>
+
+        <h1 id="videoTitle">
+            Video
+        </h1>
+
+    </div>
+
+
+    <div class="video-wrapper">
+
+        <video
+            id="mainVideo"
+            controls
+            playsinline
+            preload="metadata">
+
+            Brauzeringiz videoni
+            qo‘llab-quvvatlamaydi.
+
+        </video>
+
+    </div>
+
+
+    <div class="video-info">
+
+        🔒 <strong>Private content</strong>
+
+        <div style="margin-top:6px;">
+            Ushbu video SafeStream orqali
+            siz uchun tayyorlangan.
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<section
+    id="errorSection"
+    class="card error hidden">
+
+    <strong>
+        ⚠️ Video topilmadi
+    </strong>
+
+    <p id="errorText">
+        Video mavjud emas.
+    </p>
 
 </section>
 
@@ -598,24 +522,15 @@ onclick="logoutAdmin()">
 </main>
 
 
-
 <footer>
 
-<div class="footer-content">
+    <div>
+        SafeStream • Private & Secure
+    </div>
 
-<span>SafeStream</span>
-
-<span>•</span>
-
-<span>Private & Secure</span>
-
-</div>
-
-<div class="footer-small">
-
-Secure private video platform
-
-</div>
+    <div class="small">
+        Secure private video platform
+    </div>
 
 </footer>
 
@@ -623,9 +538,9 @@ Secure private video platform
 
 <script>
 
-/* =========================================
+/* =====================================================
    SUPABASE
-========================================= */
+===================================================== */
 
 const SUPABASE_URL =
 "https://kvwcvlwpdsixpbftoalh.supabase.co";
@@ -640,17 +555,32 @@ window.supabase.createClient(
 );
 
 
-/* =========================================
-   50 MB LIMIT
-========================================= */
-
-const MAX_FILE_SIZE =
-50 * 1024 * 1024;
-
-
-/* =========================================
+/* =====================================================
    ELEMENTS
-========================================= */
+===================================================== */
+
+const loginSection =
+document.getElementById("loginSection");
+
+const adminSection =
+document.getElementById("adminSection");
+
+const homeSection =
+document.getElementById("homeSection");
+
+const videoSection =
+document.getElementById("videoSection");
+
+const errorSection =
+document.getElementById("errorSection");
+
+const headerRight =
+document.getElementById("headerRight");
+
+
+/* =====================================================
+   VIDEO ID
+===================================================== */
 
 const params =
 new URLSearchParams(
@@ -660,507 +590,219 @@ new URLSearchParams(
 const videoId =
 params.get("video");
 
-const videoBox =
-document.getElementById(
-    "videoBox"
-);
 
-const errorBox =
-document.getElementById(
-    "errorBox"
-);
-
-const errorText =
-document.getElementById(
-    "errorText"
-);
-
-const mainVideo =
-document.getElementById(
-    "mainVideo"
-);
-
-const videoTitle =
-document.getElementById(
-    "videoTitle"
-);
-
-const loginBox =
-document.getElementById(
-    "loginBox"
-);
-
-const adminPanel =
-document.getElementById(
-    "adminPanel"
-);
-
-
-/* =========================================
-   LOAD VIDEO
-========================================= */
-
-async function loadVideo(){
-
-    if(!videoId){
-        return;
-    }
-
-    try{
-
-        const { data, error } =
-            await supabaseClient
-            .from("videos")
-            .select(
-                "title,file_path"
-            )
-            .like(
-                "file_path",
-                videoId + ".%"
-            )
-            .limit(1)
-            .maybeSingle();
-
-
-        if(error){
-            throw error;
-        }
-
-
-        if(!data){
-
-            showError(
-                "Bu video mavjud emas."
-            );
-
-            return;
-        }
-
-
-        const { data: publicData } =
-            supabaseClient
-            .storage
-            .from("videos")
-            .getPublicUrl(
-                data.file_path
-            );
-
-
-        if(!publicData.publicUrl){
-
-            showError(
-                "Video URL olinmadi."
-            );
-
-            return;
-        }
-
-
-        videoTitle.textContent =
-            data.title;
-
-
-        mainVideo.src =
-            publicData.publicUrl;
-
-
-        mainVideo.load();
-
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        showError(
-            error.message
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   SHOW VIDEO
-========================================= */
-
-function showVideo(){
-
-    if(!mainVideo.src){
-
-        if(!videoId){
-
-            showError(
-                "Video ID topilmadi."
-            );
-
-        }
-
-        errorBox.scrollIntoView({
-            behavior:"smooth",
-            block:"center"
-        });
-
-        return;
-    }
-
-
-    videoBox.classList.add(
-        "visible"
-    );
-
-
-    setTimeout(()=>{
-
-        videoBox.scrollIntoView({
-            behavior:"smooth",
-            block:"center"
-        });
-
-    },100);
-
-}
-
-
-/* =========================================
-   ERROR
-========================================= */
-
-function showError(message){
-
-    errorText.textContent =
-        message;
-
-    errorBox.classList.add(
-        "visible"
-    );
-
-}
-
-
-/* =========================================
-   VIDEO ERROR
-========================================= */
-
-mainVideo.addEventListener(
-    "error",
-    ()=>{
-
-        showError(
-            "Video faylini ochib bo‘lmadi."
-        );
-
-    }
-);
-
-
-/* =========================================
-   OPEN ADMIN
-========================================= */
-
-async function openAdmin(){
-
-    const {
-        data: {
-            user
-        }
-    } =
-    await supabaseClient.auth.getUser();
-
-
-    if(user){
-
-        loginBox.classList.remove(
-            "visible"
-        );
-
-        adminPanel.classList.add(
-            "visible"
-        );
-
-        updateAdminUser(user);
-
-        adminPanel.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-    }
-    else{
-
-        adminPanel.classList.remove(
-            "visible"
-        );
-
-        loginBox.classList.add(
-            "visible"
-        );
-
-        loginBox.scrollIntoView({
-            behavior:"smooth",
-            block:"center"
-        });
-
-    }
-
-}
-
-
-/* =========================================
-   LOGIN
-========================================= */
-
-async function loginAdmin(){
-
-    const email =
-        document
-        .getElementById("loginEmail")
-        .value
-        .trim();
-
-    const password =
-        document
-        .getElementById("loginPassword")
-        .value;
-
-
-    const error =
-        document.getElementById(
-            "loginError"
-        );
-
-
-    error.classList.remove(
-        "visible"
-    );
-
-
-    if(!email || !password){
-
-        error.textContent =
-            "Email va parolni kiriting.";
-
-        error.classList.add(
-            "visible"
-        );
-
-        return;
-    }
-
-
-    try{
-
-        const {
-            data,
-            error: loginError
-        } =
-        await supabaseClient.auth
-        .signInWithPassword({
-
-            email: email,
-
-            password: password
-
-        });
-
-
-        if(loginError){
-
-            throw loginError;
-        }
-
-
-        loginBox.classList.remove(
-            "visible"
-        );
-
-
-        adminPanel.classList.add(
-            "visible"
-        );
-
-
-        updateAdminUser(
-            data.user
-        );
-
-
-        adminPanel.scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        error.textContent =
-            "Login xatosi: " +
-            error.message;
-
-        error.classList.add(
-            "visible"
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   ADMIN USER
-========================================= */
-
-function updateAdminUser(user){
-
-    const element =
-        document.getElementById(
-            "adminUser"
-        );
-
-    element.textContent =
-        "👤 " +
-        (user.email || "Admin");
-
-    element.style.display =
-        "block";
-
-}
-
-
-/* =========================================
-   LOGOUT
-========================================= */
-
-async function logoutAdmin(){
-
-    await supabaseClient.auth.signOut();
-
-    adminPanel.classList.remove(
-        "visible"
-    );
-
-    loginBox.classList.remove(
-        "visible"
-    );
-
-    alert(
-        "Admin hisobidan chiqildi."
-    );
-
-}
-
-
-/* =========================================
-   CHECK SESSION
-========================================= */
-
-async function checkAdminSession(){
-
-    const {
-        data: {
-            user
-        }
-    } =
-    await supabaseClient.auth.getUser();
-
-
-    if(user){
-
-        updateAdminUser(user);
-
-    }
-
-}
-
-
-/* =========================================
-   GENERATE ID
-========================================= */
+/* =====================================================
+   RANDOM ID
+===================================================== */
 
 function generateId(){
 
     const chars =
-        "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+    "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
 
     let id = "";
 
-    for(
-        let i = 0;
-        i < 10;
-        i++
-    ){
+    for(let i = 0; i < 10; i++){
 
         id += chars.charAt(
             Math.floor(
-                Math.random() *
-                chars.length
+                Math.random() * chars.length
             )
         );
 
     }
 
     return id;
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+function showLogin(){
+
+    homeSection.classList.add("hidden");
+
+    adminSection.classList.add("hidden");
+
+    loginSection.classList.remove("hidden");
+
+    loginSection.scrollIntoView({
+        behavior:"smooth"
+    });
 
 }
 
 
-/* =========================================
-   UPLOAD VIDEO
-========================================= */
+async function login(){
 
-async function uploadVideo(){
+    const email =
+    document
+    .getElementById("loginEmail")
+    .value
+    .trim();
 
-    /* ADMIN SESSION */
+    const password =
+    document
+    .getElementById("loginPassword")
+    .value;
 
-    const {
-        data: {
-            user
-        }
-    } =
-    await supabaseClient.auth.getUser();
+    const status =
+    document.getElementById("loginStatus");
 
 
-    if(!user){
+    if(!email || !password){
 
-        alert(
-            "Avval Admin sifatida kiring."
-        );
+        status.textContent =
+        "Email va parolni kiriting.";
 
-        openAdmin();
+        status.classList.remove("hidden");
 
         return;
     }
 
 
+    status.textContent =
+    "⏳ Kirilmoqda...";
+
+    status.classList.remove("hidden");
+
+
+    const { data, error } =
+    await supabaseClient.auth
+    .signInWithPassword({
+
+        email:email,
+
+        password:password
+
+    });
+
+
+    if(error){
+
+        console.error(error);
+
+        status.textContent =
+        "❌ Email yoki parol noto‘g‘ri.";
+
+        return;
+    }
+
+
+    status.textContent =
+    "✅ Muvaffaqiyatli kirildi.";
+
+    showAdmin();
+
+}
+
+
+/* =====================================================
+   SHOW ADMIN
+===================================================== */
+
+function showAdmin(){
+
+    loginSection.classList.add("hidden");
+
+    homeSection.classList.add("hidden");
+
+    adminSection.classList.remove("hidden");
+
+
+    headerRight.innerHTML = `
+        <button
+            class="logout"
+            onclick="logout()">
+            Chiqish
+        </button>
+    `;
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
+
+    await supabaseClient.auth.signOut();
+
+    adminSection.classList.add("hidden");
+
+    loginSection.classList.add("hidden");
+
+    homeSection.classList.remove("hidden");
+
+
+    headerRight.innerHTML = `
+        <button
+            class="admin-button"
+            onclick="showLogin()">
+            🔐 Admin
+        </button>
+    `;
+
+}
+
+
+/* =====================================================
+   CHECK LOGIN
+===================================================== */
+
+async function checkAuth(){
+
+    const {
+        data
+    } =
+    await supabaseClient.auth
+    .getSession();
+
+
+    if(data.session){
+
+        showAdmin();
+
+    }
+
+}
+
+
+/* =====================================================
+   UPLOAD VIDEO
+===================================================== */
+
+async function uploadVideo(){
+
     const name =
-        document
-        .getElementById("videoName")
-        .value
-        .trim();
+    document
+    .getElementById("videoName")
+    .value
+    .trim();
 
 
     const file =
-        document
-        .getElementById("videoFile")
-        .files[0];
+    document
+    .getElementById("videoFile")
+    .files[0];
 
 
     const button =
-        document.getElementById(
-            "uploadButton"
-        );
+    document
+    .getElementById("uploadButton");
 
 
     const status =
-        document.getElementById(
-            "adminStatus"
-        );
+    document
+    .getElementById("uploadStatus");
+
+
+    const result =
+    document
+    .getElementById("uploadResult");
 
 
     if(!name){
@@ -1193,13 +835,17 @@ async function uploadVideo(){
     }
 
 
-    /* 50 MB */
+    /* 50 MB LIMIT */
 
-    if(file.size > MAX_FILE_SIZE){
+    const maxSize =
+    50 * 1024 * 1024;
+
+
+    if(file.size > maxSize){
 
         alert(
-            "Video hajmi 50 MB dan katta.\n\n" +
-            "Iltimos, 50 MB dan kichik video tanlang."
+            "Video 50 MB dan katta.\n\n" +
+            "Hozircha 50 MB gacha video yuklash mumkin."
         );
 
         return;
@@ -1209,68 +855,89 @@ async function uploadVideo(){
     button.disabled = true;
 
     button.textContent =
-        "⏳ Yuklanmoqda...";
+    "⏳ Yuklanmoqda...";
 
 
-    status.style.display =
-        "block";
+    status.classList.remove("hidden");
 
     status.textContent =
-        "Video Supabase'ga yuklanmoqda...";
+    "Video Supabase'ga yuklanmoqda...";
+
+
+    result.classList.add("hidden");
 
 
     try{
 
-        const videoId =
-            generateId();
+        /* LOGIN TEKSHIRISH */
 
+        const {
+            data:sessionData
+        } =
+        await supabaseClient.auth
+        .getSession();
+
+
+        if(!sessionData.session){
+
+            throw new Error(
+                "Avval admin sifatida login qiling."
+            );
+
+        }
+
+
+        /* ID */
+
+        const videoId =
+        generateId();
+
+
+        /* EXTENSION */
 
         let extension =
-            "mp4";
+        "mp4";
 
 
         if(file.name.includes(".")){
 
             extension =
-                file.name
-                .split(".")
-                .pop()
-                .toLowerCase();
+            file.name
+            .split(".")
+            .pop()
+            .toLowerCase();
 
         }
 
 
         const filePath =
-            videoId +
-            "." +
-            extension;
+        videoId +
+        "." +
+        extension;
 
 
-        /* =================================
-           STORAGE
-        ================================= */
+        /* STORAGE */
 
         const upload =
-            await supabaseClient
-            .storage
-            .from("videos")
-            .upload(
+        await supabaseClient
+        .storage
+        .from("videos")
+        .upload(
 
-                filePath,
+            filePath,
 
-                file,
+            file,
 
-                {
+            {
+                cacheControl:"3600",
 
-                    cacheControl:"3600",
+                upsert:false,
 
-                    upsert:false,
+                contentType:file.type
 
-                    contentType:file.type
+            }
 
-                }
-
-            );
+        );
 
 
         if(upload.error){
@@ -1281,23 +948,21 @@ async function uploadVideo(){
 
 
         status.textContent =
-            "✅ Video saqlandi. Ma'lumotlar yozilmoqda...";
+        "✅ Video saqlandi. Ma'lumot yozilmoqda...";
 
 
-        /* =================================
-           DATABASE
-        ================================= */
+        /* DATABASE */
 
         const database =
-            await supabaseClient
-            .from("videos")
-            .insert({
+        await supabaseClient
+        .from("videos")
+        .insert({
 
-                title:name,
+            title:name,
 
-                file_path:filePath
+            file_path:filePath
 
-            });
+        });
 
 
         if(database.error){
@@ -1307,80 +972,68 @@ async function uploadVideo(){
         }
 
 
-        /* =================================
-           LINK
-        ================================= */
+        /* LINK */
+
+        const baseUrl =
+        window.location.origin +
+        window.location.pathname;
+
 
         const uniqueLink =
-            window.location.origin +
-            window.location.pathname +
-            "?video=" +
-            videoId;
+        baseUrl +
+        "?video=" +
+        videoId;
 
 
         document
-        .getElementById(
-            "generatedLink"
-        )
+        .getElementById("generatedLink")
         .value =
-            uniqueLink;
+        uniqueLink;
 
 
-        /* =================================
-           QR
-        ================================= */
+        /* QR */
 
         const qr =
-            document.getElementById(
-                "qrcode"
-            );
+        document
+        .getElementById("qrcode");
 
 
         qr.innerHTML = "";
 
 
-        new QRCode(
-            qr,
-            {
+        new QRCode(qr,{
 
-                text:uniqueLink,
+            text:uniqueLink,
 
-                width:180,
+            width:200,
 
-                height:180,
+            height:200,
 
-                colorDark:"#000000",
+            colorDark:"#000000",
 
-                colorLight:"#ffffff",
+            colorLight:"#ffffff",
 
-                correctLevel:
-                    QRCode.CorrectLevel.H
+            correctLevel:
+            QRCode.CorrectLevel.H
 
-            }
-        );
+        });
 
 
         document
-        .getElementById(
-            "videoInfo"
-        )
+        .getElementById("videoInfo")
         .textContent =
-            name +
-            " • ID: " +
-            videoId;
+        name +
+        " • ID: " +
+        videoId;
 
 
-        document
-        .getElementById(
-            "adminResult"
-        )
-        .classList.add(
-            "visible"
+        result.classList.remove(
+            "hidden"
         );
 
 
         status.textContent =
-            "✅ Hammasi tayyor!";
+        "✅ Hammasi tayyor!";
 
 
     }
@@ -1390,12 +1043,8 @@ async function uploadVideo(){
         console.error(error);
 
         status.textContent =
-            "❌ Xatolik yuz berdi.";
-
-        alert(
-            "Xatolik:\n\n" +
-            error.message
-        );
+        "❌ Xatolik: " +
+        error.message;
 
     }
 
@@ -1404,34 +1053,36 @@ async function uploadVideo(){
         button.disabled = false;
 
         button.textContent =
-            "⬆️ Videoni yuklash";
+        "⬆️ Videoni yuklash";
 
     }
 
 }
 
 
-/* =========================================
+/* =====================================================
    COPY LINK
-========================================= */
+===================================================== */
 
 async function copyLink(){
 
     const input =
-        document.getElementById(
-            "generatedLink"
-        );
+    document.getElementById(
+        "generatedLink"
+    );
 
 
     try{
 
-        await navigator.clipboard
+        await navigator
+        .clipboard
         .writeText(
             input.value
         );
 
+
         alert(
-            "Link nusxalandi!"
+            "✅ Link nusxalandi!"
         );
 
     }
@@ -1445,7 +1096,7 @@ async function copyLink(){
         );
 
         alert(
-            "Link nusxalandi!"
+            "✅ Link nusxalandi!"
         );
 
     }
@@ -1453,36 +1104,178 @@ async function copyLink(){
 }
 
 
-/* =========================================
-   AUTH LISTENER
-========================================= */
+/* =====================================================
+   LOAD VIDEO
+===================================================== */
 
-supabaseClient.auth
-.onAuthStateChange(
-    (event, session)=>{
+async function loadVideo(){
 
-        if(session){
+    if(!videoId){
 
-            updateAdminUser(
-                session.user
-            );
+        return;
+
+    }
+
+
+    homeSection.classList.add(
+        "hidden"
+    );
+
+    adminSection.classList.add(
+        "hidden"
+    );
+
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+        .from("videos")
+        .select(
+            "title,file_path"
+        )
+        .like(
+            "file_path",
+            videoId + ".%"
+        )
+        .limit(1)
+        .maybeSingle();
+
+
+        if(error){
+
+            throw error;
 
         }
+
+
+        if(!data){
+
+            showVideoError(
+                "Bu video mavjud emas."
+            );
+
+            return;
+
+        }
+
+
+        const {
+            data:publicData
+        } =
+        supabaseClient
+        .storage
+        .from("videos")
+        .getPublicUrl(
+            data.file_path
+        );
+
+
+        if(!publicData.publicUrl){
+
+            showVideoError(
+                "Video URL olinmadi."
+            );
+
+            return;
+
+        }
+
+
+        document
+        .getElementById("videoTitle")
+        .textContent =
+        data.title;
+
+
+        const mainVideo =
+        document
+        .getElementById("mainVideo");
+
+
+        mainVideo.src =
+        publicData.publicUrl;
+
+
+        mainVideo.load();
+
+
+        videoSection.classList.remove(
+            "hidden"
+        );
+
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        showVideoError(
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   VIDEO ERROR
+===================================================== */
+
+function showVideoError(message){
+
+    errorSection.classList.remove(
+        "hidden"
+    );
+
+
+    document
+    .getElementById("errorText")
+    .textContent =
+    message;
+
+}
+
+
+/* =====================================================
+   VIDEO ERROR EVENT
+===================================================== */
+
+document
+.getElementById("mainVideo")
+.addEventListener(
+    "error",
+    function(){
+
+        showVideoError(
+            "Video faylini ochib bo‘lmadi."
+        );
 
     }
 );
 
 
-/* =========================================
+/* =====================================================
    START
-========================================= */
+===================================================== */
 
-loadVideo();
+if(videoId){
 
-checkAdminSession();
+    loadVideo();
+
+}
+else{
+
+    checkAuth();
+
+}
 
 </script>
 
 </body>
-
 </html>

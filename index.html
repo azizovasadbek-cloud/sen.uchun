@@ -6,29 +6,19 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 >
 
 <title>SafeStream</title>
-
-<!-- Premium font -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
-
 <style>
 
 /* ==================================================
-   GLOBAL
+   BASE
 ================================================== */
 
 *{
@@ -41,11 +31,17 @@ html{
 
 body{
     margin:0;
-    font-family:"Inter",sans-serif;
-    background:#080b12;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    background:#070a10;
     color:#f5f7fb;
     -webkit-font-smoothing:antialiased;
-    text-rendering:optimizeLegibility;
 }
 
 
@@ -54,59 +50,47 @@ body{
 ================================================== */
 
 .navbar{
-
-    height:70px;
+    height:72px;
 
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
-    padding:0 25px;
+    padding:
+        0 25px;
 
-    background:#0d111b;
+    background:#0c1019;
 
-    border-bottom:1px solid #202636;
-
+    border-bottom:
+        1px solid #1d2534;
 }
 
 .logo{
-
     font-size:22px;
-
-    font-weight:600;
-
+    font-weight:700;
     letter-spacing:-0.4px;
-
 }
 
 .status{
-
-    color:#8da2c8;
-
-    font-size:14px;
-
-    font-weight:500;
-
+    color:#9aa8c0;
+    font-size:15px;
 }
 
 .status-dot{
-
     display:inline-block;
 
     width:9px;
-
     height:9px;
 
     background:#22c55e;
 
     border-radius:50%;
 
-    margin-right:6px;
+    margin-right:7px;
 
-    box-shadow:0 0 10px rgba(34,197,94,.35);
-
+    box-shadow:
+        0 0 12px
+        rgba(34,197,94,.35);
 }
 
 
@@ -115,11 +99,10 @@ body{
 ================================================== */
 
 .container{
-
     width:min(900px,94%);
 
-    margin:35px auto;
-
+    margin:
+        35px auto;
 }
 
 
@@ -128,124 +111,93 @@ body{
 ================================================== */
 
 .card{
+    background:
+        linear-gradient(
+            145deg,
+            #111722,
+            #0d131d
+        );
 
-    background:#101621;
+    border:
+        1px solid #222c3e;
 
-    border:1px solid #222b3d;
-
-    border-radius:22px;
+    border-radius:24px;
 
     padding:30px;
 
     margin-bottom:25px;
 
     box-shadow:
-        0 10px 30px rgba(0,0,0,.15);
-
+        0 18px 50px
+        rgba(0,0,0,.18);
 }
 
 
 /* ==================================================
-   HEADINGS
+   TEXT
 ================================================== */
 
-h2{
+h1{
+    margin:0;
 
+    font-size:28px;
+
+    font-weight:600;
+
+    letter-spacing:-.7px;
+}
+
+h2{
     margin-top:0;
 
     font-size:25px;
 
-    font-weight:600;
-
-    letter-spacing:-.4px;
-
+    letter-spacing:-.5px;
 }
 
 h3{
+    font-size:19px;
 
-    font-weight:600;
+    margin-top:0;
 
     letter-spacing:-.2px;
-
 }
 
-
-/* ==================================================
-   DESCRIPTION
-================================================== */
-
 .description{
-
-    color:#9aa8be;
+    color:#9aa7bd;
 
     line-height:1.75;
 
-}
-
-
-/* ==================================================
-   PREMIUM VIDEO TEXT
-================================================== */
-
-.premium-text{
-
-    margin:0;
-
-    padding:0;
-
-    color:#e7ebf2;
-
     font-size:16px;
 
-    line-height:1.72;
-
     font-weight:400;
-
-    letter-spacing:-0.12px;
-
-    white-space:pre-wrap;
-
-    word-break:break-word;
-
 }
 
+.small{
+    font-size:13px;
 
-/*
-   Matnni juda uzun bo‘lsa ham
-   katta sarlavha qilib yubormaydi.
-*/
+    color:#77849a;
 
-.premium-text::selection{
-
-    background:#2563eb;
-
-    color:white;
-
+    margin-top:8px;
 }
 
 
 /* ==================================================
-   LABEL
+   INPUTS
 ================================================== */
 
 label{
-
     display:block;
 
-    margin:16px 0 8px;
+    margin:
+        18px 0 8px;
 
-    color:#b9c3d6;
+    color:#b9c3d5;
 
     font-size:14px;
 
     font-weight:500;
-
 }
-
-
-/* ==================================================
-   INPUT
-================================================== */
 
 input[type="email"],
 input[type="password"],
@@ -254,17 +206,16 @@ input[type="file"]{
 
     width:100%;
 
-    padding:14px;
+    padding:15px;
 
-    border-radius:12px;
+    border-radius:13px;
 
-    border:1px solid #30394d;
+    border:
+        1px solid #303a4d;
 
     background:#080c14;
 
     color:white;
-
-    font-family:"Inter",sans-serif;
 
     font-size:15px;
 
@@ -273,7 +224,6 @@ input[type="file"]{
     transition:
         border-color .2s,
         box-shadow .2s;
-
 }
 
 input:focus{
@@ -281,35 +231,28 @@ input:focus{
     border-color:#3b82f6;
 
     box-shadow:
-        0 0 0 3px rgba(59,130,246,.12);
-
+        0 0 0 3px
+        rgba(59,130,246,.12);
 }
-
-
-/* ==================================================
-   SELECT
-================================================== */
 
 select{
 
     width:100%;
 
-    padding:14px;
+    padding:15px;
 
-    border-radius:12px;
+    border-radius:13px;
 
-    border:1px solid #30394d;
+    border:
+        1px solid #303a4d;
 
     background:#080c14;
 
     color:white;
 
-    font-family:"Inter",sans-serif;
-
     font-size:15px;
 
     outline:none;
-
 }
 
 
@@ -321,11 +264,9 @@ button{
 
     border:0;
 
-    border-radius:12px;
+    border-radius:13px;
 
     padding:14px 20px;
-
-    font-family:"Inter",sans-serif;
 
     font-size:15px;
 
@@ -338,26 +279,18 @@ button{
         opacity .15s,
         background .15s;
 
+    -webkit-tap-highlight-color:transparent;
 }
 
 button:active{
-
     transform:scale(.98);
-
 }
 
 button:disabled{
-
-    opacity:.6;
+    opacity:.55;
 
     cursor:not-allowed;
-
 }
-
-
-/* ==================================================
-   PRIMARY
-================================================== */
 
 .primary{
 
@@ -367,46 +300,33 @@ button:disabled{
 
     color:white;
 
-    margin-top:18px;
+    margin-top:20px;
 
+    box-shadow:
+        0 8px 24px
+        rgba(37,99,235,.18);
 }
 
 .primary:hover{
-
     background:#1d4ed8;
-
 }
-
-
-/* ==================================================
-   SECONDARY
-================================================== */
 
 .secondary{
 
     background:#202a3c;
 
     color:white;
-
 }
 
 .secondary:hover{
-
     background:#29364d;
-
 }
-
-
-/* ==================================================
-   DANGER
-================================================== */
 
 .danger{
 
     background:#7f1d1d;
 
     color:white;
-
 }
 
 
@@ -415,9 +335,7 @@ button:disabled{
 ================================================== */
 
 .hidden{
-
     display:none !important;
-
 }
 
 
@@ -429,16 +347,17 @@ button:disabled{
 
     margin-top:15px;
 
-    padding:14px;
+    padding:15px;
 
-    border-radius:12px;
+    border-radius:13px;
 
     background:#172033;
 
-    color:#9eb2d7;
+    color:#a7b7d3;
 
-    line-height:1.6;
+    line-height:1.55;
 
+    font-size:14px;
 }
 
 .success{
@@ -446,7 +365,6 @@ button:disabled{
     background:#10281d;
 
     color:#6ee7a1;
-
 }
 
 .error{
@@ -454,7 +372,6 @@ button:disabled{
     background:#32161a;
 
     color:#ff8c97;
-
 }
 
 
@@ -471,7 +388,6 @@ button:disabled{
     align-items:center;
 
     gap:15px;
-
 }
 
 .admin-email{
@@ -479,13 +395,13 @@ button:disabled{
     color:#8da2c8;
 
     font-size:13px;
-
 }
 
 .admin-title{
 
     color:#60a5fa;
 
+    font-size:24px;
 }
 
 
@@ -504,7 +420,6 @@ button:disabled{
     overflow:hidden;
 
     margin-top:15px;
-
 }
 
 .progress-bar{
@@ -515,8 +430,94 @@ button:disabled{
 
     background:#2563eb;
 
-    transition:width .2s;
+    transition:
+        width .25s;
+}
 
+
+/* ==================================================
+   RESULT
+================================================== */
+
+.code-box{
+
+    margin-top:20px;
+
+    padding:24px;
+
+    text-align:center;
+
+    background:#080c14;
+
+    border:
+        1px solid #30394d;
+
+    border-radius:17px;
+}
+
+.access-code{
+
+    font-size:32px;
+
+    letter-spacing:7px;
+
+    font-weight:600;
+
+    color:#60a5fa;
+
+    margin:15px 0;
+}
+
+.expiry{
+
+    color:#8da2c8;
+
+    font-size:13px;
+}
+
+.link-box{
+
+    margin-top:15px;
+
+    word-break:break-all;
+
+    background:#080c14;
+
+    border:
+        1px solid #30394d;
+
+    padding:14px;
+
+    border-radius:13px;
+
+    color:#9db4df;
+
+    font-size:14px;
+
+    line-height:1.5;
+}
+
+
+/* ==================================================
+   ROW
+================================================== */
+
+.row{
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+
+    margin-top:15px;
+}
+
+.row button{
+
+    flex:1;
+
+    min-width:150px;
 }
 
 
@@ -526,10 +527,9 @@ button:disabled{
 
 .qr-box{
 
-    margin-top:25px;
+    margin-top:28px;
 
     text-align:center;
-
 }
 
 #qrcode{
@@ -545,81 +545,11 @@ button:disabled{
     min-width:290px;
 
     min-height:290px;
-
 }
 
 .qr-actions{
 
     margin-top:18px;
-
-}
-
-
-/* ==================================================
-   LINK
-================================================== */
-
-.link-box{
-
-    margin-top:15px;
-
-    word-break:break-all;
-
-    background:#080c14;
-
-    border:1px solid #30394d;
-
-    padding:14px;
-
-    border-radius:12px;
-
-    color:#9db4df;
-
-    line-height:1.6;
-
-}
-
-
-/* ==================================================
-   ACCESS CODE
-================================================== */
-
-.code-box{
-
-    margin-top:20px;
-
-    padding:25px;
-
-    text-align:center;
-
-    background:#080c14;
-
-    border:1px solid #30394d;
-
-    border-radius:16px;
-
-}
-
-.access-code{
-
-    font-size:34px;
-
-    letter-spacing:8px;
-
-    font-weight:600;
-
-    color:#60a5fa;
-
-    margin:15px 0;
-
-}
-
-.expiry{
-
-    color:#8da2c8;
-
-    font-size:13px;
-
 }
 
 
@@ -630,27 +560,22 @@ button:disabled{
 .video-wrapper{
 
     margin-top:24px;
-
 }
 
 video{
+
+    display:block;
 
     width:100%;
 
     max-height:600px;
 
-    border-radius:16px;
+    border-radius:17px;
 
-    background:black;
+    background:#000;
 
-    display:block;
-
+    object-fit:contain;
 }
-
-
-/* ==================================================
-   OPEN VIDEO
-================================================== */
 
 .open-video-button{
 
@@ -661,7 +586,63 @@ video{
     background:#202a3c;
 
     color:white;
+}
 
+
+/* ==================================================
+   PUBLIC VIDEO TEXT
+================================================== */
+
+/*
+   Video nomi ko‘rsatilmaydi.
+   Faqat ixcham premium matn.
+*/
+
+.public-copy{
+
+    color:#aab5c7;
+
+    font-size:16px;
+
+    line-height:1.75;
+
+    font-weight:400;
+
+    letter-spacing:-.1px;
+
+    margin:
+        0 0 25px;
+}
+
+.public-label{
+
+    color:#8d9bb1;
+
+    font-size:14px;
+
+    margin-bottom:10px;
+
+    font-weight:500;
+}
+
+
+/* ==================================================
+   ACCESS CODE
+================================================== */
+
+.code-input{
+
+    text-align:center;
+
+    font-size:24px !important;
+
+    letter-spacing:6px;
+
+    font-weight:600;
+
+    padding:17px !important;
+
+    color:#f4f7fb !important;
 }
 
 
@@ -679,63 +660,7 @@ footer{
 
     font-size:13px;
 
-}
-
-
-/* ==================================================
-   SMALL
-================================================== */
-
-.small{
-
-    font-size:13px;
-
-    color:#77839a;
-
-    margin-top:8px;
-
-}
-
-
-/* ==================================================
-   ROW
-================================================== */
-
-.row{
-
-    display:flex;
-
-    gap:12px;
-
-    flex-wrap:wrap;
-
-    margin-top:15px;
-
-}
-
-.row button{
-
-    flex:1;
-
-    min-width:150px;
-
-}
-
-
-/* ==================================================
-   ACCESS CODE INPUT
-================================================== */
-
-.code-input{
-
-    text-align:center;
-
-    font-size:25px !important;
-
-    letter-spacing:5px;
-
-    font-weight:600;
-
+    line-height:1.7;
 }
 
 
@@ -746,44 +671,41 @@ footer{
 @media(max-width:600px){
 
     .navbar{
+        height:68px;
 
-        padding:0 18px;
-
+        padding:
+            0 18px;
     }
 
     .logo{
-
         font-size:20px;
+    }
 
+    .status{
+        font-size:14px;
+    }
+
+    .container{
+        width:94%;
+
+        margin:
+            22px auto;
     }
 
     .card{
+        padding:21px;
 
-        padding:22px;
-
-        border-radius:20px;
-
+        border-radius:21px;
     }
 
     h2{
-
         font-size:23px;
-
     }
 
-    /*
-       Premium matn:
-       katta emas, o'qilishi qulay.
-    */
+    .public-copy{
+        font-size:15px;
 
-    .premium-text{
-
-        font-size:15.5px;
-
-        line-height:1.75;
-
-        letter-spacing:-0.08px;
-
+        line-height:1.72;
     }
 
     .admin-header{
@@ -791,7 +713,6 @@ footer{
         align-items:flex-start;
 
         flex-direction:column;
-
     }
 
     .access-code{
@@ -799,7 +720,6 @@ footer{
         font-size:27px;
 
         letter-spacing:5px;
-
     }
 
     #qrcode{
@@ -808,48 +728,15 @@ footer{
 
         min-height:0;
 
-        max-width:100%;
-
+        padding:12px;
     }
 
-}
-
-
-/* ==================================================
-   VERY SMALL PHONE
-================================================== */
-
-@media(max-width:380px){
-
-    .card{
-
-        padding:18px;
-
+    .row{
+        flex-direction:column;
     }
 
-    .premium-text{
-
-        font-size:15px;
-
-        line-height:1.72;
-
-    }
-
-}
-
-
-/* ==================================================
-   LARGE SCREEN
-================================================== */
-
-@media(min-width:900px){
-
-    .premium-text{
-
-        font-size:16px;
-
-        line-height:1.78;
-
+    .row button{
+        width:100%;
     }
 
 }
@@ -862,12 +749,14 @@ footer{
 <body>
 
 
+<!-- ==================================================
+     NAVBAR
+================================================== -->
+
 <header class="navbar">
 
     <div class="logo">
-
         🎬 SafeStream
-
     </div>
 
     <div class="status">
@@ -894,7 +783,7 @@ footer{
     class="card"
 >
 
-    <div class="small">
+    <div class="public-label">
 
         🔒 Private video
 
@@ -902,31 +791,26 @@ footer{
 
 
     <!--
-       Sarlavha olib tashlandi.
-
-       Matn endi premium-text ichida chiqadi.
+       Katta sarlavha olib tashlandi.
+       Video nomi pastda kichik premium matn
+       sifatida ko‘rsatiladi.
     -->
 
-    <p
-        id="publicDescription"
-        class="premium-text"
+    <div
+        id="publicCopy"
+        class="public-copy"
     >
+        Bu video bir martalik kirish kodi bilan
+        himoyalangan.
+    </div>
 
-        Bu video bir martalik kirish kodi bilan himoyalangan.
 
-    </p>
-
-
-    <!-- ==================================================
-         ACCESS CODE
-    ================================================== -->
+    <!-- ACCESS CODE -->
 
     <div id="codeSection">
 
         <h3>
-
             🔑 Bir martalik kod
-
         </h3>
 
 
@@ -968,9 +852,7 @@ footer{
 
 
 
-    <!-- ==================================================
-         VIDEO
-    ================================================== -->
+    <!-- VIDEO -->
 
     <div
         id="videoArea"
@@ -1016,9 +898,7 @@ footer{
 >
 
     <h2>
-
         🔐 Admin Login
-
     </h2>
 
 
@@ -1031,9 +911,7 @@ footer{
 
 
     <label>
-
         Email
-
     </label>
 
 
@@ -1045,9 +923,7 @@ footer{
 
 
     <label>
-
         Parol
-
     </label>
 
 
@@ -1092,9 +968,7 @@ footer{
         <div>
 
             <h2 class="admin-title">
-
                 🎬 SafeStream Admin
-
             </h2>
 
 
@@ -1129,17 +1003,13 @@ footer{
 
 
     <h3>
-
         ⬆️ Yangi video yuklash
-
     </h3>
 
 
 
     <label>
-
         Video nomi
-
     </label>
 
 
@@ -1152,9 +1022,7 @@ footer{
 
 
     <label>
-
         Video fayli
-
     </label>
 
 
@@ -1166,71 +1034,47 @@ footer{
 
 
     <div class="small">
-
         Maksimal hajm: <b>50 MB</b>
-
     </div>
 
 
 
     <label>
-
         Kodning amal qilish vaqti
-
     </label>
 
 
     <select id="expiryMinutes">
 
         <option value="5">
-
             5 daqiqa
-
         </option>
-
 
         <option value="10">
-
             10 daqiqa
-
         </option>
-
 
         <option value="15">
-
             15 daqiqa
-
         </option>
-
 
         <option
             value="30"
             selected
         >
-
             30 daqiqa
-
         </option>
-
 
         <option value="60">
-
             1 soat
-
         </option>
-
 
         <option value="120">
-
             2 soat
-
         </option>
 
-
         <option value="1440">
-
             24 soat
-
         </option>
 
     </select>
@@ -1287,9 +1131,7 @@ footer{
 
 
         <h3>
-
             ✅ Video tayyor!
-
         </h3>
 
 
@@ -1299,9 +1141,7 @@ footer{
         <div class="code-box">
 
             <div>
-
                 🔑 Bir martalik kod
-
             </div>
 
 
@@ -1385,9 +1225,7 @@ footer{
         <div class="qr-box">
 
             <p>
-
                 📱 QR kod
-
             </p>
 
 
@@ -1437,16 +1275,12 @@ footer{
 <footer>
 
     <div>
-
         SafeStream • Private & Secure
-
     </div>
 
 
     <div style="margin-top:8px;">
-
         Secure private video platform
-
     </div>
 
 </footer>
@@ -1454,7 +1288,6 @@ footer{
 
 
 <script>
-
 
 /* ==================================================
    SUPABASE
@@ -1493,6 +1326,16 @@ const STORAGE_BUCKET =
 
 
 
+/*
+   Signed URL qancha vaqt ishlaydi.
+   1 soat.
+*/
+
+const SIGNED_URL_SECONDS =
+60 * 60;
+
+
+
 /* ==================================================
    URL PARAMETERS
 ================================================== */
@@ -1515,6 +1358,12 @@ params.get("admin") === "1";
 /* ==================================================
    ELEMENTS
 ================================================== */
+
+const publicSection =
+document.getElementById(
+    "publicSection"
+);
+
 
 const loginSection =
 document.getElementById(
@@ -1678,9 +1527,9 @@ document.getElementById(
 );
 
 
-const publicDescription =
+const publicCopy =
 document.getElementById(
-    "publicDescription"
+    "publicCopy"
 );
 
 
@@ -1740,10 +1589,8 @@ function showMessage(
     element.textContent =
         text;
 
-
     element.className =
         "message " + type;
-
 
     element.classList.remove(
         "hidden"
@@ -1762,11 +1609,9 @@ function generateAccessCode(){
     const array =
         new Uint32Array(1);
 
-
     crypto.getRandomValues(
         array
     );
-
 
     return String(
         array[0] % 100000000
@@ -1798,21 +1643,20 @@ function formatDate(date){
 
 
 /* ==================================================
-   PUBLIC VIDEO
+   PUBLIC VIDEO START
 ================================================== */
 
 async function loadPublicVideo(){
 
     if(adminMode){
 
-        document
-            .getElementById("publicSection")
-            .classList.add("hidden");
+        publicSection.classList.add(
+            "hidden"
+        );
 
         return;
 
     }
-
 
 
     if(!videoId){
@@ -1821,23 +1665,12 @@ async function loadPublicVideo(){
             "hidden"
         );
 
-
-        publicDescription.textContent =
-            "Video havolasini QR kod orqali oching.";
-
+        publicCopy.textContent =
+            "Video havolasini QR kod yoki maxsus havola orqali oching.";
 
         return;
 
     }
-
-
-
-    /*
-       Oddiy holatda kirish kodi ko‘rsatiladi.
-    */
-
-    publicDescription.textContent =
-        "Bu video bir martalik kirish kodi bilan himoyalangan.";
 
 
     codeSection.classList.remove(
@@ -1872,7 +1705,6 @@ async ()=>{
         .trim();
 
 
-
     if(!videoId){
 
         showMessage(
@@ -1884,7 +1716,6 @@ async ()=>{
         return;
 
     }
-
 
 
     if(!/^\d{8}$/.test(code)){
@@ -1900,17 +1731,18 @@ async ()=>{
     }
 
 
-
     verifyCodeButton.disabled =
         true;
-
 
     verifyCodeButton.textContent =
         "⏳ Tekshirilmoqda...";
 
 
-
     try{
+
+        /*
+           ACCESS CODE tekshirish
+        */
 
         const {
             data,
@@ -1929,13 +1761,11 @@ async ()=>{
         );
 
 
-
         if(error){
 
             throw error;
 
         }
-
 
 
         if(!data || !data.success){
@@ -1952,73 +1782,63 @@ async ()=>{
         }
 
 
-
         /*
-           STORAGE PUBLIC URL
+           ==================================================
+           MUHIM QISM
+           
+           Endi getPublicUrl() ishlatilmaydi.
+
+           Private bucket uchun Signed URL olinadi.
+           ==================================================
         */
 
         const {
-            data:publicData
+            data:signedData,
+            error:signedError
         } =
-        supabaseClient
+        await supabaseClient
         .storage
         .from(STORAGE_BUCKET)
-        .getPublicUrl(
-            data.file_path
+        .createSignedUrl(
+            data.file_path,
+            SIGNED_URL_SECONDS
         );
 
 
+        if(signedError){
+
+            throw signedError;
+
+        }
+
 
         if(
-            !publicData ||
-            !publicData.publicUrl
+            !signedData ||
+            !signedData.signedUrl
         ){
 
             throw new Error(
-                "Video manzili olinmadi."
+                "Videoga vaqtinchalik kirish manzili olinmadi."
             );
 
         }
 
 
-
         const videoUrl =
-            publicData.publicUrl;
-
+            signedData.signedUrl;
 
 
         /*
-           MUHIM:
-           Video nomini katta h1 emas,
-           premium matn sifatida chiqaramiz.
+           VIDEO NOMI
         */
 
-        publicDescription.textContent =
+        publicCopy.textContent =
             data.title ||
             "Video";
 
 
-        publicDescription.classList.add(
-            "premium-text"
-        );
-
-
         /*
-           Tasdiqlangan holat
-        */
-
-        codeSection.classList.add(
-            "hidden"
-        );
-
-
-        videoArea.classList.remove(
-            "hidden"
-        );
-
-
-        /*
-           Video
+           VIDEO MANZILI
         */
 
         mainVideo.src =
@@ -2028,21 +1848,31 @@ async ()=>{
         mainVideo.load();
 
 
-
         /*
-           Status xabari
+           ACCESS CODE yopiladi
         */
 
-        showMessage(
-            publicMessage,
-            "✅ Kod tasdiqlandi. Video ochildi.",
-            "success"
+        codeSection.classList.add(
+            "hidden"
         );
 
 
+        /*
+           VIDEO ochiladi
+        */
+
+        videoArea.classList.remove(
+            "hidden"
+        );
+
+
+        publicMessage.classList.add(
+            "hidden"
+        );
+
 
         /*
-           VIDEO ERROR
+           Video xatoligini ushlash
         */
 
         mainVideo.onerror =
@@ -2050,22 +1880,38 @@ async ()=>{
 
             showMessage(
                 publicMessage,
-                "❌ Video ochilmadi. Brauzer video faylini ocholmadi.",
+                "❌ Video ochilmadi. Video fayliga vaqtinchalik kirish manzili ishlamadi.",
                 "error"
             );
 
         };
 
+
+        /*
+           Video oynasiga scroll
+        */
+
+        videoArea.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
     }
     catch(error){
 
-        console.error(error);
+        console.error(
+            "VIDEO ERROR:",
+            error
+        );
 
 
         showMessage(
             codeMessage,
             "Xatolik: " +
-            error.message,
+            (
+                error.message ||
+                "Video ochishda xatolik yuz berdi."
+            ),
             "error"
         );
 
@@ -2074,7 +1920,6 @@ async ()=>{
 
         verifyCodeButton.disabled =
             false;
-
 
         verifyCodeButton.textContent =
             "🔓 Videoni ochish";
@@ -2140,7 +1985,6 @@ async ()=>{
         .value;
 
 
-
     if(!email || !password){
 
         showMessage(
@@ -2154,14 +1998,11 @@ async ()=>{
     }
 
 
-
     loginButton.disabled =
         true;
 
-
     loginButton.textContent =
         "⏳ Kirilmoqda...";
-
 
 
     try{
@@ -2181,13 +2022,11 @@ async ()=>{
         });
 
 
-
         if(error){
 
             throw error;
 
         }
-
 
 
         await handleUser(
@@ -2211,7 +2050,6 @@ async ()=>{
 
         loginButton.disabled =
             false;
-
 
         loginButton.textContent =
             "🔐 Kirish";
@@ -2237,10 +2075,8 @@ async function handleUser(user){
     }
 
 
-
     const email =
         user.email?.toLowerCase();
-
 
 
     if(
@@ -2259,11 +2095,9 @@ async function handleUser(user){
             "error"
         );
 
-
         return;
 
     }
-
 
 
     if(!adminMode){
@@ -2275,7 +2109,6 @@ async function handleUser(user){
         return;
 
     }
-
 
 
     loginSection.classList.add(
@@ -2290,7 +2123,6 @@ async function handleUser(user){
 
     adminEmail.textContent =
         "👤 " + user.email;
-
 
 
     adminSection.scrollIntoView({
@@ -2320,7 +2152,6 @@ function showAdminLogin(){
         return;
 
     }
-
 
 
     adminSection.classList.add(
@@ -2391,7 +2222,6 @@ async ()=>{
         );
 
 
-
     if(!title){
 
         showMessage(
@@ -2403,7 +2233,6 @@ async ()=>{
         return;
 
     }
-
 
 
     if(!file){
@@ -2419,7 +2248,6 @@ async ()=>{
     }
 
 
-
     if(file.size > MAX_FILE_SIZE){
 
         showMessage(
@@ -2431,7 +2259,6 @@ async ()=>{
         return;
 
     }
-
 
 
     /*
@@ -2458,6 +2285,9 @@ async ()=>{
     }
 
 
+    /*
+       USER
+    */
 
     const {
         data:{
@@ -2467,7 +2297,6 @@ async ()=>{
     await supabaseClient
     .auth
     .getUser();
-
 
 
     if(!user){
@@ -2481,7 +2310,6 @@ async ()=>{
         return;
 
     }
-
 
 
     uploadButton.disabled =
@@ -2501,29 +2329,32 @@ async ()=>{
         "10%";
 
 
-
     try{
 
         /*
+           ==================================================
            VIDEO ID
+        ==================================================
         */
 
         const id =
             crypto.randomUUID();
 
 
-
         /*
+           ==================================================
            ACCESS CODE
+        ==================================================
         */
 
         const accessCode =
             generateAccessCode();
 
 
-
         /*
+           ==================================================
            EXPIRY
+        ==================================================
         */
 
         const expiresAt =
@@ -2533,23 +2364,24 @@ async ()=>{
             );
 
 
-
         /*
+           ==================================================
            STORAGE PATH
+        ==================================================
         */
 
         const filePath =
             id + ".mp4";
 
 
-
         progressBar.style.width =
             "25%";
 
 
-
         /*
+           ==================================================
            STORAGE UPLOAD
+        ==================================================
         */
 
         const {
@@ -2571,7 +2403,6 @@ async ()=>{
         );
 
 
-
         if(storageError){
 
             throw storageError;
@@ -2579,14 +2410,14 @@ async ()=>{
         }
 
 
-
         progressBar.style.width =
             "65%";
 
 
-
         /*
+           ==================================================
            DATABASE
+        ==================================================
         */
 
         const {
@@ -2612,15 +2443,19 @@ async ()=>{
         });
 
 
-
         if(databaseError){
 
+            /*
+               Database xatosida
+               yuklangan videoni o‘chirib tashlaymiz.
+            */
+
             await supabaseClient
-            .storage
-            .from(STORAGE_BUCKET)
-            .remove([
-                filePath
-            ]);
+                .storage
+                .from(STORAGE_BUCKET)
+                .remove([
+                    filePath
+                ]);
 
 
             throw databaseError;
@@ -2628,14 +2463,14 @@ async ()=>{
         }
 
 
-
         progressBar.style.width =
             "100%";
 
 
-
         /*
-           PROTECTED VIDEO PAGE LINK
+           ==================================================
+           VIDEO PAGE LINK
+        ==================================================
         */
 
         const videoUrl =
@@ -2645,15 +2480,12 @@ async ()=>{
             encodeURIComponent(id);
 
 
-
         generatedLink.textContent =
             videoUrl;
 
 
-
         generatedCode.textContent =
             accessCode;
-
 
 
         generatedExpiry.textContent =
@@ -2661,9 +2493,10 @@ async ()=>{
             formatDate(expiresAt);
 
 
-
         /*
+           ==================================================
            QR CREATE
+        ==================================================
         */
 
         qrcode.innerHTML =
@@ -2690,11 +2523,9 @@ async ()=>{
         );
 
 
-
         resultBox.classList.remove(
             "hidden"
         );
-
 
 
         showMessage(
@@ -2704,13 +2535,12 @@ async ()=>{
         );
 
 
-
         videoName.value =
             "";
 
+
         videoFile.value =
             "";
-
 
 
         resultBox.scrollIntoView({
@@ -2724,13 +2554,19 @@ async ()=>{
     }
     catch(error){
 
-        console.error(error);
+        console.error(
+            "UPLOAD ERROR:",
+            error
+        );
 
 
         showMessage(
             uploadMessage,
             "Xatolik: " +
-            error.message,
+            (
+                error.message ||
+                "Video yuklashda xatolik."
+            ),
             "error"
         );
 
@@ -2780,13 +2616,11 @@ async ()=>{
         .trim();
 
 
-
     if(!link){
 
         return;
 
     }
-
 
 
     try{
@@ -2837,13 +2671,11 @@ async ()=>{
         .trim();
 
 
-
     if(!link){
 
         return;
 
     }
-
 
 
     try{
@@ -2911,13 +2743,11 @@ async ()=>{
         .trim();
 
 
-
     if(!code){
 
         return;
 
     }
-
 
 
     try{
@@ -2968,13 +2798,11 @@ openVideoButton.addEventListener(
         .trim();
 
 
-
     if(!link){
 
         return;
 
     }
-
 
 
     window.open(
@@ -3012,7 +2840,6 @@ async function getQrBlob(){
     }
 
 
-
     const img =
         qrcode.querySelector(
             "img"
@@ -3030,7 +2857,6 @@ async function getQrBlob(){
         return response.blob();
 
     }
-
 
 
     return null;
@@ -3064,7 +2890,6 @@ async ()=>{
         }
 
 
-
         const file =
             new File(
                 [blob],
@@ -3075,6 +2900,9 @@ async ()=>{
             );
 
 
+        /*
+           iPhone / Android
+        */
 
         if(
             navigator.share &&
@@ -3098,18 +2926,19 @@ async ()=>{
 
             });
 
-
             return;
 
         }
 
 
+        /*
+           Oddiy link share
+        */
 
         const link =
             generatedLink
             .textContent
             .trim();
-
 
 
         if(
@@ -3135,6 +2964,9 @@ async ()=>{
         }
 
 
+        /*
+           Fallback
+        */
 
         if(link){
 
@@ -3195,7 +3027,6 @@ async ()=>{
             return;
 
         }
-
 
 
         const url =
@@ -3263,6 +3094,10 @@ supabaseClient
 .onAuthStateChange(
 async (event,session)=>{
 
+    /*
+       Public sahifada admin ko‘rinmaydi.
+    */
+
     if(!adminMode){
 
         adminSection.classList.add(
@@ -3276,7 +3111,6 @@ async (event,session)=>{
         return;
 
     }
-
 
 
     if(session){
@@ -3315,18 +3149,16 @@ async function start(){
     }
 
 
-
     /*
        ADMIN MODE
     */
 
-    document
-        .getElementById("publicSection")
-        .classList.add("hidden");
+    publicSection.classList.add(
+        "hidden"
+    );
 
 
     showAdminLogin();
-
 
 
     const {
@@ -3335,7 +3167,6 @@ async function start(){
     await supabaseClient
     .auth
     .getSession();
-
 
 
     if(data.session){
@@ -3347,7 +3178,6 @@ async function start(){
     }
 
 }
-
 
 
 start();
